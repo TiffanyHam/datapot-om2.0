@@ -1,0 +1,43 @@
+<!DOCTYPE html>
+<html>
+<head>
+   <meta charset="utf-8"> 
+   <title>接口测试</title>
+   <script src="../plugins/jquery.min.js"></script>
+</head>
+<body>
+
+   <div style="width: 400px;height: 300px;border:2px solid red;">
+      <label>user</label> 
+      <input type="text" name="">
+      <button onclick="addFun()">增加</button>
+      <button >修改</button>
+      <button >删除</button>
+   </div>
+<script type="text/javascript">
+		function addFun() {
+			debugger
+	        $.ajax({
+	            url:"/sys/dept/save",
+	            async:false,
+	            type:"post",
+	            dataType:"json",
+	            contentType: "application/json; charset=utf-8", 
+		        data: JSON.stringify({                    
+	            	deptId:"" ,
+	            	deptName:'decpname' 
+		        }),
+	            success: function(data){
+	            	debugger
+	            },
+	            error:function function_name(data) {
+	              debugger
+	            }
+	        });
+}
+
+</script>
+</body>
+</html>
+
+

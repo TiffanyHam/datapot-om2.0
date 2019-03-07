@@ -1,0 +1,226 @@
+<!DOCTYPE html>
+<html lang="en">
+  <style>
+ /*  .select_city {text-align: right;} 
+			.select_city_label {margin-top: 26px;float: left;width:160px;margin-right:5px;}
+			.posRe {position: relative;}
+			.posAb {position: absolute;}
+			.h_labelSelect {font-family: "\5FAE\8F6F\96C5\9ED1"; background: #2e3344;height: 25px;line-height: 25px;border: 1px solid #575C6A;text-align: left;border-radius: 3px;color: #d9dbde;width:160px; padding-left: 5px;padding-right: 5px;font-size: 12px;float: left;overflow: hidden;}
+			.h_labelSelectOption {top: 24px;background: #2e3344;width: 160px;height: 140px;border: 1px solid #575C6A;}
+			.h_labelSelectOption ul{width: 100%;height: 100%;overflow-y: auto;overflow-x: hidden;display: block;margin: 0;padding: 0;}
+			.h_labelSelectOption ul li, .h_labelSelectOption ul li a {display: block;}
+			.h_labelSelectOption ul li:hover{background:#4a90e2;}
+			.h_labelSelectOption ul li a {width: 100%;line-height: 20px;text-align: left;padding: 0 2%;color: #fff;font-size: 12px;}
+			.h_labelSelectOption ul li a label{display:block;width:100%;word-break:break-all;}
+			.h_labelSelectOption ul li a label input {width: 16px;height: 16px;margin: 0 5px -5px 0;position: relative;top: 5px;}
+			.slider_selects_two .topFMar{position:relative;top:-22px;}
+			.labelTit .topFMar{position:relative;top:-50px;}
+			.labelTit .topFMar_t{position:relative;top:-26px;}*/
+			
+				/* div 仿  select*/
+        .select_city {text-align: right;}
+			.select_city_label {float: left;width:160px;margin-right:5px;margin-bottom:-10px;}
+			.posRe {position: relative;}
+			.posAb {position: absolute;}
+			.h_labelSelect {font-family: "\5FAE\8F6F\96C5\9ED1"; background: #2e3344;height: 25px;line-height: 25px;border: 1px solid #575C6A;text-align: left;border-radius: 3px;color: #d9dbde;width:150px; padding-left: 5px;padding-right: 5px;font-size: 12px;float: left;overflow: hidden;}
+			.h_labelSelectOption {top: 24px;background: #2e3344;width: 160px;height: 140px;border: 1px solid #575C6A;z-index:999;}
+			.h_labelSelectOption ul{width: 100%;height: 100%;overflow-y: auto;overflow-x: hidden;display: block;margin: 0;padding: 0;}
+			.h_labelSelectOption ul li, .h_labelSelectOption ul li a {display: block;}
+			.h_labelSelectOption ul li:hover{background:#4a90e2;}
+			.h_labelSelectOption ul li a {width: 100%;line-height: 20px;text-align: left;padding: 0 2%;color: #fff;font-size: 12px;}
+			.h_labelSelectOption ul li a label{display:block;width:100%;word-break:break-all;}
+			.h_labelSelectOption ul li a label input {width: 16px;height: 16px;margin: 0 5px -5px 0;position: relative;top: 5px;}
+			/* .slider_selects_two .topFMar{position:relative;top:-22px;} */
+			.labelTit .topFMar{position:relative;top:-50px;}
+			.labelTit .topFMar_t{position:relative;top:-26px;}
+			.caret {display: inline-block;width: 0;height: 0;margin-left: 2px;vertical-align: middle;border-top: 4px dashed;
+			border-top: 4px solid\9;border-right: 4px solid transparent;border-left: 4px solid transparent;margin-right: 10px;}
+  </style>
+  <body>
+
+		<!--按钮、控件start-->
+		<div class="issueing_infoBox_bgs bt_one">
+			<div class="issueing_infoBox clearfix">
+				<form id="searchForm">
+					<div class="f_left">
+						<div class="fl itmemar">采集时间：
+							<span class="calendar_date date1 " id="from"><input type="text" name="collectTimeBegin" class="date-check" value="${query.collectTimeBegin}"></span> &nbsp;&nbsp;至&nbsp;&nbsp;
+							<span class="calendar_date" id="to"><input type="text" class="date-check" name="collectTimeEnd" value="${query.collectTimeEnd}" ></span>
+						</div>
+							<#import "../common/select_map.html" as maps/> 
+					<div class="fl itmemar select_city">警告类型：
+							<span style="display:none">
+							<#import "../common/select_map_two.html" as maps/>
+							<@maps.select  id="example_one" datas=detectionType/>
+							<input type="hidden" name="" value="" id="example_one_value">
+							</span>
+							<span class="slider_selects"></span>
+						</div>
+						<div class="fl itmemar select_city">警告类型：
+							<span style="display:none">
+							<@maps.select  id="example_two" datas=protocol/>
+							<input type="hidden" name="" value="" id="example_two_value">
+							</span>
+							<span class="slider_selects_two"></span>
+						</div>
+						<div class="fl itmemar">访问IP：<input type="ip" id="srcIp1" name="srcIp" class="dateTxt" /></div>
+						<div class="fl itmemar">被访问IP：<input type="ip" id="dstIp1" name="dstIp" class="dateTxt" /></div>
+
+						<div class="fl itmemar"><span class="search btn" id="btnSearch"><img src="/static/img/search.png" width="13" height="12">搜索</span></div>
+						<div class="fl itmemar"><span class="btn" onclick="exportFile()" id="export">导出</span></div>
+					</div>
+				</form>
+			</div>
+		</div>
+		<!--按钮、控件end-->
+
+		<!--table表格1begin-->
+		<div class="tab_body">
+			<div class="tab_child">
+				<table border="0" cellspacing="0" cellpadding="0" class="tab_thead">
+					<thead>
+						<tr class="title">
+							<th width ='11%'>数据采集时间</th>
+							<th width ='11%'>威胁类型</th>
+							<th width ='5%'>协议</th>
+							<th width ='13%'>访问IP/访问端口</th>
+							<th width ='13%'>被访问IP/被访问端口</th>
+							<th width ='10%'>被访问城市(国家)</th>
+							<th width ='37%'>消息</th>
+           <!-- collectTime, classtypeid,  protocol, srcIP:scrPort, dstIp:dstPort, dstCity(dstCountry), Msg-->							
+						</tr>
+					</thead>
+					
+					</table>
+					<div class="table_body" id="table_body">
+					<table border="0" cellspacing="0" cellpadding="0" class="host_tagsTable">
+					<tbody>
+						<#if (infos.results)??&&(infos.results?size>0)>
+							<#list infos.results as snortAlerts>
+								<tr>
+									<td width ='11%'>
+										<a class="tab_name" href="#" id="${snortAlerts.alertId?c}" onclick="edit(${snortAlerts.alertId?c})">${snortAlerts.collectTime}</a>
+									</td>
+									<!-- <td>${snortAlerts.classtypeId}</td> -->
+									<td width ='11%'>${detectionType[snortAlerts.classtypeId?string]?default("")}</td>
+									<td width ='5%'>${snortAlerts.protocol!}</td>
+									<td width ='13%'>${snortAlerts.srcIp!}/${snortAlerts.srcPort!}</td>
+									<td width ='13%'>${snortAlerts.dstIp!}/${snortAlerts.dstPort!}</td>
+									<td width ='10%'>${snortAlerts.dstCity?default("")}(${snortAlerts.dstCountry?default("")})</td>
+									<td width ='37%' title="${snortAlerts.msg}">${snortAlerts.msg}</td>
+								</tr>
+							</#list>
+						</#if>
+					</tbody>
+				</table>
+				</div>
+				<!--分页-->
+				<div id="page"></div>
+				<input type="hidden" id="numPerPage" value="${infos.numPerPage?c}">
+				<input type="hidden" id="pageNum" value="${infos.pageNum?c}">
+				<input type="hidden" id="pageSum" value="${infos.pageSum?c}">
+				<input type="hidden" id="totalCount" value="${infos.totalCount?c}">
+			</div>
+
+		</div>
+
+		<!--table表格1end-->
+		
+		<!-- <script type="text/javascript">
+			
+			var t = setInterval(function() {
+				//debugger
+				//console.log($(".tab_body").height())
+				if ($(".tab_body").height() > 50) {
+					$("#page").css({"visibility":"visible"});
+					clearInterval(t);
+				}
+				 
+			},1000)
+			
+		</script> -->
+
+		<div class="description" id="content1">
+			<div class="particulars">
+				<div class="text_edit clearfix">
+					<h3 class="succ_title"><span>威胁数据详情：</span></h3>
+					<p class="close"><img src="/static/img/close.png" width="18" height="17" onclick="hide('content1')"></p>
+					<!-- 	查看详情弹窗-->
+					<form id="detail">
+						<div class="clearfix desc_edit_outer">
+							<div class="three_blocks">
+								<div class="desc_edit">
+									<p class="txt_enter"><label>数据采集时间：</label><input type="text" name="collectTime" class="txt_name" value="" required/></p>
+									<p class="txt_enter"><label>版本号：</label><input type="text" name="sigRev" class="txt_name" value="" required/></p>
+									<p class="txt_enter"><label>SigGenerator：</label><input type="text" name="sigGenerator" class="txt_name" value="" required/></p>
+									<p class="txt_enter"><label>SigId：</label><input type="text" name="sigId" class="txt_name" value="" required/></p>
+									<p class="txt_enter"><label>目标网卡：</label><input type="text" name="ethDst" class="txt_name" value="" required/></p>
+									<p class="txt_enter"><label>网卡长度：</label><input type="text" name="ethLen" class="txt_name" value="" required/></p>
+									<p class="txt_enter"><label>TcpFlags：</label><input type="text" name="tcpFlags" class="txt_name" value="" required/></p>
+									<p class="txt_enter"><label>TcpSeq：</label><input type="text" name="tcpSeq" class="txt_name" value="" required/></p>
+									<p class="txt_enter"><label>TcpPack：</label><input type="text" name="tcpPack" class="txt_name" value="" required/></p>
+									<p class="txt_enter"><label>IcmpSeq：</label><input type="text" name="icmpSeq" class="txt_name" value="" required/></p>
+									<p class="txt_enter"><label>EsTime：</label><input type="text" name="esTime" class="txt_name" value="" required/></p>
+
+								</div>
+								<div class="desc_edit">
+									<p class="txt_enter"><label>警告类型：</label><input type="text" name="classtypeId" class="txt_name" value="" required/></p>
+									<p class="txt_enter"><label>协议：</label><input type="text" name="protocol" class="txt_name" value="" required/></p>
+									<p class="txt_enter"><label>源IP：</label><input type="ip" name="srcIp" class="txt_name" value="" required/></p>
+									<p class="txt_enter"><label>源端口：</label><input type="ip" name="srcPort" class="txt_name" value="" required/></p>
+									<p class="txt_enter"><label>TcpLen：</label><input type="text" name="tcpLen" class="txt_name" value="" required/></p>
+									<p class="txt_enter"><label>TcpWindow：</label><input type="text" name="tcpWindow" class="txt_name" value="" required/></p>
+									<p class="txt_enter"><label>Ttl：</label><input type="text" name="ttl" class="txt_name" value="" required/></p>
+									<p class="txt_enter"><label>Tos：</label><input type="text" name="tos" class="txt_name" value="" required/></p>
+									<p class="txt_enter"><label>Id：</label><input type="text" name="id" class="txt_name" value="" required/></p>
+									<p class="txt_enter"><label>DmgLen：</label><input type="text" name="dmgLen" class="txt_name" value="" required/></p>
+									<p class="txt_enter" style="visibility:hidden"><label>DmgLen：</label><input type="text" name="dmgLen" class="txt_name" value="" required/></p>
+
+								</div>
+								<div class="desc_edit">
+									<p class="txt_enter"><label>目标端口：</label><input type="text" name="dstPort" class="txt_name" value="" /></p>
+									<p class="txt_enter"><label>目标IP：</label><input type="text" name="dstIp" class="txt_name" value="" /></p>
+									<p class="txt_enter"><label>目标IP地理坐标：</label><input type="text" name="dstGeoLocation" class="txt_name" value="" /></p>
+									<p class="txt_enter"><label>目标IP所属国家：</label><input type="text" name="dstCountry" class="txt_name" value="" /></p>
+									<p class="txt_enter"><label>目标IP所属城市：</label><input type="text" name="dstCity" class="txt_name" value="" /></p>
+									<p class="txt_enter"><label>源网卡：</label><input type="text" name="ethSrc" class="txt_name" value="" /></p>
+									<p class="txt_enter"><label>IpLen：</label><input type="text" name="ipLen" class="txt_name" value="" /></p>
+									<p class="txt_enter"><label>IcmpType：</label><input type="text" name="icmpType" class="txt_name" value="" /></p>
+									<p class="txt_enter"><label>IcmpCode：</label><input type="text" name="icmpCode" class="txt_name" value="" /></p>
+									<p class="txt_enter"><label>IcmpId：</label><input type="text" name="icmpId" class="txt_name" value="" /></p>
+									<p class="txt_enter" style="visibility:hidden"><label>DmgLen：</label><input type="text" name="dmgLen" class="txt_name" value="" /></p>
+
+								</div>
+
+							</div>
+							<div class="three_blocks">
+								<p class="introduction"><label>消息：</label><textarea name="msg" rows="" cols=""></textarea></p>
+								<p class="introduction"><label>数据加密串：</label><textarea name="originalStr" rows="" cols=""></textarea></p>
+							</div>
+						</div>
+					</form>
+					<div class="info_btns">
+						<p><span class="btn1 cancel" onclick="hide('content1')">取消</span></p>
+					</div>
+
+				</div>
+
+			</div>
+		</div>
+		
+	</body>
+	<script type="text/javascript" src="/static/js/page.js"></script>
+	<script type="text/javascript" src="/static/js/double-date.js"></script>
+	<script type="text/javascript" src="/static/js/manage/snort_alert.js"></script>
+		<script src="/static/js/common_h.js"></script>
+	<script>
+    //生成div select
+	getSelectTxt("example_one", "slider_selects");
+	getSelectTxt("example_two", "slider_selects_two");
+	//选中所有数据
+	setOptionValue("example_one");
+	setOptionValue("example_two");
+	$("input").attr("onkeyup","this.value=this.value.replace(/^ +| +$/g,'')");
+	</script>
+
+</html>

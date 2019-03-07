@@ -1,0 +1,357 @@
+<!DOCTYPE html>
+<html lang="en">
+
+	<link rel="stylesheet" href="/static/css/host.css">
+	<!--echarts-->
+    <script src="/static/js/echarts.min.js"></script>
+    <style type="text/css">
+    .tab_child table.hostTab tr td:nth-child(1), .tab_child table.hostTab tr th:nth-child(1){
+    	width:8%;
+    }
+    .tab_child table.hostTab tr td:nth-child(2), .tab_child table.hostTab tr th:nth-child(2), .tab_child table.hostTab tr td:nth-child(3), .tab_child table.hostTab tr th:nth-child(3){
+    	width:20%;
+    }
+    </style>
+    <!--[if lte IE 9]>
+	     <style type="text/css">
+	     	.pagination li a{
+				display:inline-block;
+				width:98%;
+				height:auto;
+			}
+			.issueing_infoBox_bgs{
+				width:100%;
+			}
+			.h_page_ie{
+				width:70%;padding-top:10px;padding-bottom:10px;float:left;
+			}
+			.h_search_ie{
+				width:30%;padding-top:10px;padding-bottom:10px;float:right;
+			}
+			。searchBox{
+				margin-right:20px;
+			}
+			.h_ie_fl, .h_ie_flex3{
+				float:left;
+			}
+			.h_ie_flex3{
+				width:33%;
+			}
+			.h_ie_wb{
+				width:50%;
+			}
+	     </style>
+	<![endif]-->
+
+    <div class="hostPage">
+        <!--头部菜单-->
+        <header class="header">
+            <div class="main_content_header">
+                <div class="main_title"><i class="host_icon"></i>主机</div>
+                <div class="clearfix"></div>
+            </div>
+        </header>
+
+        <!--等级图表-->
+        <div class="h_Chart h_backgrCor">
+            <div class="h-chat_title flex_one">
+                <div class="f_one grade_height">高危
+                    <span class="posRe gh_pos"><span class="f-weight gh_color grade_heightNum">0</span><span class="t-hmin textColor2">Host</span></span>
+                </div>
+                <div class="f_one text-r">
+                    <div class="f_right grade_anxious">严重
+                        <span class="posRe ga_pos">
+                            <span class="f-weight ga_color grade_anxiousNum">0</span><span  class="t-hmin textColor2">Host</span>
+                        </span>
+                    </div>
+
+                </div>
+            </div>
+
+            <!--图表-->
+            <!-- <div id="main" style="width:100%;height:300px"></div> -->
+            
+            <!--右坐标点-->
+            <div class="rightCoorPoint posAb"  style="display:none;">
+                <ul>
+                    <li></li><li>90</li><li>80</li><li>70</li><li>60</li><li>50</li><li>40</li><li>30</li><li>20</li><li>10</li><li>0</li>
+                </ul>
+            </div>
+            <!--左坐标名称-->
+            <div class="leftCoorPoint posAb">
+                <i class="triangle-up" style="border-bottom: 13px solid #333643;"></i>
+                <i class="leftLine"></i>
+                <div class="leftName">
+                    <p>威</p><p>胁</p><p>值</p>
+                </div>
+            </div>
+
+            <!--上坐标点-->
+            <div class="topCoorPoint posRe" style="display:none;">
+                <span>0</span><span>10</span><span>20</span><span>30</span><span>40</span><span>50</span><span>60</span><span>70</span><span>80</span><span>90</span><span>100</span>
+            </div>
+            <!--图表-->
+            <div class="hostChart posRe" style="width:96%;height:400px">
+                <!-- <div class="hostPoint"><a href="javascript:;" class="roundBg round_m roundBgc_dgray posRe"><i class="host_i"></i></a></div>
+                <div class="hostPoint"><a href="javascript:;" class="roundBg round_m roundBgc_gray posRe"><i class="plus_i"></i></a></div>
+                <div class="hostPoint"><a href="javascript:;" class="roundBg round_m roundBgc_red posRe"><i class="host_i"></i></a></div>
+                <div class="hostPoint"><a href="javascript:;" class="roundBg round_m roundBgc_yellow posRe"><i class="plus_i"></i></a></div>
+                <div class="hostPoint"><a href="javascript:;" class="roundBg round_m roundBgc_dgray posRe"><i class="star_i"></i></a></div>
+
+                <div class="hostPoint"><a href="javascript:;" class="roundBg round_m roundBgc_red posRe"><i class="star_i"></i></a></div>
+                <div class="hostPoint"><a href="javascript:;" class="roundBg round_m roundBgc_yellow posRe"><i class="host_i"></i></a></div>
+                <div class="hostPoint"><a href="javascript:;" class="roundBg round_m roundBgc_orange posRe"><i class="host_i"></i></a></div>
+                <div class="hostPoint"><a href="javascript:;" class="roundBg round_m roundBgc_yellow posRe"><i class="star_i"></i></a></div>
+                <div class="hostPoint"><a href="javascript:;" class="roundBg round_m roundBgc_orange posRe"><i class="plus_i"></i></a></div>-->
+
+                <svg style="background:#171e31" width="100%" height="100%" version="1.1"
+                     xmlns="http://www.w3.org/2000/svg">
+                    <line stroke-linecap="null" stroke-linejoin="null"
+                          id="svg_1" y2="100%" x2="50%" y1="0" x1="50%"
+                          fill-opacity="null" stroke-opacity="null" stroke-width="1" stroke="#454a5b" fill="none"/>
+                    <line stroke-linecap="null" stroke-linejoin="null"
+                          id="svg_1" y2="50%" x2="100%" y1="50%" x1="0"
+                          fill-opacity="null" stroke-opacity="null" stroke-width="1" stroke="#454a5b" fill="none"/>
+                </svg>
+                <!--显示弹窗-->
+                <div class="coorPointInfo posAb" style="display: none;z-index:999;">
+                	<a href="javascript:;" class="f_right close_btn"> X </a>
+                	<div class="coorPointInfo_con"></div>
+                   <!--  <div class="flex_one">
+                        <div class="f_one">
+                            <p class="t-h3">主机名：</p>
+                            <p class="t-h3">win789D1-IOS231</p>
+                            <p>主机IP：192.168.1.123</p>
+                        </div>
+                        <div class="f_one">
+                            <div class="flex_one">
+                                <div class="f_one text-c">威胁度<span class="t_radius">92</span></div>
+                                <div class="f_one">可信度 <span class="t_radius">92</span></div>
+                            </div>
+                        </div>
+                    </div>
+                    <p>最新检测结果：</p>
+                    <p><span class="attackType c_red">扩散</span>xxxxxxxx</p>
+                    <p><span class="attackType c_yellow">扩散</span>xxxxxxxx</p>
+                    <p><span class="attackType c_blue">扩散</span>xxxxxxxx</p>
+                    <div id="singleHostChart" style="width:100%;height:100px;"></div> -->
+                </div>
+            </div>
+            <!--下坐标名称-->
+            <div class="bottomCoorPoint posRe">
+                <i class="bottomLine"></i>
+                <i class="triangle-right" style="border-left: 15px solid #333643;"></i>
+                <span class="bottomName">可信值</span>
+            </div>
+            
+
+            <div class="h-chat_title flex_one">
+                <div class="f_one grade_low">低危
+                    <span class="posRe gl_pos"><span class="f-weight gl_color grade_lowNum">0</span><span  class="t-hmin textColor2">Host</span></span>
+                </div>
+                <div class="f_one text-r">
+                    <div class="f_right grade_middle">中危
+                        <span class="posRe gm_pos">
+                            <span class="f-weight gm_color grade_middleNum">0</span>
+                            <span  class="t-hmin textColor2">Host</span>
+                        </span>
+                    </div>
+                </div>
+            </div>
+
+            <!--<div style="width:100%;height:100%;background:#000;opacity: 0.7;position: absolute;top:0;left:0;z-index:999;">-->
+                <!--<div style="width:100px;height:100px;border:1px solid #fff;position: relative;top:10%;left:100px;">-->
+                    <!--this is test-->
+                <!--</div>-->
+            <!--</div>-->
+        </div>
+
+
+        <!--主机状态-->
+        <div class="h_Chart h_backgrCor mar_t padd_b">
+            <!--分页、搜索-->
+            <div class="flex_one issueing_infoBox_bgs" style="height:30px;">
+                <!-- <div class="f_one"><span class="textColor"> 1-10 | <span class="itemCount">0</span>台主机</span></div> -->
+                <div class="f_two h_page_ie">
+                        <!--分页-->
+                        <div id="page1" class="f_right" style="text-align:right;">
+                        	<ul id="pageLimit" class="f_left" style="display:inline-block;text-align:right;"></ul>
+                        	<span class="">共<span class="countItem">0</span>条记录</span>
+                        </div>
+                </div>
+                <div class="f_one h_search_ie">
+                        <!--搜索-->
+                        <div class="f_right searchBox mar_l">
+                            <input type="text" class="search_text f_left textColor" value="" placeholder="请输入主机名"/>
+                            <input type="button" class="search_btn f_left">
+                        </div>
+                 </div>
+            </div>
+
+            <!--列表头-->
+            <div class="issueing_infoBox_bgs issLineH" style="width:100%">
+                <form id="" novalidate="novalidate">
+                    <div class="issueing_infoBox clearfix flex_one" style="padding: 10px 16px;">
+                            <div class="f_one textColor t-h2 f-weight h_ie_flex3">
+								主机状态：
+                                <span class="lable_isActive" style="top:5px;">
+                                    <!-- <input type="button" value="活动的" class="on"/><input type="button" value="非活动的"/> -->
+                                    <a href="javascript:;" class="on" data="0" style="border-right: 1px solid;">活动的</a><a href="javascript:;" data="1" class="rightBr">非活动的</a>
+                                </span>
+                            </div>
+                            <div class="f_one issLineH h_ie_flex3">
+                                <label class="propertybtn"><a href="javascript:;"><i class="ic_property"></i>仅显示核心资产</a></label>
+                                <label class="resetBtn"><a href="javascript:;"><i class="ic_reset"></i>重置过滤条件</a></label>
+                            </div>
+                            <div class="f_one select_city h_ie_flex3">
+                            	<span class="posRe">
+	                                <select id="threatTypeId" name="threatType" onchange="getThreatType(this)">
+	                                    
+	                                </select>
+	                                <i class="triangle-down selectedBtn" style="left: -16px;"></i>
+                                </span>
+                                <!-- <span class="posRe">
+	                                <select id="" name="protocol">
+	                                    <option value="">所有</option>
+	                                </select>
+	                                <i class="triangle-down selectedBtn"></i>
+                                </span> -->
+                            </div>
+                    </div>
+                </form>
+            </div>
+
+            <!--table数据-->
+            <div class="tab_body">
+                <div class="tab_child">
+                    <table border="0" cellspacing="0" cellpadding="0" id="hostTbl" class="hostTab">
+                        <thead>
+                            <tr class="title">
+                                <th>标签</th>
+                                <th>主机名</th>
+                                <th>主机IP</th>
+                                <th><a href="javascript:;" class="threatBtn">威胁度<i></i></a></th>
+                                <th>可信度</th>
+                                <th>最近发现时间</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            <!-- <tr>
+                                <td><a class="tab_name" href="#"><i class="ic_label"></i>+</a></td>
+                                <td><a class="tab_name" href="#">WIN7-xx789</a></td>
+                                <td>192.168.1.123</td>
+                                <td><span class="t_radius">92</span></td>
+                                <td><span class="t_radius">78</span></td>
+                                <td>2017-10-10</td>
+                            </tr>
+                            <tr>
+                                <td><a class="tab_name" href="#"><i class="ic_label"></i>+</a></td>
+                                <td><a class="tab_name" href="#">WIN7-xx789</a></td>
+                                <td>192.168.1.123</td>
+                                <td><span class="t_radius">92</span></td>
+                                <td><span class="t_radius">78</span></td>
+                                <td>2017-10-10</td>
+                            </tr>
+                            <tr>
+                                <td><a class="tab_name" href="#"><i class="ic_label"></i>+</a></td>
+                                <td><a class="tab_name" href="#">WIN7-xx789</a></td>
+                                <td>192.168.1.123</td>
+                                <td><span class="t_radius">92</span></td>
+                                <td><span class="t_radius">78</span></td>
+                                <td>2017-10-10</td>
+                            </tr> -->
+                        </tbody>
+                    </table>
+                    
+                </div>
+            </div>
+
+
+        </div>
+
+	</div>
+	<!-- <input type="hidden" id="numPerPage" value="0">
+	<input type="hidden" id="pageNum" value="0">
+	<input type="hidden" id="pageSum" value="0">
+	<input type="hidden" id="totalCount" value="0"> -->
+</body>
+
+<script src="/static/js/common_h.js"></script>
+<script src="/static/js/host/host_threat.js"></script>
+<!-- <script src="/static/js/page.js"></script> -->
+<script src="/static/js/bootstrap.min.js"></script>
+<script src="/static/js/bootstrap-paginator.min.js"></script>
+<script>
+/* function onladPage() {
+	var page2 = $("#page").CustomPage({
+		pageSize: $("#numPerPage").val(),
+		count: $("#totalCount").val(),
+		current: $("#pageNum").val(),
+		updateSelf: true,
+		callback: pageselectCallback
+	});
+
+	function updatePage() {
+		page2.update({
+			pageSize: $("#numPerPage").val(),
+			count: $("#totalCount").val(),
+			current: $("#pageNum").val()
+		});
+	}
+
+	function search(callback) {
+		//query(1);
+		callback();
+	}
+	//ajax提交  
+	$("#btnSearch").click(function() {
+		search(updatePage);
+	});
+
+} */
+
+$(function () {
+	//坐标点(上)
+	var dfWidth = $(".hostChart").width()/10;
+	$(".topCoorPoint span").each(function (index) {
+	    var _left = dfWidth * index;
+	    if (index == 0) {
+	        $(this).css({"left":_left});
+	    } else {
+	        $(this).css({"left":_left-10});  //每个span约占20px 往左偏移20/2=10
+	    }
+	    var length = $(".topCoorPoint span").size() - 1;
+	    if (length == index){
+	    	$(".topCoorPoint").css({"display":"block"});
+	    }
+	});
+	
+	
+	//坐标点(右)
+	var dfHeight = $(".hostChart").height()/10;
+	
+	$(".rightCoorPoint ul li").each(function (index) {
+	    var _top = dfHeight * index;
+	    //console.log(_top);
+	    $(this).css({"top":_top-10});  //每个span约占20px 往左偏移20/2=10
+	    var length = $(".rightCoorPoint ul li").size() - 1;
+	    if (length == index){
+	    	$(".rightCoorPoint").css({"display":"block"});
+	    }
+	});
+    
+	var dashboardHost = $("#dashboardHost").val();
+	if (dashboardHost != ""){
+		hostTblParam.hostIpReq = dashboardHost;
+		$(".ic_property").addClass("on");
+		hostTblParam.isKeyReq = 1;  //核心资产
+		$("#dashboardHost").val("");
+		navIndex.initIndex = 0;
+		navIndex.prevIndex = 0;
+	}
+	hostChart_init(); //主机图表
+	hostTbl_init(); //主机列表
+  	
+  	
+})
+</script>

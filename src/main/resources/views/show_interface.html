@@ -1,0 +1,61 @@
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml" xmlns:th="http://www.thymeleaf.org"
+      xmlns:sec="http://www.thymeleaf.org/thymeleaf-extras-springsecurity3">
+<head>
+<#assign base=request.contextPath />
+<meta charset="UTF-8">
+<title>Insert title here</title>
+<link rel="stylesheet" href="${base}/static/css/table.css">
+<script type="text/javascript" src="${base}/static/plugins/jquery.js"></script>
+</head>
+<body>
+		<table class="table table-border table-bordered">
+   	  <tr>
+        <td style="width:10%;">接口名</td>
+ 				<td style="width:10%;">接口url</td>
+ 				<td style="width:10%;">请求方法</td>
+ 				<td style="width:30%;">接口请求参数</td>
+ 				<td style="width:30%;">接口请求响应数据</td>
+ 				<td style="width:10%;">接口注意事项</td>
+      </tr>
+     <#list showInterfaces as showInterface> 
+			<tr>
+        <td style="width:10%;">${showInterface.name}</td>
+ 				<td style="width:10%;">${showInterface.url}</td>
+ 				<td style="width:10%;">${showInterface.method}</td>
+ 				<td style="width:30%;"><textarea style="width:95%;height:70px;" readonly="readonly">${showInterface.reqParam}</textarea></td>
+ 				<td style="width:30%;"><textarea style="width:95%;height:70px;" readonly="readonly">${showInterface.resParam}</textarea></td> 
+ 				<td style="width:10%;">${showInterface.description}</td>
+      </tr>
+    </#list> 
+		</table>
+		
+		<!-- <div style="position:absolute;left:70%;top:15px;width:33%;height:30%;">
+		<form id="saveInterface">
+		   接口名:&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<input type="text" name="name"/><br/><br/>
+		   接口url:&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<input type="text" name="url"/><br/><br/>
+		   接口请求方法:<input type="text" name="method"/><br/><br/>
+		   <input type="submit" value="submit" style="margin-left:50%;"/>
+		</form>
+		</div>
+		<script>
+		  $(function(){
+				  $("#saveInterface").submit(function(){
+				     $.ajax({
+		                type: "POST",
+		                url:"/sys/show_interface/save",
+		                data:$('#saveInterface').serialize(),
+		                async: false,
+		                error: function(data) {
+		                    alert("Connection error");
+		                },
+		                success: function(data) {
+		                alert(data);
+		                   
+		                }
+		            });
+				  	});
+		  });
+		</script> -->
+</body>
+</html>

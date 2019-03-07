@@ -1,0 +1,161 @@
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml" xmlns:th="http://www.thymeleaf.org"
+      xmlns:sec="http://www.thymeleaf.org/thymeleaf-extras-springsecurity3">
+<head>
+<#assign base=request.contextPath />
+
+<meta charset="UTF-8">
+<title>Insert title here</title>
+<link rel="stylesheet" href="${base}/static/css/table.css">
+<script type="text/javascript" src="${base}/static/plugins/jquery.js"></script>
+<style type="text/css">
+#site_nav{position:absolute; width:160px; padding:6px 10px; height:100%;  
+background:#ccc; overflow-y:auto;} 
+#content{padding:10px 10px 10px 190px;} 
+</style>
+</head>
+<body>
+<input type="button" value="新增" onclick="showAdd()">
+		<table class="table table-border table-bordered">
+   	  <tr>
+        <td style="width:10%;">接口名</td>
+ 				<td style="width:10%;">接口url</td>
+ 				<td style="width:10%;">请求方法</td>
+ 				<td style="width:25%;">接口请求参数</td>
+ 				<td style="width:30%;">接口请求响应数据</td>
+ 				<td style="width:10%;">接口注意事项</td>
+ 				<td style="width:5%;">操作</td>
+      </tr>
+     <#list showInterfaces as showInterface> 
+			<tr>
+        <td style="width:10%;">${showInterface.name}</td>
+ 				<td style="width:10%;">${showInterface.url}</td>
+ 				<td style="width:10%;">${showInterface.method}</td>
+ 				<td style="width:25%;"><textarea style="width:95%;height:70px;" readonly="readonly">${showInterface.reqParam}</textarea></td>
+ 				<td style="width:30%;"><textarea style="width:95%;height:70px;" readonly="readonly">${showInterface.resParam}</textarea></td> 
+ 				<td style="width:10%;">${showInterface.description}</td>
+ 				<td style="width:5%;"><input type="button" value="修改" onclick="addInterface('${showInterface.id}')"/><br/>
+ 				<input type="button" value="删除" onclick="deleteInterface('${showInterface.id}')"/>
+ 				</td>
+      </tr>
+    </#list> 
+		</table>
+		
+		<div style="position:absolute;left:40%;top:15px;width:33%;height:50%;display:none;" id="site_nav">
+		<form id="saveInterface">
+		<input type="hidden" name="id" id="interfaceId" value="">
+		<table>
+			<tr>
+				<td>接口名:</td>
+				<td><input type="text" name="name" id="interfaceName"/></td>
+			</tr>
+			<tr>
+				<td> 接口url:</td>
+				<td><input type="text" name="url" id="interfaceUrl"/></td>
+			</tr>
+			<tr>
+				<td>  接口请求方法:</td>
+				<td> <input type="text" name="method" id="interfaceMethod"/></td>
+			</tr>
+			<tr>
+				<td> 接口请求参数:</td>
+				<td><textarea  name="reqParam" cols="60" rows="10"  style="resize:none" id="interfaceReqParam"></textarea></td>
+			</tr>
+			<tr>
+				<td> 接口请求响应参数:</td>
+				<td><textarea  name="resParam" cols="60" rows="10"  style="resize:none" id="interfaceResParam"></textarea></td>
+			</tr>
+					<tr >
+				<td> 接口说明:</td>
+				<td> <input type="text" name="description" id="interfaceDescription"/></td>
+			</tr>
+			<tr >
+				<td colspan="2" align="center"> 
+		      <input type="submit" value="submit" />
+				 <input type="button" onclick="closeDiv()" value="close" />
+        </td>
+			</tr>
+		</table>
+		
+		</form>
+		</div>
+		<script>
+		  $(function(){ 	
+		/* 	  var path=severIp; */
+			 /*  $("#site_nav").show(); */
+			/*  alert(path); */
+				  $("#saveInterface").submit(function(){
+				     $.ajax({
+		                type: "POST",
+		                url:"${base}/sys/show_interface/save",
+		                data:$('#saveInterface').serialize(),
+		                async: false,
+		                error: function(data) {
+		                	alert(data);
+		                	  $("#site_nav").show();
+		                	  return;
+		                },
+		                success: function(data) {
+		                alert(data);
+		                }
+		            });
+				  	});
+		  });
+		  
+		  
+		  function showAdd(){
+			  $("#interfaceId").val(null);
+         	 $("#interfaceName").val(null);
+            $("#interfaceUrl").val(null);
+            $("#interfaceMethod").val(null);
+            $("#interfaceReqParam").val(null);
+            $("#interfaceResParam").val(null);
+            $("#interfaceDescription").val(null);
+			  $("#site_nav").show();
+		  }
+		  
+		  function closeDiv(){
+			  $("#site_nav").hide();
+		  }
+		  
+		  
+		  function addInterface(id){
+				     $.ajax({
+		                type: "POST",
+		                url:"${base}/sys/show_interface/edit",
+		                data:{"interfaceId":id},
+		                async: false,
+		                error: function(data) {
+		                	alert(data);
+		                },
+		                success: function(data) {
+		               	 $("#interfaceId").val(data.id);
+		                	 $("#interfaceName").val(data.name);
+		                   $("#interfaceUrl").val(data.url);
+		                   $("#interfaceMethod").val(data.method);
+		                   $("#interfaceReqParam").val(data.reqParam);
+		                   $("#interfaceResParam").val(data.resParam);
+		                   $("#interfaceDescription").val(data.description);
+		                   $("#site_nav").show();
+		                }
+		            });
+		  }
+		  
+		  function deleteInterface(id){
+			  $.ajax({
+	                type: "POST",
+	                url:"${base}/sys/sys_office/save",
+	                data:{"interfaceId":id},
+	                async: false,
+	                error: function(data) {
+	                	alert(data);
+	                },
+	                success: function(data) {
+	               	alert(data);
+	               	window.location.reload() ;
+	                }
+	            });
+		  }
+		</script>
+</body>
+</html>

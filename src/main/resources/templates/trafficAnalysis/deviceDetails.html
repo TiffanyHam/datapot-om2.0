@@ -1,0 +1,140 @@
+<!DOCTYPE html>
+<html lang="en">
+
+	
+		<style type="text/css">
+			.attackType {
+				margin-right: 10px;
+				padding: 2px 10px;
+				color: #fff;
+			}
+			
+			.reports_title03 {
+				height: 50px;
+				line-height: 50px;
+				font-size: 20px;
+				width: 100%;
+				margin: 0 auto;
+				font-size: 14px;
+				color: #fefefc;
+			}
+			
+			.details_tab tr td:nth-child(1) {
+				width: 20%;
+			}
+			
+			.details_tab tr td:nth-child(2) {
+				width: 80%;
+			}
+			
+			.tab1_body {
+				width: 98.5%;
+				background: #0C0F20;
+				height: auto;
+				margin: 15px 0;
+			}
+			
+			.tab2_body {
+				width: 100%;
+				/* background: #0C0F20; */
+				height: auto;
+				margin: 15px 0;
+			}
+			
+			.ip_left1 {
+				float: left;
+				width: 27.4%;
+				margin: 5px 10px 5px 0;
+				background: #0C0F20;
+				padding: 0 2.5% 2% 2.5%;
+			}
+			
+			.tb_itle {
+				color: #5D606C;
+				padding: 12px 0;
+				font-size: 15px;
+			}
+		</style>
+	
+			
+
+				<!--HTML引入部分-->
+				<div class="tab1_body">
+					<div class="tab_child">
+						<p class="tb_itle">基本信息</p>
+						<table border="0" cellspacing="0" cellpadding="0" id="details_tab" class="details_tab" style="margin-bottom: 0;">
+							<thead>
+								<th width="15%">主机名称</th>
+								<th width="20%">告警类型</th>
+								<th width="15%">主机IP</th>
+								<th width="15%">设备类型</th>
+								<th width="15%">资产类型</th>
+								<th width="10%">所属机构</th>
+								<th width="10%">备注</th>
+							</thead>
+
+							<tbody>
+								<tr>
+									<td>Nelson</td>
+									<td><span class="attackType" style="background: #3c8de0;">正常</span></td>
+									<td>192.168.20.233</td>
+									<td>Windows</td>
+									<td>核心资产</td>
+									<td>深圳</td>
+									<td></td>
+								</tr>
+							</tbody>
+						</table>
+					</div>
+					<div class="tab_child">
+						<p class="tb_itle">处理信息</p>
+						<table border="0" cellspacing="0" cellpadding="0" id="details_tab" class="details_tab">
+							<thead>
+								<th width="15%">发现时间</th>
+								<th width="20%">问题描述</th>
+								<th width="15%">是否处理</th>
+								<th width="15%">处理历时</th>
+								<th width="15%">处理人员</th>
+								<th width="20%">处理说明</th>
+							</thead>
+
+							<tbody>
+								<tr>
+									<td width="90%">2018-03-03 10:20:23</td>
+									<td>192.168.20.1 Interface Output Discards</td>
+									<td>已处理</td>
+									<td>1d 21h 46</td>
+									<td>陈</td>
+									<td>这个问题 太难了</td>
+								</tr>
+
+							</tbody>
+						</table>
+					</div>
+				</div>
+				<div class="tab2_body clearfix">
+					<div class="ip_left1">
+						<p class="reports_title03">最近24h磁盘/IO监控</p>
+						<div id="io_monitor" style="width:100%;height:250px;"></div>
+					</div>
+					<div class="ip_left1">
+						<p class="reports_title03">最近24hCPU负载监控</p>
+						<div id="load_monitor" style="width:100%;height:250px;"></div>
+					</div>
+					<div class="ip_left1">
+						<p class="reports_title03">最近24h内存监控</p>
+						<div id="memory_monitor" style="width:100%;height:250px;"></div>
+					</div>
+
+				</div>
+		
+
+
+		<script src="static/js/echarts.min.js"></script>
+		<script src="static/js/traffic/deviceDetails.js"></script>
+		<script>
+		$(".page .content").css({"background":"#0C0F20"});
+		</script>
+	</body>
+
+</html>

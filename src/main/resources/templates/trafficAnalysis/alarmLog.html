@@ -1,0 +1,80 @@
+<!DOCTYPE html>
+<html lang="en">
+
+		<style type="text/css">
+			.addLine {
+				display: inline-block;
+				color: #138af0;
+				padding: 0 10px;
+			}
+		</style>
+
+				<!--HTML引入部分-->
+				<div class="issueing_infoBox_bgs bt_one">
+					<div class="issueing_infoBox clearfix">
+						<form id="searchForm">
+							<div class="f_left">
+								<div class="fl itmemar">起始IP：<input type="text" id="" name="" class="dateTxt"></div>
+								<div class="fl itmemar">时间范围：
+									<span class="calendar_date date1" id="">
+										<input type="text" name="begin" class="date-check" value="2018-04-13"/>
+									</span> 至
+									<span class="calendar_date date1" id="">
+										<input type="text" name="end" class="date-check" value="2018-04-13"/>
+									</span>
+								</div>
+								<div class="fl itmemar"><span class="search btn" id="btnSearch"><img src="static/img/search.png" width="13" height="12">查询</span></div>
+							</div>
+						</form>
+					</div>
+				</div>
+				<!--chart-->
+				<div class="padd_t padd_b hd_mdetection" style="width:98%;margin:20px 1%;">
+					<div id="netflow" style="width: 96%; height: 200px;padding:2%;"></div>
+				</div>
+				<!--table-->
+				<div class="tab_body">
+					<div class="tab_child">
+						<table border="0" cellspacing="0" cellpadding="0" id="" class="tab_thead ip_tab">
+							<thead>
+								<tr class="title">
+									<th>采集时间</th>
+									<th>资产名称</th>
+									<th>告警类型</th>
+									<th>IP</th>
+									<th>设备类型</th>
+									<th>所属机构</th>
+								</tr>
+							</thead>
+							<tbody>
+								<tr onclick="sourceName(this, 0)" data="0"><td><i class="addLine">+</i>2018-05-29&nbsp;14:28:40</td><td>dns</td><td><span class="sourceIp">192.168.20.11</span></td><td>58760</td><td>202.96.134.133</td><td>53</td></tr>
+								<tr onclick="sourceName(this, 1)" data="0"><td><i class="addLine">+</i>2018-05-29&nbsp;14:28:40</td><td>dns</td><td><span class="sourceIp">192.168.20.11</span></td><td>58760</td><td>202.96.134.133</td><td>53</td></tr>
+								<tr onclick="sourceName(this, 3)" data="0"><td><i class="addLine">+</i>2018-05-29&nbsp;14:28:40</td><td>dns</td><td><span class="sourceIp">192.168.20.11</span></td><td>58760</td><td>202.96.134.133</td><td>53</td></tr>
+								<tr onclick="sourceName(this, 4)" data="0"><td><i class="addLine">+</i>2018-05-29&nbsp;14:28:40</td><td>dns</td><td><span class="sourceIp">192.168.20.11</span></td><td>58760</td><td>202.96.134.133</td><td>53</td></tr>
+								<tr onclick="sourceName(this, 5)" data="0"><td><i class="addLine">+</i>2018-05-29&nbsp;14:28:40</td><td>dns</td><td><span class="sourceIp">192.168.20.11</span></td><td>58760</td><td>202.96.134.133</td><td>53</td></tr>
+								<tr onclick="sourceName(this, 6)" data="0"><td><i class="addLine">+</i>2018-05-29&nbsp;14:28:40</td><td>dns</td><td><span class="sourceIp">192.168.20.11</span></td><td>58760</td><td>202.96.134.133</td><td>53</td></tr>
+								<tr onclick="sourceName(this, 7)" data="0"><td><i class="addLine">+</i>2018-05-29&nbsp;14:28:40</td><td>dns</td><td><span class="sourceIp">192.168.20.11</span></td><td>58760</td><td>202.96.134.133</td><td>53</td></tr>
+								<tr onclick="sourceName(this, 8)" data="0"><td><i class="addLine">+</i>2018-05-29&nbsp;14:28:40</td><td>dns</td><td><span class="sourceIp">192.168.20.11</span></td><td>58760</td><td>202.96.134.133</td><td>53</td></tr>
+								
+							</tbody>
+						</table>
+					</div>
+				</div>
+				
+		
+
+	</body>
+	<script src="static/js/echarts.min.js"></script>
+	<script src="static/js/traffic/alarmLog.js"></script>
+	<script>
+	$(".page .content").css({"background":"#0C0F20"});
+	/*function isPc(){
+		if( navigator.userAgent.match(/Android/i) || navigator.userAgent.match(/webOS/i) || navigator.userAgent.match(/iPhone/i) || navigator.userAgent.match(/iPad/i) || navigator.userAgent.match(/iPod/i) || navigator.userAgent.match(/BlackBerry/i) || navigator.userAgent.match(/Windows Phone/i) ){
+			alert('移动端');
+		}else{
+			alert('pc端');               
+		}
+	}
+	isPc();*/
+	</script>
+</html>

@@ -1,0 +1,12 @@
+<#macro select id datas name="" value="" multiple = "">
+     <select id="${id}" name="${name}"  ${multiple}>
+          <#list datas?keys as key>
+          	<#if value == key?string>
+            	<option value="${key}" selected>${datas[key]}</option>
+            <#else>
+            	<option value="${key}">${datas[key]}</option>
+            </#if>
+          		
+          </#list>
+     </select>
+</#macro>

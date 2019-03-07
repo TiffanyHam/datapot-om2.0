@@ -1,0 +1,192 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<link rel="stylesheet" href="/static/css/host.css">
+<!--echarts-->
+<script src="/static/js/echarts.min.js"></script>
+<script src="/static/js/ecStat.min.js"></script>
+<style type="text/css">
+.detectionTal tr th:nth-child(1), .detectionTal tr td:nth-child(1){
+	width:9%;
+}
+.detectionTal tr th:nth-child(3), .detectionTal tr td:nth-child(3), .detectionTal tr th:nth-child(4), .detectionTal tr td:nth-child(4){
+	width:30%;
+}
+</style>
+ <!--[if lte IE 9]>
+	     <style type="text/css">
+	     	.pagination li a{
+				display:inline-block;
+				width:98%;
+				height:auto;
+			}
+			.issueing_infoBox_bgs{
+				width:100%;
+			}
+			.h_page_ie{
+				width:70%;padding-top:10px;padding-bottom:10px;float:left;
+			}
+			.h_search_ie{
+				width:30%;padding-top:10px;padding-bottom:10px;float:right;
+			}
+			.h_four_ie{
+	     		float:left;
+	     		width:25%;
+	     	}
+	     	。searchBox{
+				margin-right:20px;
+			}
+	     </style>
+	<![endif]-->
+	<style type="text/css">
+		@media (min-width:500px) and (max-width: 1366px) {
+			.issueing_infoBox_bgs{
+				display:block;
+			}
+			.check_page{
+				padding:0 20px;
+				float:left;
+			}
+		}
+	</style>
+<div class="hostPage">
+
+	<!--头部菜单-->
+	<header class="header">
+		<div class="main_content_header">
+			<div class="main_title"><img src="/static/img/plat_icon3.png" width="35" height="20">检测</div>
+			<div class="clearfix"></div>
+		</div>
+	</header>
+
+	<!--等级图表-->
+	<div class="h_Chart h_backgrCor padd_t">
+		<div class="hd_reChart detec_hdDate">
+			<div class="hd_chart_date">
+				<ul>
+					<li>
+						<a href="#" data="1">1天</a>|</li>
+					<li>
+						<a href="#" data="2" class="on">1周</a>|</li>
+					<li>
+						<a href="#" data="3">2周</a>|</li>
+					<li>
+						<a href="#" data="4">1月</a>
+					</li>
+				</ul>
+			</div>
+		</div>
+		<div class="padd_t padd_tb hd_mdetection">
+			<div style="border-top: 1px solid #333;position: relative;top:10px;left:2.5%;width:95.5%;"></div>
+			<div id="detection" style="width: 100%;height:290px;"></div>
+		</div>
+
+	</div>
+
+	<!--主机状态-->
+	<div class="h_Chart h_backgrCor mar_t padd_tb">
+		<!--分页、搜索-->
+		<div class="flex_one issueing_infoBox_bgs" style="height:30px;">
+			<!-- <div class="f_one"><span class="textColor"> 1-10 | <span class="itemCount">0</span>台主机</span></div> -->
+			<!--分页-->
+			<div class="f_two h_page_ie check_page">
+				<div id="page1" class="f_right" style="text-align:right;">
+					<ul id="pageLimit" class="f_left" style="display:inline-block;"></ul>
+					<span class="">共<span class="countItem">0</span>条记录</span>
+				</div>
+			</div>
+			<!--搜索-->
+			<div class="f_one h_search_ie check_search" style="float:right;">
+				<div class="searchBox mar_l f_right" style="margin-right:20px;">
+					<input type="text" class="search_text f_left textColor" value="" placeholder="搜索主机名" />
+					<input type="button" class="search_btn f_left">
+				</div>
+			</div>
+		</div>
+
+		<!--列表头-->
+		<div class="issueing_infoBox_bgs issLineH">
+				<div class="issueing_infoBox clearfix flex_one">
+					<div class="f_one h_four_ie">
+						<p>威胁阶段：</p>
+						<div class="attack_type"></div>
+					</div>
+					<div class="f_one h_four_ie">
+						<p>状态：</p>
+						<div class="lable_isActive">
+							<a href="javascript:;" value="活动的" class="on" data="0">待处理</a>
+							<a href="javascript:;" value="非活动的" data="1" style="border-left: 1px solid;border-right: 1px solid;">白名单</a>
+							<a href="javascript:;" value="已修复" data="2">已修复</a>
+						</div>
+					</div>
+					<div class="f_one h_four_ie">
+						<label class="detecPos"><a href="javascript:;"><i class="ic_property"></i>仅显示核心资产</a></label>
+						<label class="resetBtn transf"><a href="javascript:;"><i class="ic_reset"></i>重置过滤条件</a></label>
+					</div>
+					<div class="f_one h_four_ie">
+						<div class="select_city posRe">
+							<form id="searchForm" method="post">
+							<#import "../common/select_map.html" as maps/>
+								<@maps.select id="detectionType" name="detectionType" datas=detectionType/>
+							</form>
+							<i class="triangle-down selectedBtn" style="top:-10px"></i>
+						</div>
+					</div>
+					
+				</div>
+		</div>
+
+		<!--table数据-->
+		<div class="tab_body">
+			<div class="tab_child">
+				<table border="0" cellspacing="0" cellpadding="0" id="detectionTal" class="detectionTal">
+					<thead>
+						<tr class="title">
+							<th>标签</th>
+							<th>威胁阶段</th>
+							<th>威胁类型</th>
+							<th>主机名</th>
+							<th><a href="javascript:;" class="threatBtn">威胁度<i></i></a></th>
+							<th>可信度</th>
+							<th>最近发现时间</th>
+						</tr>
+					</thead>
+					<tbody>
+						<!-- <tr>
+                        <td><a class="tab_name" href="#"><i class="ic_label"></i>+</a></td>
+                        <td><span class="attackType c_violet">泄露</span></td>
+                        <td><a class="tab_name" href="#">WIN7-xx789</a></td>
+                        <td><a class="tab_name" href="#">WIN7-xx789</a></td>
+                        <td><span class="t_radius">92</span></td>
+                        <td><span class="t_radius">78</span></td>
+                        <td>2017-10-10 18:22</td>
+                    </tr>-->
+					</tbody>
+				</table>
+			</div>
+		</div>
+
+	</div>
+
+</div>
+</body>
+<script src="/static/js/common_h.js"></script>
+<!-- <script src="/static/js/page.js"></script> -->
+<script src="/static/js/bootstrap.min.js"></script>
+<script src="/static/js/bootstrap-paginator.min.js"></script>
+<script src="/static/js/detection/detection.js"></script>
+<script>
+$(function(){
+	detectionChart_init(); //绘制折线图
+	
+	detectionTbl_init(); //填充检测列表
+	
+	/* 
+	 function pageCallBlack(page){
+		 detectionTblParam.pageNum = page; //当前页目
+		 detectionTbl_init();
+	  } */
+})
+</script>
+
+</html>

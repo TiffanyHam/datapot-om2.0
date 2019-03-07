@@ -1,0 +1,211 @@
+<!DOCTYPE html>
+<html>
+
+	<head>
+		<title>用户管理</title>
+		<meta charset="utf-8">
+		<link rel="stylesheet" href="../../static/plugins/bootstrap/css/bootstrap.min.css">
+		<link rel="stylesheet" href="../../static/plugins/bootstrap/css/bootstrap-table.css">
+		<link href="//rawgit.com/vitalets/x-editable/master/dist/bootstrap3-editable/css/bootstrap-editable.css">
+		<script src="../../static/plugins/jquery.min.js"></script>
+		<script src="../../static/plugins/bootstrap/js/bootstrap.min.js"></script>
+		<script src="../../static/plugins/bootstrap/js/bootstrap-table.js"></script>
+		<script src="../../static/plugins/bootstrap/js/bootstrap-table-flat-json.js"></script>
+		<script src="../../static/plugins/bootstrap/js/bootstrap-editable.js"></script>
+		<script src="../../static/plugins/bootstrap/js/bootstrap-table-en-US.js"></script>
+		<script src="../../static/plugins/bootstrap/js/bootstrap-table-zh-CN.js"></script>
+		<script src="../../static/js/manage/user_manage.js"></script>
+		<script src="../../static/plugins/angular.min.js"></script>
+
+		<link rel="stylesheet" type="text/css" href="../../static/css/table.css">
+
+	</head>
+
+	<body style="height: 100%" ng-app="">
+		<div ng-include="'../nav.html'"></div>
+
+		<!-- 内容区域  E -->
+		<div class="whole_content">
+			<h3 class="main_title"><img src="../../static/img/plat_icon9.png">管理</h3>
+
+
+
+			<!--头部菜单-->
+			<div class="clearfix storeBox">
+				<ul class="fl clearfix storeList">
+					<span id="solid"><img src="../../static/img/solid.png"/></span>
+					<li><span><a href="index.html" style="color: #fff;">菜单1</a></span><span>|</span></li>
+					<li><span><a href="index2.html">菜单2</a></span><span>|</span></li>
+					<li><span><a href="index3.html">菜单3</a></span><span>|</span></li>
+					<li><span><a href="index4.html">菜单4</a></span><span>|</span></li>
+					<li><span><a href="index5.html">菜单5</a></span><span>|</span></li>
+					<li><span><a href="index6.html">菜单6</a></span><span>|</span></li>
+					<li><span><a href="index7.html">菜单7</a></span></li>
+				</ul>
+			</div>
+
+			<!--按钮、控件-->
+			<div class="issueing_infoBox clearfix">
+
+				<div class='field_top'>
+					<button type="button" data-toggle="modal" data-target="#addModal" class="bts" id="add">新增</button>
+					<!-- 模态框（Modal）增加begin -->
+					<div class="modal fade" id="addModal" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
+						<div class="modal-dialog">
+							<div class="modal-content">
+								<div class="modal-header">
+									<button type="button" class="close" data-dismiss="modal" aria-hidden="true">
+	                &times;
+	              </button>
+									<h4 class="modal-title" id="myModalLabel">
+	                增加用户:
+	              </h4>
+								</div>
+								<div class="modal-body">
+									<table>
+										<tr>
+											<td>用户名称：</td>
+											<td><input id="depval" type="text" name=""></td>
+										</tr>
+									</table>
+								</div>
+								<div class="modal-footer">
+									<button type="button" class="btn btn-default" data-dismiss="modal">关闭</button>
+									<button type="button" class="btn btn-primary" data-dismiss="modal" onclick="addDepFunc()">提交</button>
+								</div>
+							</div>
+							<!-- /.modal-content -->
+						</div>
+						<!-- /.modal -->
+					</div>
+					<!-- 模态框（Modal）增加end -->
+
+					<button type="button" data-toggle="modal" disabled="true" data-target="#editModal" class="bts" id="edit">修改</button>
+					<!-- 模态框（Modal）修改begin -->
+					<div class="modal fade" id="editModal" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
+						<div class="modal-dialog">
+							<div class="modal-content">
+								<div class="modal-header">
+									<button type="button" class="close" data-dismiss="modal" aria-hidden="true">
+	                &times;
+	              </button>
+									<h4 class="modal-title" id="myModalLabel">
+	                修改密码:
+	              </h4>
+								</div>
+								<div class="modal-body">
+									<table>
+										<tr>
+											<td>分支密码：</td>
+											<td><input id="input_delname" type="text" name="" value="密码"></td>
+										</tr>
+									</table>
+								</div>
+								<div class="modal-footer">
+									<button type="button" class="btn btn-default" data-dismiss="modal">关闭</button>
+									<button type="button" class="btn btn-primary" onclick="editDepFunc()" data-dismiss="modal">提交</button>
+								</div>
+							</div>
+						</div>
+					</div>
+					<!-- 模态框（Modal）修改END -->
+
+					<button type="button" data-toggle="modal" disabled="true" data-target="#dellModal" class="bts" id="dell">删除</button>
+					<!-- 模态框（Modal）删除begin -->
+					<div class="modal fade" id="dellModal" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
+						<div class="modal-dialog">
+							<div class="modal-content">
+								<div class="modal-header">
+									<button type="button" class="close" data-dismiss="modal" aria-hidden="true">
+	                &times;
+	              </button>
+									<h4 class="modal-title" id="myModalLabel">
+	                删除用户:
+	              </h4>
+								</div>
+								<div class="modal-body">
+									<table>
+										<tr>
+											<td><label id="depname"></label></td>
+										</tr>
+									</table>
+								</div>
+								<div class="modal-footer">
+									<button type="button" class="btn btn-default" data-dismiss="modal">关闭</button>
+									<button type="button" class="btn btn-primary" onclick="dellDepFunc()" data-dismiss="modal">提交</button>
+								</div>
+							</div>
+							<!-- /.modal-content -->
+						</div>
+						<!-- /.modal -->
+					</div>
+					<!-- 模态框（Modal）删除END-->
+
+
+					<button type="button" data-toggle="modal" disabled="true" data-target="#dellModal" class="bts" id="dell">强制修改</button>
+					<!-- 模态框（Modal）删除begin -->
+					<div class="modal fade" id="dellModal" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
+						<div class="modal-dialog">
+							<div class="modal-content">
+								<div class="modal-header">
+									<button type="button" class="close" data-dismiss="modal" aria-hidden="true">
+	                &times;
+	              </button>
+									<h4 class="modal-title" id="myModalLabel">
+	                强制修改密码:
+	              </h4>
+								</div>
+								<div class="modal-body">
+									<table>
+										<tr>
+											<td><label id="depname"></label></td>
+										</tr>
+									</table>
+								</div>
+								<div class="modal-footer">
+									<button type="button" class="btn btn-default" data-dismiss="modal">关闭</button>
+									<button type="button" class="btn btn-primary" onclick="dellDepFunc()" data-dismiss="modal">提交</button>
+								</div>
+							</div>
+							<!-- /.modal-content -->
+						</div>
+						<!-- /.modal -->
+					</div>
+					<!-- 模态框（Modal）删除END-->
+
+				</div>
+
+
+
+
+				<div class="f_right btns_right">
+					
+				</div>
+			</div>
+
+
+			<!--table部分 beging-->
+			<div class="pdbottom">
+				<table class="table table-hover" id="cusTable" border="0" cellspacing="0" cellpadding="0">
+					<thead>
+						<tr class="title">
+							<th data-field="actualName" data-sortable=true class="tabcenter" >用户名称</th>
+							<th data-field="userName" data-sortable=true class="tabcenter" >用户帐号</th>
+							<th data-field="accountStatus" data-sortable=true class="tabcenter" >状态帐号</th>
+							<th data-field="groupId" data-sortable=true class="tabcenter" >属组</th>
+							<th data-field="isAdmin" data-sortable=true class="tabcenter" >是否为admin</th>
+							<th data-field="officeId" data-sortable=true class="tabcenter" >部门ID</th>
+							<th data-field="accessSys" data-sortable=true class="tabcenter" >accessSys</th>
+							<th data-field="lastLoginDate" data-sortable=true class="tabcenter" >最近登录时间</th>
+							<th data-field="errorCount" data-sortable=true class="tabcenter" >错误登录次数</th>
+						</tr>
+			        </thead>
+			        <tbody>
+			        </tbody>
+			    </table>
+		    </div>
+		<!--table部分 end-->
+		</div>
+	</body>
+
+</html>

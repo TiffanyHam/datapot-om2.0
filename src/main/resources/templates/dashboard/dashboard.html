@@ -1,0 +1,167 @@
+<!DOCTYPE html>
+<html>
+
+	<head>
+		<script src="/static/js/jquery.js" type="text/javascript" charset="utf-8"></script>
+<!--ie9样式重置-->
+<!--[if IE 9]>
+<style>
+.dashboard_left {
+    width: 49%;
+	float:left;
+}
+
+.dashboard_right {
+	float:right;
+	 width: 49%;
+}
+.dashboard_item {
+    width: 49%;
+}
+.d_item_2,.d_item_0 {
+    float: left;
+}
+.d_item_1,.d_item_3 {
+    float: right;
+}
+</style>
+<![endif]-->
+<style type="text/css">
+	.content no_scroll{
+		overflow:hidden!important;
+	}
+	#load {
+	position:absolute!important;
+}
+</style>
+	</head>
+
+	<body>
+
+		<header class="header">
+			<p class="show_time"><span><img src="/static/img/time.png"/></span>最近24小时</p>
+		</header>
+		<div class="dashboard_cont">
+			<!--loading加载-->
+			<div id="load" align="center" style="display:block;">
+				<!-- <img src="/static/img/loading.gif" width="28" height="28" align="absmiddle" />加载中... -->
+				<div class="loader_round"></div>
+			</div>
+			<!--左侧第一模块start-->
+			<div class="reports_contains clearfix">
+				<div class="dashboard_left">
+
+					<p class="dashboard_name">主机危险性总览</p>
+					<!--四块区域start-->
+					<div class="reports_box clearfix">
+						<div class="reports_column_two"></div>
+						<div class="reports_column_one"></div>
+					</div>
+					<!--四块区域end-->
+
+					<div style="height:20px"></div>
+
+					<!--左侧第一模块end-->
+					<!--左侧第2模块start-->
+					<div class="dashboard_tab">
+						<p class="reports_title01">危险资产</p>
+						<table border="0" cellspacing="" cellpadding="" id="table08">
+							<thead>
+								<tr class="title">
+									<th width="40%">主机名</th>
+									<th width="40%">主机IP</th>
+									<th colspan="2" width="20%">峰值</th>
+								</tr>
+								<tr class="title_special">
+									<th></th>
+									<th></th>
+									<th>威胁度</th>
+									<th>可信度</th>
+								</tr>
+							</thead>
+							<tbody>
+
+							</tbody>
+
+						</table>
+					</div>
+					<!--左侧第2模块end-->
+					<!--左侧第3模块start-->
+					<div class="dashboard_tab biggest_tab">
+						<p class="reports_title01">变化最大危险资产</p>
+						<table border="0" cellspacing="" cellpadding="" id="table02">
+							<thead>
+								<tr class="title">
+									<th width="60%">主机名</th>
+									<th colspan="2" width="20%">起始值</th>
+									<th colspan="2" width="20%">当前值</th>
+								</tr>
+								<tr class="title_special">
+									<th></th>
+									<th>威胁度</th>
+									<th>可信度</th>
+									<th>威胁度</th>
+									<th>可信度</th>
+								</tr>
+							</thead>
+							<tbody>
+
+							</tbody>
+
+						</table>
+					</div>
+					<p style="height: 20px;"></p>
+
+				</div>
+				<!--左侧第3模块end-->
+
+				<div class="dashboard_right">
+					<p style="height: 26px;line-height: 26px;"></p>
+
+					<!--右侧第1模块start-->
+					<div class="dashboard_tab">
+						<p class="reports_title01"><img src="/static/img/star_yellow.png" class="stars" />核心资产</p>
+						<table border="0" cellspacing="" cellpadding="" id="table10">
+							<thead>
+								<tr class="title">
+									<th width="45%">主机名</th>
+								</tr>
+							</thead>
+							<tbody></tbody>
+
+						</table>
+					</div>
+					<!--右侧第1模块end-->
+					<!--右侧第2模块start-->
+					<div class="echarts_bg_dashboard">
+						<p class="reports_title01">检测处理分类</p>
+						<div id="charts_one" style="width: 100%;height:220px;"></div>
+					</div>
+					<!--右侧第2模块end-->
+					<!--右侧第3模块start-->
+					<div class="echarts_bg_dashboard">
+						<p class="reports_title01">威胁类型</p>
+						<div id="charts_two" style="width: 100%;height:160px;"></div>
+					</div>
+					<!--右侧第3模块end-->
+					<!--右侧第3模块start-->
+					<div class="echarts_bg_dashboard">
+						<p class="reports_title01">威胁阶段</p>
+						<div id="charts_three" style="width: 100%;height:220px;"></div>
+					</div>
+					<!--右侧第3模块end-->
+					<p style="height: 26px;line-height: 26px;"></p>
+
+				</div>
+
+			</div>
+			
+		</div>
+		
+	
+	</body>
+	<script src="/static/js/echarts.min.js" type="text/javascript" charset="utf-8"></script>
+	<script src="/static/js/dashboard/dashboard.js"></script>
+	<script src="/static/js/page.js"></script>
+
+</html>

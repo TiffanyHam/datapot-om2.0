@@ -1,0 +1,408 @@
+<!DOCTYPE html>
+<html lang="en">
+
+		<style type="text/css">
+			.dashboard_tab table th.borderRight, .dashboard_tab table td.borderRight{border-right: 1px solid #1c1e2f;}
+			.dashboard_tab table th.txtLeft, .dashboard_tab table td.txtLeft{text-align:left;}
+			.cbtn{border:1px solid #414351;background-color:#292c3c;border-radius:3px;padding:3px 10px;}
+			.canvasCon img{position:absolute;z-index:999;cursor:pointer;}
+			.canvasCon img:before{content:" 1344";background-color:yellow;width:10px;height:10px;border-radius:100%;display:inline-block;}
+			.anmateIcon{display:block;width:10px;height:10px;border-radius:50%;position:absolute;}
+			.anmateIcon.ared{background:#b61a32;}
+			.anmateIcon.agreen{background:green;}
+			.iconBox{width:200px;height:auto;overflow:hidden;padding:10px 20px;background-color:#12162b;line-height:37px;font-size:14px;z-index:999;}
+			.iconBox table td:nth-child(1){width:60%;}
+			.iconBox table td:nth-child(2){width:40%;}
+			.dashboard_tab table td.seriousness{color:red;}
+			#disposeDiv .txt_enter input {
+				width: auto!important;
+				position: relative;
+				top: 8px;
+				cursor: pointer;
+			}
+		</style>
+
+				<!--top-->
+				<div class="dashboard_tab canvasCon" style="margin:0;height:300px;position:relative;">
+					<div class="canvasPos">
+						<canvas id="canvas">不支持Canvas</canvas>
+						<img src="/static/img/ch7.png" id="icon_center" alt="img"/>
+						<img src="/static/img/ch7.png" id="icon_0" alt="img"/>
+						<img src="/static/img/ch7.png" id="icon_1"/>
+						<img src="/static/img/ch7.png" id="icon_2"/>
+						<img src="/static/img/ch7.png" id="icon_3"/>
+						<img src="/static/img/ch7.png" id="icon_4"/>
+						<img src="/static/img/ch7.png" id="icon_5"/>
+						<img src="/static/img/ch7.png" id="icon_6"/>
+						<img src="/static/img/ch7.png" id="icon_7"/>
+						<img src="/static/img/ch7.png" id="icon_8"/>
+						<img src="/static/img/ch7.png" id="icon_9"/>
+						<i class="anmateIcon agreen" id="anmateIcon_0"></i>
+						<i class="anmateIcon agreen" id="anmateIcon_1"></i>
+						<i class="anmateIcon agreen" id="anmateIcon_2"></i>
+						<i class="anmateIcon ared" id="anmateIcon_3"></i>
+						<i class="anmateIcon agreen" id="anmateIcon_4"></i>
+						<i class="anmateIcon agreen" id="anmateIcon_5"></i>
+						<i class="anmateIcon ared" id="anmateIcon_6"></i>
+						<i class="anmateIcon agreen" id="anmateIcon_7"></i>
+						<i class="anmateIcon agreen" id="anmateIcon_8"></i>
+						<i class="anmateIcon ared" id="anmateIcon_9"></i>
+					</div>
+				</div>
+				
+				<!--bottom-->
+				<div class="reports_contains clearfix">
+					<div class="dashboard_left">
+						<div class="dashboard_tab">
+							<p class="reports_title01">性能监控</p>
+							<table border="0" cellspacing="" cellpadding="" id="">
+							<thead>
+								<tr class="title">
+									<th class="txtLeft">主机名称</th>
+									<th>IP</th>
+									<th>服务器类型</th>
+									<th class="borderRight">全部</th>
+									<th class="borderRight">CPU / %</th>
+									<th class="borderRight">内存 / %</th>
+									<th>I / O</th>
+								</tr>
+							</thead>
+							<tbody>
+								<tr>
+									<td class="txtLeft">nelson</td>
+									<td>192.168.10.15</td>
+									<td>Windows</td>
+									<td class="borderRight">深圳</td>
+									<td class="borderRight">70</td>
+									<td class="borderRight seriousness">90</td>
+									<td>767 / 766</td>
+								</tr>
+								<tr>
+									<td class="txtLeft">nelson</td>
+									<td>192.168.10.15</td>
+									<td>Windows</td>
+									<td class="borderRight">深圳</td>
+									<td class="borderRight">70</td>
+									<td class="borderRight">70</td>
+									<td>767 / 766</td>
+								</tr>
+								<tr>
+									<td class="txtLeft">nelson</td>
+									<td>192.168.10.15</td>
+									<td>Windows</td>
+									<td class="borderRight">深圳</td>
+									<td class="borderRight seriousness">95</td>
+									<td class="borderRight">70</td>
+									<td>767 / 766</td>
+								</tr>
+								<tr>
+									<td class="txtLeft">nelson</td>
+									<td>192.168.10.15</td>
+									<td>Windows</td>
+									<td class="borderRight">深圳</td>
+									<td class="borderRight">70</td>
+									<td class="borderRight">70</td>
+									<td>767 / 766</td>
+								</tr>
+							</tbody>
+
+						</table>
+						</div>
+					</div>
+					<div class="dashboard_right">
+						<div class="dashboard_tab">
+							<p class="reports_title01">告警提示</p>
+							<table border="0" cellspacing="" cellpadding="" id="">
+								<thead>
+									<tr class="title">
+										<th>告警类型</th>
+										<th>资产名称</th>
+										<th>IP</th>
+										<th>设备类型</th>
+										<th>操作</th>
+									</tr>
+								</thead>
+								<tbody>
+								<tr>
+									<td><span class="color_one" style="background:#2796b3">主机</span></td>
+									<td>nelson</td>
+									<td>192.168.10.15</td>
+									<td>Windows</td>
+									<td><a href="javascript:;" class="cbtn" data="0" onclick="showDispose(this)">立即处理</a></td>
+								</tr>
+								<tr>
+									<td><span class="color_one" style="background:#b2a71d">主机</span></td>
+									<td>nelson</td>
+									<td>192.168.10.15</td>
+									<td>Windows</td>
+									<td><a href="javascript:;" class="cbtn" data="0" onclick="showDispose(this)">立即处理</a></td>
+								</tr>
+								<tr>
+									<td><span class="color_one" style="background:#b61a32">主机</span></td>
+									<td>nelson</td>
+									<td>192.168.10.15</td>
+									<td>Windows</td>
+									<td><a href="javascript:;" class="cbtn" data="0" onclick="showDispose(this)">立即处理</a></td>
+								</tr>
+								<tr>
+									<td><span class="color_one" style="background:#6912bc">主机</span></td>
+									<td>nelson</td>
+									<td>192.168.10.15</td>
+									<td>Windows</td>
+									<td><a href="javascript:;" class="cbtn" data="0" onclick="showDispose(this)">立即处理</a></td>
+								</tr>
+							</tbody>
+							</table>
+						</div>
+					</div>
+				</div>
+
+
+	
+		
+		<!--<div class="iconBox" style="position:absolute;left:0;top:0;">
+			<table border="0" cellspacing="" cellpadding="" id="">
+				<tr>
+					<td>设备名称</td>
+					<td>Nelson</td>
+				</tr>
+				<tr>
+					<td>故障类型</td>
+					<td><span class="color_one" style="background:#6912bc">主机</span></td>
+				</tr>
+				<tr>
+					<td>IP</td>
+					<td>Linux</td>
+				</tr>
+				<tr>
+					<td>资产类型</td>
+					<td>非核心资产</td>
+				</tr>
+				<tr>
+					<td>发现时间</td>
+					<td>2018-05-31</td>
+				</tr>
+				<tr>
+					<td colspan="2">
+						<a href="javascript:;" class="cbtn" data="0" onclick="showDispose(this)">立即处理</a>
+						<a href="javascript:;" class="cbtn" data="0" onclick="">查看详情</a>
+					</td>
+				</tr>
+			</table>
+		</div>-->
+		
+		<!--处理弹窗-->
+		<div class="BombBox announBox" id="disposeDiv" style="display: none;z-index:9999">
+			<div class="announBox_cont detecte" style="width:490px!important">
+				<form id="" novalidate="novalidate">
+					<div class="text_edit">
+						<h3 class="succ_title"><span id="">处理</span></h3>
+						<p class="close"><img src="canvas_icon/close.png" width="18" height="17" onclick="removeDisposeWin()"></p>
+						<div class="clearfix bomb">
+							<p class="error_str"></p>
+							<div class="info_edit f_left">
+								<p class="txt_enter clearfix"><label>处理方式：</label>
+								<input type="radio" name="disposeRadio" value="0" checked="checked">&nbsp;待处理&nbsp;&nbsp;&nbsp;
+								<input type="radio" name="disposeRadio" value="1">&nbsp;已处理&nbsp;&nbsp;&nbsp;
+							</div>
+							<p class="area_enter">
+							<label style="font-size:14px;">处理说明：</label><textarea name="explain" id="explain" rows="" cols="" style="width:280px" maxlenght="200"></textarea></p>
+						</div>
+						<div class="info_btns">
+							<p><span class="btn1 submit" id="btnDispose" onclick="sendDispose(this,255106,null)">提交</span></p><p>
+							<span class="btn1 cancel" onclick="removeDisposeWin()">取消</span></p>
+						</div>
+					</div>
+				</form>
+			</div>
+		</div>
+	</body>
+
+	<script>
+		function showDispose(obj) {
+			debugger
+			var satuts = $(obj).attr("data");
+			if (satuts == 0){
+				$("#disposeDiv").show();
+			} else {
+				$("#disposeDiv").hide();
+			}
+		}
+		
+		function removeDisposeWin() {
+			$("#disposeDiv").hide();
+		}
+	</script>
+	<script>
+			$(".page .content").css({"background":"none"});
+			var contentWidth = 300;//($(".canvasCon").width()-100);
+			$(".canvasPos").css({"width":"300","height":"300","position":"relative","left":"35%"});
+			var canvas = document.getElementById("canvas");
+            var ctx = canvas.getContext("2d");
+			canvas.width = contentWidth;
+			canvas.height = 300;
+            ctx.lineWidth = 1;
+            ctx.strokeStyle = "#555";
+            //ctx.strokeRect(1, 1, 295, 295);
+			
+			
+			//中心点横坐标
+			var dotLeft = contentWidth/2;
+			//中心点纵坐标
+			var dotTop = 300/2;
+			//起始角度
+			var stard = 0;
+			//半径
+			//var radius = 150;
+			//每一个BOX对应的角度;
+			var avd = 360/10;
+			//每一个BOX对应的弧度;
+			var ahd = avd*Math.PI/180;
+			
+			
+			//canvas画线
+			function LineDrawing(lx, ly) {
+				 ctx.beginPath();
+				 ctx.moveTo(dotLeft, dotTop);
+				 ctx.lineTo(lx, ly);
+				 ctx.stroke();
+			}
+			
+			//图标位置
+			function drawImagesFun(index, x, y) {
+				var _img = document.getElementById("icon_"+index);
+				_img.style.left = x+"px";
+				_img.style.top = y+"px";
+			}
+			
+			//动画
+			function drawAnimate() {
+			
+				for (var i = 0; i < anmateArr.length; i++) {
+					
+					//设置初始位置
+					$("#anmateIcon_"+i).css({"left":""+dotLeft+"px", "top":"140px"}).show();
+					
+					//动画位置
+					var _left = anmateArr[i].left - dotLeft;
+					var _top = anmateArr[i].top - dotTop;
+					
+					$("#anmateIcon_"+i).animate({
+					  left: '+='+_left+'px',
+					  top: '+='+_top+'px'
+					}, 2000,'linear', function() {
+						$(this).hide();
+					})
+					
+					
+				}
+					
+			}
+			
+			//图划线
+			var anmateArr = [];
+			function drawLinesFun() {
+
+				for (var i = 0; i < 10; i ++) {
+
+					var left = Math.sin((ahd*i))*dotLeft+dotLeft;
+					var top = Math.cos((ahd*i))*dotTop+dotTop;
+					
+					top > 300 ? top = 300 : top = top;
+					left > contentWidth ? left = contentWidth : left = left;
+					
+					//animate
+					anmateArr.push({
+						left: left,
+						top: top
+					});
+					
+					//画线
+					LineDrawing(left, top);
+					
+					//画图标
+					top = top - 10;
+					left = left - 10; //图标位置居中
+					drawImagesFun(i, left, top);
+				}
+				
+				
+			}
+
+			
+			
+			function inIt() {
+
+				$("#icon_center").css({"left":""+(dotLeft-10)+"px", "top":"140px"});
+				
+				for (var i = 0; i < 10; i ++) {
+					$("#anmateIcon_"+i).css({"left":""+dotLeft+"px", "top":"140px"}).hide();
+				}
+				
+				//启动划线
+				drawLinesFun();
+				
+				//启用动画
+				//drawAnimate();
+				var t = setInterval("drawAnimate()", 3000);
+			}
+			
+			$(".canvasCon img").hover(function() {
+				$(".iconBox").remove();
+				var event = window.event || arguments.callee.caller.arguments[0];
+				//event.stopPropagation();
+				if (event.stopPropagation) {   
+					// 针对 Mozilla 和 Opera   
+					event.stopPropagation();   
+				} else if (window.event) {   
+					// 针对 IE   
+					window.event.cancelBubble = true;   
+				} 
+				
+				var _off = $(this).offset();//获取坐标
+				//计算弹窗位置
+		        var oleft = _off.left;
+		        var otop = _off.top;
+		        
+		         
+				
+				var str = '<div class="iconBox" style="position:absolute;left:0;top:0;">'+
+							'<table border="0" cellspacing="0" cellpadding="0" id="">'+
+								'<tr>'+
+									'<td>设备名称</td>'+
+									'<td>Nelson</td>'+
+								'</tr>'+
+								'<tr>'+
+									'<td>故障类型</td>'+
+									'<td><span class="color_one" style="background:#6912bc">主机</span></td>'+
+								'</tr>'+
+								'<tr>'+
+									'<td>IP</td>'+
+									'<td>Linux</td>'+
+								'</tr>'+
+								'<tr>'+
+									'<td>资产类型</td>'+
+									'<td>非核心资产</td>'+
+								'</tr>'+
+								'<tr>'+
+									'<td>发现时间</td>'+
+									'<td>2018-05-31</td>'+
+								'</tr>'+
+								'<tr>'+
+									'<td align="center"><a href="javascript:;" class="cbtn" data="0" onclick="showDispose(this)">立即处理</a></td>'+
+									'<td align="center"><a href="javascript:;" class="cbtn" data="0" onclick="">查看详情</a></td>'+
+								'</tr>'+
+							'</table>'+
+						'</div>'
+				
+				$("body").append(str);	
+				oleft = oleft + 50;
+				$(".iconBox").css({"top":otop+"px","left":oleft+"px"}).show();
+			}, function() {
+				$(".iconBox").remove();
+			});
+			
+			inIt();
+			
+	</script>
+</html>

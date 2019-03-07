@@ -1,0 +1,112 @@
+
+<!DOCTYPE html>
+<html lang="en">
+
+	<head>
+		<meta charset="UTF-8">
+		<title>管理</title>
+		<meta name="renderer" content="webkit">
+		<meta name="google" value="notranslate">
+		<meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1" />
+		<meta http-equiv="Cache-Control" content="no-siteapp" />
+		<link rel="stylesheet" href="../../static/css/style.css">
+
+	</head>
+
+	<body>
+
+		<nav class="container">
+			<!-- 左侧导航栏 -->
+			<div class="nav">
+				<!--logo-->
+				<div class="logo">
+					<a href=""><img id="logo" src="../../static/img/logo.png"></a>
+				</div>
+				<!--用户信息-->
+				<div class="user_header">
+					<a href=""><img id="user-img" src="../../static/img/USER.png"></a>
+					<div class="user_name">admin</div>
+					<div class="exit" onclick="exitFunc()"> 退出
+						<img src="../../static/img/exit.png"></div>
+					<!--划分线-->
+					<div class="box_line">
+						<img src="../../static/img/line.png" />
+					</div>
+				</div>
+
+				<div class="content clearfix">
+					<!-- 左侧菜单 S -->
+					<aside class="fl sideBar">
+						<ul class="menulist">
+							<li class="menulist_top menulist_top_down navdown a1"><img src="../../static/img/ch0.png" alt="全景">全景</li>
+							<li class="menulist_top a2"><img src="../../static/img/plat_icon1.png" alt="仪表盘">仪表盘</li>
+							<li class="menulist_top a3"><img src="../../static/img/plat_icon2.png" alt="主机">主机</li>
+							<li class="menulist_top a4"><img src="../../static/img/plat_icon3.png" alt="检测">检测</li>
+							<li class="menulist_top a5"><img src="../../static/img/plat_icon4.png" alt="报告">报告</li>
+							<li class="menulist_top a6"><img src="../../static/img/plat_icon5.png" alt="管理">管理</li>
+							<li class="menulist_top a7"><img src="../../static/img/plat_icon6.png" alt="设置">设置</li>
+							<li class="menulist_top a8"><img src="../../static/img/plat_icon7.png" alt="资源">资源</li>
+						</ul>
+					</aside>
+					<div class="line"><img src="../../static/img/line.png" /></div>
+
+					<!-- 左侧菜单 End -->
+				</div>
+				<!--划分线-->
+				<div class="box_line">
+					<img src="../../static/img/line.png" />
+				</div>
+				<!--版本-->
+				<div class="version">
+					版本：V.12301
+				</div>
+				<!--天气-->
+				<div class="weather clearfix">
+					<p class="weather_left">
+						<span class="date" id="dateshow">
+							<script>
+								function data(){
+									var mydate = new Date();
+									var year = mydate.getFullYear();
+									var month = mydate.getMonth();
+									month=if(month<10){month="0"+month}
+									var day = mydate.getDate();
+									day=if(day<10){day="0"+day}
+									var hours = mydate.getHours();
+									hours=if(hours<10){hours="0"+hours}
+									var min = mydate.getMinutes();
+									min=if(min<10){min="0"+min}
+									document.getElementById("dateshow").innerHTML = year+"-"+month+"-"+day;
+									document.getElementById("timeshow").innerHTML = hours+":"+min;
+									}
+								setInterval(function() {data()},1000);
+							</script>
+						</span>
+						<br />
+						<span class="w_time" id="timeshow">
+						</span>
+					</p>
+					<p class="weather_center">
+						<img src="../../static/img/line1.png" / width="3" height="43">
+					</p>
+					<p class="weather_right">
+
+						<span class="date">
+							<img src="../../static/img/weather.png" width="38" height="29">
+						</span>
+						<br />
+						<span class="temperature">
+							25-26°C
+						</span>
+					</p>
+
+				</div>
+			</div>
+
+		</nav>
+
+		<script src="../../static/js/common.js"></script>
+
+	</body>
+
+</html>

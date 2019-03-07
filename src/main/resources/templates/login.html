@@ -1,0 +1,120 @@
+<#include "common/common.html">
+	<!DOCTYPE html>
+	<html>
+	<head>
+		<base id="base" href="${base}">
+		<meta charset="utf-8" />
+		<title>AIS安全自动化分析平台</title>
+		<link rel="stylesheet" href="/static/css/login.css">
+		<script src="/static/js/jquery.js"></script>
+		<script src="/static/js/jquery.validate.min.js"></script>
+		<script src="/static/js/messages_zh.js"></script>
+	   <!-- <script>
+			$().ready(function() {
+				// 在键盘按下并释放及提交后验证提交表单
+				$("#loginform").validate({
+					rules: {
+						userName: {
+							required: true,
+							minlength: 3
+						},
+						loginPwd: {
+							required: true,
+							minlength: 6
+						}
+					},
+					messages: {
+						userName: {
+							required: "请输入用户名",
+							minlength: "长度不能小于 3 个字符"
+						},
+						loginPwd: {
+							required: "请输入密码",
+							minlength: "长度不能小于 6 个字符"
+						}
+
+					},
+					errorPlacement: function(error,element) {
+						console.log(error);
+						$("#error_box").text(error[0].text());
+					}
+				});
+				
+
+			});
+		</script>  -->
+		<!-- <style>
+		
+		</style> -->
+
+	</head>
+
+	<body>
+		<div class="ufo">
+			<img src="/static/img/bg1.png" />
+		</div>
+		<div class="mycenter">
+				<div class="logo"><img src="/static/img/logo.png"/></div>
+
+			<div class="mysign">
+
+				<span class="informs" text="${msg!}">${msg!}</span> 
+
+				<form id="loginform" method="post" action="/login">
+					<div class="infors">
+						<div class="col-lg-10">
+							<label for="userName">用户名：</label><input type="text" id="userName" class="form-control" name="userName" placeholder="请输入账户名" />
+
+						</div>
+						<div class="col-lg-10">
+							<label for="password">密&nbsp;&nbsp;&nbsp;码：</label><input type="password" id="loginPwd" class="form-control" name="loginPwd" placeholder="请输入密码" />
+						</div>
+						<div class="col-lg-10">
+							<label for="loginCode">验证码：</label>
+							<input type="code" id="loginCode" class="form-control" name="loginCode" placeholder="请输入验证码" />
+							<div class="validatecode">
+								<img src="/validatecode" alt="" width="91" height="30" onclick="changeCheckImage(this)" style="line-height: 0px; cursor: hand;" />
+							</div>
+
+						</div>
+					</div>
+					<div class="col-lg-10">
+						<button type="submit" class="btn btn-success col-lg-12">登&nbsp;&nbsp;录</button>
+					</div>
+				</form>
+			</div>
+		</div>
+		<script type="text/javascript">
+		
+			function changeCheckImage(obj) {
+				obj.src = "/validatecode?r=" + new Date().getTime();
+			}
+
+			function login() {
+				
+				$.ajax({
+					url: "/login",
+					type: "POST",
+					//contentType: "application/json;charset=utf-8",
+					data: {
+						"userName": $("#username").val(),
+						"loginPwd": $("#passwd").val()
+					},
+					//dataType : "text",           
+					success: function(result) {
+						sessionStorage.setItem("xiao", JSON.stringify(result))
+						//JSON.parse(sessionStorage.getItem("xiao"));
+						//window.location.href = "/main"
+						//document.getElementById("errortip").style.display = "block"
+					},
+					error: function(msg) {
+						//document.getElementById("errortip").style.display = "none"
+					}
+				})
+			}
+			$("input").attr("onkeyup","this.value=this.value.replace(/^ +| +$/g,'')");
+
+		</script>
+	</body>
+
+	</html>

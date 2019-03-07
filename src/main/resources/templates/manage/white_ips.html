@@ -1,0 +1,64 @@
+<!DOCTYPE html>
+<html lang="en">
+<script src="/static/js/jquery.validate.min.js"></script>
+	<body>
+
+		<!--按钮、控件start-->
+		<div class="issueing_infoBox_bgs bt_one">
+			<div class="issueing_infoBox clearfix">
+				<form id="searchForm" method="post">
+					<div class="f_left">
+						<div class="fl itmemar">IP：<input type="text" id="ip" name="ip" class="dateTxt"/></div>
+						<div class="fl itmemar"><span class="search btn" id="btnSearch"><img src="/static/img/search.png" width="13" height="12">搜索</span></div>
+					</div>
+				</form>
+			</div>
+		</div>
+		<!--按钮、控件end-->
+
+		<!--table表格1begin-->
+		<div class="tab_body">
+			<div class="tab_child">
+				<table border="0" cellspacing="0" cellpadding="0" class="tab_thead">
+					<thead>
+						<tr class="title">
+							<th name="ip">IP</th>
+							<th name="addTime">保存时间</th>
+						</tr>
+					</thead>
+					</table>
+					<div class="table_body">
+					<table border="0" cellspacing="0" cellpadding="0" class="host_tagsTable">
+					<tbody>
+						<#if (infos.results)??&&(infos.results?size>0)>
+							<#list infos.results as whiteIp>
+								<tr>
+									<input type="hidden" id="id" name="id" value="${whiteIp.id?c}">
+									<td>${whiteIp.ip!}</td>
+									<td>${whiteIp.addTime?default("")}</td>
+								</tr>
+							</#list>
+						</#if>
+
+					</tbody>
+				</table>
+				</div>
+				<!--分页-->
+				<div id="page"></div>
+				<input type="hidden" id="numPerPage" value="${infos.numPerPage?c}">
+				<input type="hidden" id="pageNum" value="${infos.pageNum?c}">
+				<input type="hidden" id="pageSum" value="${infos.pageSum?c}">
+				<input type="hidden" id="totalCount" value="${infos.totalCount?c}">
+			</div>
+
+		</div>
+
+		<!--table表格1end-->
+			
+	</body>
+	<script type="text/javascript" src="/static/js/page.js"></script>
+	<script type="text/javascript" src="/static/js/manage/white_ips.js"></script>
+    <script>
+	$("input").attr("onkeyup","this.value=this.value.replace(/^ +| +$/g,'')");
+	</script>
+</html>

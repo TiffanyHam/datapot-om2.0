@@ -1,0 +1,257 @@
+<!DOCTYPE html>
+<html>
+
+	<head>
+		<title>分支机构</title>
+		<meta charset="utf-8">
+		<link rel="stylesheet" href="../../static/plugins/bootstrap/css/bootstrap.min.css">
+		<link rel="stylesheet" href="../../static/plugins/bootstrap/css/bootstrap-table.css">
+		<link href="//rawgit.com/vitalets/x-editable/master/dist/bootstrap3-editable/css/bootstrap-editable.css">
+		<script src="../../static/plugins/jquery.min.js"></script>
+		<link rel="stylesheet" href="../../static/css/style.css">
+		<link rel="stylesheet" type="text/css" href="../../static/css/table.css">
+
+	</head>
+
+	<body style="height: 100%">
+			<!-- 左侧导航栏 -->
+			<div class="nav">
+				<!--logo-->
+				<div class="logo">
+					<a href=""><img id="logo" src="../../static/img/logo.png"></a>
+				</div>
+				<!--用户信息-->
+				<div class="user_header">
+					<a href=""><img id="user-img" src="../../static/img/USER.png"></a>
+					<div class="user_name">admin</div>
+					<div class="exit" onclick="exitFunc()">
+						<span>退出</span> 
+						<img src="../../static/img/exit.png">
+					</div>
+					
+				</div>
+				<!--划分线-->
+					<div class="line1">
+						<img src="../../static/img/line.png" />
+					</div>
+
+				<div class="content clearfix">
+					<!-- 左侧菜单 S -->
+					<aside class="fl sideBar">
+						<ul class="menulist">
+							<li class="menulist_top menulist_top_down navdown a1"><img src="../../static/img/ch0.png" alt="全景">全景</li>
+							<li class="menulist_top a2"><img src="../../static/img/plat_icon1.png" alt="仪表盘">仪表盘</li>
+							<li class="menulist_top a3"><img src="../../static/img/plat_icon2.png" alt="主机">主机</li>
+							<li class="menulist_top a4"><img src="../../static/img/plat_icon3.png" alt="检测">检测</li>
+							<li class="menulist_top a5"><img src="../../static/img/plat_icon4.png" alt="报告">报告</li>
+							<li class="menulist_top a6"><img src="../../static/img/plat_icon5.png" alt="管理">管理</li>
+							<li class="menulist_top a7"><img src="../../static/img/plat_icon6.png" alt="设置">设置</li>
+							<li class="menulist_top a8"><img src="../../static/img/plat_icon7.png" alt="资源">资源</li>
+						</ul>
+<!--						<div class="line2"><img src="../../static/img/line.png" /></div>
+-->					</aside>
+
+					<!-- 左侧菜单 End -->
+				</div>
+				<!--划分线-->
+					<div class="line1">
+						<img src="../../static/img/line.png" />
+					</div>
+				<!--版本-->
+				<div class="version">
+					<span>版本：V.12301</span>
+				</div>
+				
+				<!--天气-->
+				<div class="weather">
+					<p class="weather_left">
+						<span class="date">
+							2017-11-09
+						</span>
+						<br />
+						<span class="w_time">
+							23:19
+						</span>
+<!--						<span class="date" id="dateshow">
+							<script>
+								function data(){
+									var mydate = new Date();
+									var year = mydate.getFullYear();
+									var month = mydate.getMonth();
+									month=if(month<10){month="0"+month}
+									var day = mydate.getDate();
+									day=if(day<10){day="0"+day}
+									var hours = mydate.getHours();
+									hours=if(hours<10){hours="0"+hours}
+									var min = mydate.getMinutes();
+									min=if(min<10){min="0"+min}
+									document.getElementById("dateshow").innerHTML = year+"-"+month+"-"+day;
+									document.getElementById("timeshow").innerHTML = hours+":"+min;
+									}
+								setInterval(function() {data()},1000);
+							</script>
+						</span>
+						<br />
+						<span class="w_time" id="timeshow">
+						</span>-->
+					</p>
+					<p class="weather_center">
+						<img src="../../static/img/line1.png" / width="3" height="43">
+					</p>
+					<p class="weather_right">
+
+						<span class="date">
+							<img src="../../static/img/weather.png" width="38" height="29">
+						</span>
+						<br />
+						<span class="temperature">
+							25-26°C
+						</span>
+					</p>
+
+				</div>
+			</div>
+
+		<!-- 内容区域  E -->
+		<div class="whole_content">
+			<h3 class="main_title"><img src="../../static/img/plat_icon9.png">管理</h3>
+
+			<!--头部菜单-->
+			<div class="clearfix storeBox">
+				<ul class="fl clearfix storeList">
+					<span id="solid"><img src="../../static/img/solid.png"/></span>
+					<li><span><a href="index.html" style="color: #fff;">菜单1</a></span><span>|</span></li>
+					<li><span><a href="index2.html">菜单2</a></span><span>|</span></li>
+					<li><span><a href="index3.html">菜单3</a></span><span>|</span></li>
+					<li><span><a href="index4.html">菜单4</a></span><span>|</span></li>
+					<li><span><a href="index5.html">菜单5</a></span><span>|</span></li>
+					<li><span><a href="index6.html">菜单6</a></span><span>|</span></li>
+					<li><span><a href="index7.html">菜单7</a></span></li>
+				</ul>
+			</div>
+
+			<!--按钮、控件-->
+			<div class="issueing_infoBox clearfix">
+				<div class="f_left">
+					<div class="fl">时间选择：<input type="date" value="2017-09-24" class="dateTxt" />&nbsp;&nbsp;至&nbsp;&nbsp;<input type="date" value="2017-09-24" class="dateTxt" /></div>
+					<div class="fl agreement">协议：<input type="date" value="2017-09-24" class="dateTxt" /></div>
+					<div class="fl"><span class="search bts"><img src="../../static/img/search.png" alt="" />搜索</span></div>
+				</div>
+				<div class="f_right btns_right">
+					<div class="field_top">
+						<button type="button" data-toggle="modal" data-target="#addModal" class="bts" id="add"><img src="../../static/img/insert.png"/>新增</button>
+						<!-- 模态框（Modal）增加begin -->
+						<div class="modal fade" id="addModal" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
+							<div class="modal-dialog">
+								<div class="modal-content">
+									<div class="modal-header">
+										<button type="button" class="close" data-dismiss="modal" aria-hidden="true"><img src="../../static/img/close.png" width="18" height="17"/></button>
+										<h4 class="modal-title" id="myModalLabel">添加部门:</h4>
+									</div>
+									<div class="modal-body">
+										<table>
+											<tbody>
+												<tr>
+													<td>部门名称：</td>
+													<td><input id="depval" type="text" name=""></td>
+												</tr>
+											</tbody>
+										</table>
+									</div>
+									<div class="modal-footer">
+										<button type="button" class="btn btn-close" data-dismiss="modal">关闭</button>
+										<button type="button" class="btn btn-primary" data-dismiss="modal" onclick="addDepFunc()">提交</button>
+									</div>
+								</div>
+								<!-- /.modal-content -->
+							</div>
+							<!-- /.modal -->
+						</div>
+						<!-- 模态框（Modal）增加end -->
+
+						<button type="button" data-toggle="modal" disabled="true" data-target="#editModal" class="bts" id="edit"><img src="../../static/img/edit.png"/>编辑</button>
+						<!-- 模态框（Modal）修改begin -->
+						<div class="modal fade" id="editModal" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
+							<div class="modal-dialog">
+								<div class="modal-content">
+									<div class="modal-header">
+										<button type="button" class="close" data-dismiss="modal" aria-hidden="true"><img src="../../static/img/close.png" width="18" height="17"/></button>
+										<h4 class="modal-title" id="myModalLabel">修改分支机构:</h4>
+									</div>
+									<div class="modal-body">
+										<table>
+											<tbody>
+												<tr>
+													<td>分支机构名称：</td>
+													<td><input id="input_delname" type="text" name="" value="分支机构名称"></td>
+												</tr>
+											</tbody>
+										</table>
+									</div>
+									<div class="modal-footer">
+										<button type="button" class="btn btn-close" data-dismiss="modal">关闭</button>
+										<button type="button" class="btn btn-primary" onclick="editDepFunc()" data-dismiss="modal">提交</button>
+									</div>
+								</div>
+							</div>
+						</div>
+						<!-- 模态框（Modal）修改END -->
+
+						<button type="button" data-toggle="modal" disabled="true" data-target="#dellModal" class="bts" id="dell"><img src="../../static/img/delete.png"/>删除</button>
+						<!-- 模态框（Modal）删除begin -->
+						<div class="modal fade" id="dellModal" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
+							<div class="modal-dialog">
+								<div class="modal-content">
+									<div class="modal-header">
+										<button type="button" class="close" data-dismiss="modal" aria-hidden="true"><img src="../../static/img/close.png" width="18" height="17"/></button>
+										<h4 class="modal-title" id="myModalLabel">删除部门:</h4>
+									</div>
+									<div class="modal-body">
+										<table>
+											<tbody>
+												<tr>
+													<td><label id="depname"></label></td>
+												</tr>
+											</tbody>
+										</table>
+									</div>
+									<div class="modal-footer">
+										<button type="button" class="btn btn-close" data-dismiss="modal">关闭</button>
+										<button type="button" class="btn btn-primary" onclick="dellDepFunc()" data-dismiss="modal">提交</button>
+									</div>
+								</div>
+								<!-- /.modal-content -->
+							</div>
+							<!-- /.modal -->
+						</div>
+						<!-- 模态框（Modal）删除END-->
+					</div>
+				</div>
+			</div>
+
+			<!--table部分 beging-->
+
+			<div class="pdbottom">
+				<table class="table table-hover" id="cusTable" border="0" cellspacing="0" cellpadding="0">
+					<thead>
+						<tr class="title">
+							<th data-field="officeName" class="tabcenter">名称1</th>
+						</tr>
+					</thead>
+					<tbody>
+					</tbody>
+				</table>
+			</div>
+			<!--table部分 end-->
+		</div>
+		<script src="../../static/js/common.js"></script>
+		<script src="../../static/plugins/bootstrap/js/bootstrap.min.js"></script>
+		<script src="../../static/plugins/bootstrap/js/bootstrap-table.js"></script>
+		<script src="../../static/plugins/bootstrap/js/bootstrap-table-flat-json.js"></script>
+		<script src="../../static/plugins/bootstrap/js/bootstrap-editable.js"></script>
+		<script src="../../static/plugins/bootstrap/js/bootstrap-table-en-US.js"></script>
+		<script src="../../static/plugins/bootstrap/js/bootstrap-table-zh-CN.js"></script>
+		<script src="../../static/js/manage/corporate_architecture.js"></script>
+	</body>
+
+</html>

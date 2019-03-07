@@ -1,0 +1,223 @@
+
+	<link rel="stylesheet" href="/static/css/host.css">
+	<style type="text/css">
+	.flex_one{display:flex;}
+	.f_one{flex: 1;}
+	.text-c{text-align:center;}
+	.content, .hostPage{height:100%;}
+	h1{font-size:50px;color:#fff;position:relative;top:25%;}
+	</style>
+	
+	<div class="hostPage">
+        <!--头部菜单-->
+        <header class="header">
+            <div class="main_content_header">
+                <div class="main_title"><i class="ic_pano"></i>全景</div>
+                <div class="clearfix"></div>
+            </div>
+        </header>
+        <div id="worldCon" style="width:100%;height:100%;overflow:hidden;background-color:#0C0F20;">
+  			<div id="main" style="width:100%;height:100%"></div>
+  		</div>
+  	</div>
+	
+
+<script src="/static/js/echarts.min.js"></script>
+<script src="/static/js/world.js"></script>  
+<script>
+    $(".content").attr("style","");
+	var pageHeight = $(".hostPage").height();
+	$("#worldCon").css("height", ""+(pageHeight-80)+"px");
+	
+	//世界地图
+	var worldChartData = [];
+	var worldCountData = [];
+	var worldChart = echarts.init(document.getElementById('main'));
+	
+    var w_option = {
+    		backgroundColor: '#0C0F20',  		// 图表背景�?
+    	  	tooltip: {
+	            trigger: 'item',
+	            formatter: function (params) {
+	            	
+	            	var data = params.data;
+	            	var _c = data.name;
+		            var _v = "";
+		            data.value[2] == undefined ? '' : _v = data.value[2];
+		                
+		            return _c+"<br/>"+"访问量："+_v;
+		            
+	                /* 
+	                *var _c = data.name;
+	                *var _vj = data.value[0].toFixed(2); 
+	                *var _vw = data.value[1].toFixed(2); 
+	              	*var _v = "经纬度：" +_vj+ ', ' +_vw;
+	                *return _c + '<br/>' + _v;
+	                */
+	            }
+	        },
+    		geo: {
+    	      	map: 'world',
+    	      	left: 0,
+                right: 0,
+    	      	itemStyle: {				// 定义样式
+    	            normal: {					// 普�?�状态下的样�?
+    	                areaColor: '#4889d9',
+    	                borderColor: '#333' //地图中线的颜�?
+    	            },
+    	            emphasis: {					// 高亮状�?�下的样�?
+    	                areaColor: '#619ae0'
+    	            }
+    	        },
+    	        regions: [{
+	   	        	 name: 'China',
+	   	        	 selected:true,
+	   	        	 //name: '中国',
+	   	             itemStyle: {
+	   	                 normal: {
+	   	                	 areaColor: '#8bb8f0',
+	   	                     color: '#2a333d'
+	   	                 },
+	  	    	             emphasis: {					// 高亮状�?�下的样�?
+	  	    	                areaColor: '#8bb8f0',
+	  	    	             	color: '#2a333d'
+	  	    	             }
+	   	             },
+	   	             label:{
+	   	        			normal:{
+	   	        				show: true
+	   	        			}
+	   	        	}
+	   	        },{
+	   	        	name: 'Russia',
+	   	        	//name: '俄罗�?',
+	  	        		label:{
+	  	        			normal:{
+	  	        				show: true
+	  	        			}
+	  	        		}
+	   	        },{
+	   	        	name: 'Australia',
+	   	        	//name: '澳大利亚',
+	  	        		label:{
+	  	        			normal:{
+	  	        				show: true
+	  	        			}
+	  	        		}
+	   	        },{
+	   	        	name: 'United States of America',
+	   	        	//name: '美国',
+	  	        		label:{
+	  	        			normal:{
+	  	        				show: true
+	  	        			}
+	  	        		}
+	   	        }]  
+    	  	},
+    	  	series: [
+   	  			{
+   	  				name: '数据来源', // series名称
+   	  				type: 'effectScatter', // series图表类型  scatter
+   	  				coordinateSystem: 'geo', // series坐标系类�?
+   	  				data: worldChartData, // series数据内容
+   	  				zlevel: 2,
+   	  				symbol:'emptyCircle',
+                	symbolSize : 2,
+   	  				//扩散
+	   	  			hoverAnimation: 'false',
+	   	            legendHoverLink: 'false',
+	   	            rippleEffect: {
+	   	                period: 10,
+	   	                brushType: 'stroke',
+	   	                scale: 10  //散点扩散的范�? 值越大圈越大
+	   	            },
+	   	         	blendMode: 'lighter'
+   	  		}],
+   	  		visualMap: {
+	  			type: 'continuous', // 连续�?
+	  			min: 0,       		// 值域�?小�?�，必须参数
+	  			max: 60,			// 值域�?大�?�，必须参数
+	  			calculable: true,	// 是否启用值域漫游
+	  			text:['�?','�?'],
+	  			padding:10,
+	  			inRange: {
+	  	            color: ['#ffc100','#fa7420','#ee1029']// 指定数�?�从低到高时的颜色变�?
+	  	        },
+   	  	    	textStyle: {
+   					color: '#fff'	// 值域控件的文本颜�?
+   				}
+ 			} 
+    }
+   	
+    Number.prototype.toFixed = function(s){  
+	    return (parseInt(this * Math.pow( 10, s ) + 0.5)/ Math.pow( 10, s )).toString();  
+	}
+    
+  	//获取地图数据
+    function datareSolver(data){
+    	
+    	worldChartData.splice(0,worldChartData.length);
+    	
+    	for(var i in data){
+			var x = data[i].longitude; //经度
+			var y = data[i].latitude;  //纬度
+			var count = data[i].count; //访问�?
+			var city = data[i].city; //访问�?
+			
+			
+			//访问�?
+			var jwD = [x,y];
+			worldChartData.push({
+				name: data[i].city,
+				value: jwD.concat(count)
+			}); 
+		}
+    }
+    
+  	
+    worldChart.setOption(w_option);
+   	var webSocket = new WebSocket("ws://"+window.location.hostname+":8081/over_view");  
+     
+     //与WebSocket建立连接  
+     webSocket.onopen = function(event) {
+         console.log('与服务器端建立连�?');
+     }
+     
+     webSocket.onerror = function(event) {
+    	 console.log('与服务器端连接失�?:'+event.data);
+     }
+     
+     //处理服务器返回的信息  
+     webSocket.onmessage = function(event) {
+         //console.log(event.data);
+         var data = event.data;
+         data = JSON.parse(data);
+         datareSolver(data);
+		 worldChart.setOption(w_option);
+     }
+     
+		
+	 //进入中国地图
+	 worldChart.on("click", function (param) {
+		 //console.log(param);
+		 if (param.name == 'China'){
+			 //alert(1)
+			webSocket.close();
+			$(".content").empty();
+		    htmlobj=$.ajax({
+		    	url:'/om/over_view/china_map',
+		    	data:{},
+		    	async:false,
+		    	success:function(data) {
+		    		$(".content").html(data);
+		    		document.body.scrollTop = 0;// 回到顶部
+		    		navIndex.secendnav = true;
+				}
+		    })
+		 }
+        
+	 })
+	 
+	 
+
+</script>

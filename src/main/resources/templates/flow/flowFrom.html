@@ -1,0 +1,139 @@
+<!DOCTYPE html>
+<html lang="en">
+
+	<head>
+		<base id="base" href="">
+		<meta charset="UTF-8">
+		<title></title>
+		<meta name="renderer" content="webkit">
+		<meta name="google" value="notranslate">
+		<meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1" />
+		<meta http-equiv="Cache-Control" content="no-siteapp" />
+		<link rel="stylesheet" href="/static/css/common.css">
+		<style type="text/css">
+			.no_scroll{background:#0C0F20!important;overflow:auto!important;}
+			/* .date-list{top:129px;} */
+			.tblTDInfo{width:100%;padding:1%;background:#171c2f;}
+			.tab_body tr{cursor: pointer;}
+			.tab_body .tblTDInfo tr{border-bottom: 1px solid #222;cursor: default;}
+			.tab_child table tr td{white-space: inherit;}
+			.addLine{display:inline-block;color:#138af0;padding:0 10px;}
+			.date-check{width:153px;background: url(/static/img/date.png) no-repeat;background-position: 135px center;}
+			/*bootstrap分页*/
+			#page1{width: 99%;line-height: 24px;color: #9D9FA8;font-size: 12px; text-align:right; padding:10px 0;}
+			.pagination li{display:inline-block;font-size:12px;border: 1px solid #6d6f79;min-width: 22px;height: 22px;line-height: 22px;color: #575C6A;
+			    cursor: pointer;text-align:center;margin-right:8px;}
+			.pagination li a{display:inline-block;width:98%;height:100%;}
+			.pagination li a[title~=Current]{background: #000;color:#8C8E95;}
+			.pagination li a[title~=first], .pagination li a[title~=previous], .pagination li a[title~=next], .pagination li a[title~=last]{font-family: serif,fantasy;font-weight: bold;}
+			.timeCon{padding:5px;text-align: right;}
+			.timeCon select{width:56px;height:22px;line-height:22px;}
+		    /* .date-list{top:15%}*/			
+    		input.dateTxt {width: 110px;}
+   		 	.triangle-down {display:inline-block;width:0;height:0;border-left:4px solid transparent;border-right: 4px solid transparent;border-top:7px solid #9da0a9; position: relative;left: -15px}
+			
+			/* div 仿  select*/
+           	.hostPage .select_city {text-align: right;}
+			.select_city_label {float: left;width:160px;margin-right:5px;margin-bottom:-10px;}
+			.posRe {position: relative;}
+			.posAb {position: absolute;}
+			.h_labelSelect {font-family: "\5FAE\8F6F\96C5\9ED1"; background: #2e3344;height: 25px;line-height: 25px;border: 1px solid #575C6A;text-align: left;border-radius: 3px;color: #d9dbde;width:150px; padding-left: 5px;padding-right: 5px;font-size: 12px;float: left;overflow: hidden;}
+			.h_labelSelectOption {top: 24px;background: #2e3344;width: 160px;height: 140px;border: 1px solid #575C6A;z-index:999;}
+			.h_labelSelectOption ul{width: 100%;height: 100%;overflow-y: auto;overflow-x: hidden;display: block;margin: 0;padding: 0;}
+			.h_labelSelectOption ul li, .h_labelSelectOption ul li a {display: block;}
+			.h_labelSelectOption ul li:hover{background:#4a90e2;}
+			.h_labelSelectOption ul li a {width: 100%;line-height: 20px;text-align: left;padding: 0 2%;color: #fff;font-size: 12px;}
+			.h_labelSelectOption ul li a label{display:block;width:100%;word-break:break-all;}
+			.h_labelSelectOption ul li a label input {width: 16px;height: 16px;margin: 0 5px -5px 0;position: relative;top: 5px;}
+			.slider_selects_two .topFMar{position:relative;top:-22px;}
+			.labelTit .topFMar{position:relative;top:-50px;}
+			.labelTit .topFMar_t{position:relative;top:-26px;}
+			.caret {display: inline-block;width: 0;height: 0;margin-left: 2px;vertical-align: middle;border-top: 4px dashed;
+			border-top: 4px solid\9;border-right: 4px solid transparent;border-left: 4px solid transparent;margin-right: 10px;}
+		
+			.loadding{width:100%;height:100%;background:rgba(0,0,0,.8);position:absolute;top:0;left:0;}
+			.loadding .loader_round{top: 45%;left: -7%;}
+		</style>
+	</head>
+	<body>
+	<div class="flowFrom hostPage">
+		<div class="issueing_infoBox_bgs bt_one">
+			<div class="issueing_infoBox clearfix">
+				<form id="searchForm">
+					<div class="f_left">
+						<div class="fl itmemar">访问IP：<input type="text" id="" name="beginIp" class="dateTxt"></div>
+						<div class="fl itmemar">被访问IP：<input type="text" id="" name="endIp" class="dateTxt"></div>
+						<div class="fl itmemar select_city">协议类型：
+							<span style="display:none">
+							<#import "../common/select_map_two.html" as maps/>
+							<@maps.select  id="example_one" datas=protocolType/>
+							<input type="hidden" name="protocolType" value="" id="example_one_value">
+							</span>
+							<span class="slider_selects"></span>
+						</div>
+
+						<div class="fl itmemar">时间范围：
+							<span class="calendar_date">
+								<input type="text" name="begin" id="starTimeRange" class="date-check" value="" data="time_0"/>
+							</span> 至
+							<span class="calendar_date">
+								<input type="text" name="end" id="endTimeRange" class="date-check" value="" data="time_1"/>
+							</span>
+						</div>
+						<div class="fl itmemar"><span class="search btn" id="btnSearch"  style="display:none;"><img src="/static/img/search.png" width="13" height="12">查询</span></div>
+					</div>
+				</form>
+			</div>
+		</div>
+		<!--chart-->
+		<div class="padd_t padd_b hd_mdetection" style="width:98%;margin:20px 1%;">
+			<div id="netflow" style="width:98%;height:160px;padding:1%;"></div>
+		</div>
+		
+		<!--分页-->
+		<div class="f_two h_page_ie check_page">
+			<div id="page1">
+				<ul id="pageLimit" class="f_left" style="display:inline-block;"></ul>
+				<span class="">共<span class="countItem">0</span>条记录</span>
+			</div>
+		</div>
+		
+		<!--table-->
+		<div class="tab_body">
+			<div class="tab_child">
+				<table border="0" cellspacing="0" cellpadding="0" class="tab_thead">
+					<thead>
+						<tr class="title">
+							<th width="25%">采集时间</th>
+							<th width="15%">协议</th>
+							<th width="15%">访问IP</th>
+							<th width="15%">访问主机端口</th>
+							<th width="15%">被访问主机IP</th>
+							<th width="15%">被访问主机端口</th>
+						</tr>
+					</thead>
+				</table>
+				<div class="tbl_tbody">
+					<table border="0" cellspacing="0" cellpadding="0" class="host_tagsTable" id="flowTbl">
+						<tbody></tbody>
+					</table>
+				</div>
+			</div>
+		</div>
+					
+	</div>	
+	</body>
+	<script src="/static/js/echarts.min.js"></script>
+	<script src="/static/js/double-date.js"></script>
+	<script src="/static/js/bootstrap.min.js"></script>
+	<script src="/static/js/bootstrap-paginator.min.js"></script>
+	<script src="/static/js/flow/flowFrom.js"></script>
+	<script src="/static/js/common_h.js"></script>
+	<script>
+	    //生成div select
+		getSelectTxt("example_one", "slider_selects");
+		
+		//选中所有数据
+		setOptionValue("example_one");
+	</script>
+</html>

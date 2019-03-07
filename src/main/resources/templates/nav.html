@@ -1,0 +1,67 @@
+<!-- 左侧导航栏 -->
+<div class="nav">
+	<!--logo-->
+	<div class="logo">
+		<a href=""><img id="logo" src="/static/img/logo.png" width="105" height="86"></a>
+	</div>
+	<!--用户信息-->
+	<div class="user_header">
+		<a href=""><img id="user-img" src="/static/img/user.png" width="53" height="47"></a>
+		<div class="user_name">admin</div>
+		<div class="exit" onclick="exitFunc()">
+			<span>退出</span>
+			<img src="/static/img/exit.png" width="12" height="14">
+		</div>
+
+	</div>
+	<!--划分线-->
+	<div class="line1">
+		<img src="/static/img/line.png" width="142" height="2">
+	</div>
+	<div class="content clearfix">
+		<!-- 左侧菜单 Start -->
+		<aside class="fl sideBar">
+			<ul class="menulist" id="menulist">
+				<!-- <li class="menulist_top menulist_top_down navdown a1"><img src="/static/img/ch0.png" alt="">全景</li> -->
+			</ul>
+		</aside>
+		<div class="line2"><img src="/static/img/line.png" width="142" height="2"></div>
+
+		<!-- 左侧菜单 End -->
+	</div>
+	<!--划分线-->
+	<div class="line1">
+		<img src="/static/img/line.png" width="142" height="2">
+	</div>
+	<!--版本-->
+	<div class="version">
+		<span>版本：V.12301</span>
+	</div>
+
+	<!--天气-->
+	<div class="weather clearfix">
+		<p class="weather_left">
+			<span id="currentDate" class="date">
+				2017-11-09
+			</span>
+			<br />
+			<span id="currentTime" class="w_time">
+				23:19
+			</span>
+		</p>
+		<p class="weather_center">
+			<img src="/static/img/line1.png" width="1" height="41">
+		</p>
+		<p class="weather_right">
+
+			<span class="date">
+				<img src="/static/img/weather.png" width="36" height="27">
+			</span>
+			<br />
+			<span class="temperature">
+				25-26°C
+			</span>
+		</p>
+
+	</div>
+</div>

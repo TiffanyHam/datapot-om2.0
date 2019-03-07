@@ -1,0 +1,406 @@
+<!DOCTYPE html>
+<html lang="en">
+
+	<head>
+		<base id="base" href="">
+		<meta charset="UTF-8">
+		<title></title>
+		<meta name="renderer" content="webkit">
+		<meta name="google" value="notranslate">
+		<meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1" />
+		<meta http-equiv="Cache-Control" content="no-siteapp" />
+		<link rel="stylesheet" href="/static/css/common.css">
+		<script src="/static/js/jquery.js" type="text/javascript" charset="utf-8"></script>
+		<style type="text/css">
+		.txt_enter textarea {
+				background: #121213;
+				border: 1px solid #575b67;
+				text-align: left;
+				color: #9D9FA5;
+				text-indent: 1em;
+				width: 280px;
+				height: 85px;
+				resize: none;
+				display: inline-block;
+			}
+			
+			.attackType {
+				margin-right: 10px;
+				padding: 2px 10px;
+				color: #fff;
+			}
+			
+			.txt_enter_radio {
+				padding-top: 11px;
+				font-size: 14px;
+				text-align: left;
+			}
+			
+			.txt_enter_radio input {
+				background: #121213;
+				border: 1px solid #575b67;
+				text-align: left;
+				color: #9D9FA5;
+				display: inline-block;
+				margin: 0 6px 0 26px;
+			}
+			
+			.txt_enter_radio label {
+				display: inline-block;
+				height: 24px;
+				line-height: 24px;
+				font-size: 14px;
+				width: 120px;
+			}
+			
+			.searchContent {
+				position: relative;
+			}
+			
+			.search {
+				display: block;
+				width: 100%;
+				height: 23px;
+				line-height: 23px;
+				border: 1px solid #0C0F20;
+				position: relative;
+			}
+			
+			.search:hover {
+				border: 1px solid #123c72;
+			}
+			
+			.caret {
+				position: absolute;
+				top: 9px;
+				left: 86%;
+				visibility: hidden;
+			}
+			
+			.caret.on {
+				top: 7px;
+			}
+			
+			.searchList {
+				width: 100%;
+				height: 100px;
+				overflow: auto;
+				border: 1px solid #2663a3;
+				background: #2e3344;
+				z-index: 99;
+				position: absolute;
+			}
+			
+			.searchList ul li a {
+				display: block;
+				width: 100%;
+				text-align: center;
+				line-height: 23px;
+			}
+			
+			.searchList ul li a:hover {
+				background: #1e90ff;
+				color: #fefefe;
+			}
+			
+			.sholeInfo table tr td {
+				color: #9D9FA8;
+				font-size: 12px;
+				vertical-align: middle;
+				text-align: left;
+				line-height: 26px;
+				height: 40px;
+			}
+			
+			.sholeInfo table {
+				width: 100%;
+				margin: 0 auto;
+			}
+			
+			.sholeInfo {
+				width: 97%;
+				background: #0C0F20;
+				margin: 0 auto;
+				margin-bottom: 20px;
+				height: 96%;
+			    padding-top: 10px;
+			}
+			
+			.sholeInfo thead tr {
+				height: 43px;
+				line-height: 43px;
+				font-size: 12px;
+			}
+
+		</style>
+	</head>
+
+	<body>
+				<!--HTML引入部分-->
+				<div class="issueing_infoBox_bgs bt_one">
+					<div class="issueing_infoBox clearfix">
+						<form id="searchForm">
+							<div class="f_left">
+								<div class="fl itmemar"><input type="text" id="assetsName" name="" class="dateTxt" placeholder="关联资产"></div>
+								<div class="fl itmemar"><span class="search btn" id="btnSearch"><img src="/static/img/search.png" width="13" height="12">查询</span></div>
+							</div>
+						</form>
+					</div>
+				</div>
+				<!--loading加载-->
+			    <div id="load" align="center" style="display:block;">
+				   <div class="loader_round"></div>
+			   </div>
+				<!--table-->
+				<div class="tab_body">
+					<div class="tab_child">
+						<table border="0" cellspacing="0" cellpadding="0" id="assetsTab" class="">
+							<thead>
+								<tr class="title">
+									<th width="70">CVE编号</th>
+									<th width="100">漏洞名称</th>
+									<th width="50">漏洞分类</th>
+									<th width="80">
+										<div class="searchContent" style="width:100px;">
+											<a href="javascript:;" class="search" onclick="searchRisk(this)">
+												<i class="caret"></i><span>风险等级</span>
+											</a>
+											<div class="searchList" id="vulnLevel" style="display:none;">
+												<ul>
+													<li>
+														<a href="javascript:;" value="">全部</a>
+													</li>
+													
+												</ul>
+											</div>
+										</div>
+									</th>
+									<th width="100">关联资产</th>
+									<th width="80">
+									  <div class="searchContent" style="width:100px;">
+										<a href="javascript:;" class="search" onclick="searchRisk(this)"><i class="caret"></i><span>所属机构</span></a>
+										<div class="searchList" id="sysOffices" name="officeId" style="display:none;">
+											<ul>
+												<li><a href="javascript:;" value="">全部</a></li>
+											</ul>
+										</div>
+									  </div>
+									</th>
+									<th width="80">
+										<div class="searchContent" style="width:100px;">
+											<a href="javascript:;" class="search" onclick="searchRisk(this)">
+												<i class="caret"></i><span>处理状态</span>
+											</a>
+											<div class="searchList" id="fixStatus" style="display:none;">
+												<ul>
+													<li>
+														<a href="javascript:;" value="">全部</a>
+													</li>
+													
+												</ul>
+											</div>
+										</div>
+									</th>
+									<th width="80">发现时间</th>
+									<th width="50">操作</th>
+								</tr>
+							</thead>
+							<tbody>
+								<!-- <tr>
+									<td>
+										<a class="tab_name" id="" href="#">CVE-2018-4847</a>
+									</td>
+									<td>驱动缓冲区溢出漏洞</td>
+									<td>infoleak</td>
+									<td><span class="attackType" style="margin-left: 27px;background: #3c8de0;">正常</span></td>
+									<td>192.168.20.233</td>
+									<td>深圳</td>
+									<td><span style="margin-left: 27px;">待修复</span></td>
+									<td>2018-06-04 17:36:23</td>
+									<td>
+										<a href="javascript:;" onclick="updateShole(this)">处理</a>
+										<a href="javascript:;" onclick="detailsShole(this)">详情</a>
+									</td>
+								</tr>
+								<tr>
+									<td>
+										<a class="tab_name" id="" href="#">CVE-2018-4847</a>
+									</td>
+									<td>驱动缓冲区溢出漏洞</td>
+									<td>infoleak</td>
+									<td><span class="attackType" style="margin-left: 27px;background: #e03c4b;">当机</span></td>
+									<td>192.168.20.233</td>
+									<td>深圳</td>
+									<td><span style="margin-left: 27px;">待修复</span></td>
+									<td>2018-06-04 17:36:23</td>
+									<td>
+										<a href="javascript:;" onclick="updateShole(this)">处理</a>
+										<a href="javascript:;" onclick="detailsShole(this)">详情</a>
+									</td>
+								</tr>
+								<tr>
+									<td>
+										<a class="tab_name" id="" href="#">CVE-2018-4847</a>
+									</td>
+									<td>驱动缓冲区溢出漏洞</td>
+									<td>infoleak</td>
+									<td><span class="attackType" style="margin-left: 27px;background: #3c8de0;">正常</span></td>
+									<td>192.168.20.233</td>
+									<td>深圳</td>
+									<td><span style="margin-left: 27px;">待修复</span></td>
+									<td>2018-06-04 17:36:23</td>
+									<td>
+										<a href="javascript:;" onclick="updateShole(this)">处理</a>
+										<a href="javascript:;" onclick="detailsShole(this)">详情</a>
+									</td>
+								</tr>
+								<tr>
+									<td>
+										<a class="tab_name" id="" href="#">CVE-2018-4847</a>
+									</td>
+									<td>驱动缓冲区溢出漏洞</td>
+									<td>infoleak</td>
+									<td><span class="attackType" style="margin-left: 27px;background: #3c8de0;">正常</span></td>
+									<td>192.168.20.233</td>
+									<td>深圳</td>
+									<td><span style="margin-left: 27px;">待修复</span></td>
+									<td>2018-06-04 17:36:23</td>
+									<td>
+										<a href="javascript:;" onclick="updateShole(this)">处理</a>
+										<a href="javascript:;" onclick="detailsShole(this)">详情</a>
+									</td>
+								</tr> -->
+
+							</tbody>
+						</table>
+						<div id="no_info">暂无数据</div> 
+						<!-- 分页 -->
+						<div id="page" class="f_right" style="width: 100%;margin: 34px 0 0 0;">
+		                 	<ul id="pageLimit" class="f_left" style="display:inline-block;text-align:right;"></ul>
+		                 	<span class="">共<span class="countItem">0</span>条记录</span>
+		                </div>
+					</div>
+				</div>
+
+		<!--弹窗-->
+
+		<!--漏洞处理-->
+		<div class="BombBox announBox" style="display: none;background: none;" id="sholeSet">
+			<div class="announBox_cont" style="background: #020308;border: none;width: 450px;height: 300px;">
+			  <form id="disposeFrom" novalidate="novalidate">
+					<input type="hidden" name="vulnId"/>
+					<div class="text_edit clearfix">
+						<h3 class="succ_title" style="border-bottom: 1px solid #222;"><span id="">漏洞处理</span></h3>
+						<p class="close"><img src="/static/img/close.png" width="18" height="17" onclick="hide('sholeSet');"></p>
+						<div class="clearfix bomb">
+							<div id="error_box"></div>
+							<div class="info_edit f_left">
+								<p class="txt_enter_radio clearfix"><label>资产名称：</label><input type="radio" name="fixStatus" value="2" checked="checked" >已修复<input type="radio" name="fixStatus" value="0">待修复</p>
+								<p class="txt_enter clearfix"><label style="vertical-align: top;">处理说明：</label><textarea name="explain" maxlength="100" rows="" cols=""></textarea></p>
+							</div>
+						</div>
+						<div class="info_btns">
+							<p><span class="btn1 submit" id="btnEdit" onclick="saveHolefix()">提交</span></p>
+							<p><span class="btn1 cancel" onclick="hide('sholeSet')">取消</span></p>
+						</div>
+					</div>
+				</form>
+			</div>
+		</div>
+
+
+		<!-- 漏洞详情弹窗2 -->
+		<div class="reports_detail" id="sholeDetail" style="display: none;">
+			<div class="reports_cont" style=" width: 82%;height:80%;left: 50%;top: 50%;margin:0;transform: translate(-50%,-50%);padding-bottom: 20px;-webkit-print-color-adjust: exact;background-color: unset;border:none;box-shadow: inset 0 0 0 1000px #111938">
+				<div class="succ_title clearfix no-print" style="border-bottom:none">
+					&nbsp;&nbsp;&nbsp;&nbsp;
+					<img src="/static/img/plat_icon11.png" width="26" height="26">&nbsp;&nbsp;<span class="title_ip">漏洞详情</span>
+					<p class="close f_right" onclick="hide('sholeDetail')">
+						<img src="/static/img/close.png" width="18" height="17">
+					</p>
+				</div>
+
+				<div class="reports_footer_bg" style="height: 100%;">
+					<div class="sholeInfo results_footer">
+						<div class="fl reports_left" style="width:95%;">
+							<table border="0" cellspacing="0" cellpadding="0" id="holetab1" class="">
+								<!-- <tr>
+									<td width="80">漏洞名称：</td>
+									<td width="100">驱动缓冲区溢出漏洞</td>
+									<td width="100"></td>
+									<td width="80">负责人：</td>
+									<td width="100">王小波</td>
+								</tr>
+								<tr>
+									<td width="80">CVE编号：</td>
+									<td width="100">CVE-2018-4847</td>
+									<td width="100"></td>
+									<td width="80">关联邮箱：</td>
+									<td width="100">278478228@qq.com</td>
+								</tr>
+								<tr>
+									<td width="80">CNVD编号：</td>
+									<td width="100">CNVD-2018-07848</td>
+									<td width="100"></td>
+									<td width="80">漏洞分类：</td>
+									<td width="100">Info Leak</td>
+								</tr>
+								<tr>
+									<td width="80">关联资产：</td>
+									<td width="100">host name</td>
+									<td width="100"></td>
+									<td width="80">风险等级：</td>
+									<td width="100"><span class="attackType" style="background: #3c8de0;">正常</span></td>
+								</tr>
+								<tr>
+									<td width="80">主机IP：</td>
+									<td width="100">192.168.20.322</td>
+									<td width="100"></td>
+									<td width="80">发现时间：</td>
+									<td width="100">2018-06-04 16:22:22</td>
+								</tr> -->
+
+							</table>
+						</div>
+						<div class="fl reports_left" style="width:95%;">
+
+							<table border="0" cellspacing="0" cellpadding="0" id="holetab2" class="">
+								<!-- <tr>
+									<td width="47">漏洞简介：</td>
+									<td width="500">SIMATIC WinCC OA Operator iOS是能够通过移动设备轻松控制SIMATIC WinCC OA设备的一个应用程序。 SIMATIC WinCC OA Operator iOS存在信息泄露漏洞。允许攻击者从应用程序的目录中读取未加密的数据。此情况的先决条件是攻击者可以物理访问移 动设备。 https://cert-portal.siemens.com/productcert/pdf/ssa-597741.pdf</td>
+								</tr>
+								<tr>
+									<td width="47" style="height: 16px;line-height: 16px;"></td>
+									<td width="500" style="height: 16px;line-height: 16px;"></td>
+								</tr>
+								<tr>
+									<td width="47">修复方案：</td>
+									<td width="500">用户可参考如下供应商提供的安全公告获得补丁信息： https://cert-portal.siemens.com/productcert/pdf/ssa-597741.pdf SIMATIC WinCC OA Operator iOS信息泄露漏洞的补丁 SIMATIC WinCC OA Operator iOS是能够通过移动设备轻松控制SIMATIC WinCC OA设备的一个应用程序。 SIMATIC WinCC OA Operator iOS存在信息泄露漏洞。允许攻击者从应用程序的目录中读取未加密的数 据。此情况的先决条件是攻击者可以物理访问移动设备。目前，供应商发布了安全公告及相关补丁信息，修复了此漏洞。
+									</td>
+								</tr>
+								<tr>
+									<td width="47">修复指南：</td>
+									<td>无</td>
+								</tr>
+								<tr>
+									<td width="47">处理状态：</td>
+									<td>已修复</td>
+								</tr>
+								<tr>
+									<td width="47">处理说明：</td>
+									<td>卸载了360就可以了</td>
+								</tr> -->
+
+							</table>
+						</div>
+
+					</div>
+				</div>
+
+			</div>
+		</div>
+	</body>
+	 <script src="/static/js/bootstrap.min.js"></script>
+	 <script src="/static/js/bootstrap-paginator.min.js"></script>
+	 <script src="/static/js/securityHole/holeManage.js"></script>
+</html>

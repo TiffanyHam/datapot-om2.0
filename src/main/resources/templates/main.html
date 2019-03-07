@@ -1,0 +1,217 @@
+<!DOCTYPE html>
+<html lang="en">
+
+	<head>
+		<base id="base" href="">
+		<meta charset="UTF-8">
+		<title>AIS安全自动化分析平台 </title>
+		<meta name="renderer" content="webkit">
+		<meta name="google" value="notranslate">
+		<meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1" />
+		<meta http-equiv="Cache-Control" content="no-siteapp" />
+		<link rel="stylesheet" href="/static/css/common.css">
+		<script>
+		 /*
+		  * 判断是否是IE浏览器，包括Edge浏览器 
+		 */
+		 function IEVersion() { 
+			   var userAgent = navigator.userAgent; //取得浏览器的userAgent字符串 
+			   var isOpera = userAgent.indexOf("Opera") > -1; //判断是否Opera浏览器 
+			   var isIE = userAgent.indexOf("compatible") > -1 && userAgent.indexOf("MSIE") > -1 && !isOpera; //判断是否IE浏览器 
+			   var isEdge = userAgent.indexOf("Windows NT 6.1; Trident/7.0;") > -1 && !isIE; //判断是否IE的Edge浏览器 
+			   if(isIE) { 
+			      var reIE = new RegExp("MSIE (\\d+\\.\\d+);"); 
+			      reIE.test(userAgent); 
+			      var fIEVersion = parseFloat(RegExp["$1"]); 
+			      if(fIEVersion == 7 || fIEVersion == 8 || fIEVersion == 6) {
+			    	  alert("浏览器版本过低，请升级浏览器！");
+			      }
+			   } else if(isEdge) { 
+			  		console.log("Edge"); 
+			   } 
+			  
+		  }
+		  IEVersion();
+		</script>
+		<script src="/static/js/jquery.js"></script>
+
+	</head>
+
+	<body>
+		
+		<!-- 左侧导航栏 -->
+		<div class="nav">
+			<!--logo-->
+			<div class="logo">
+				<a href=""><img id="logo" src="/static/img/logo.png" width="105" height="86"></a>
+			</div>
+			<!--用户信息-->
+			<div class="user_header">
+				<a href=""><img id="user-img" src="/static/img/user.png" width="53" height="47"></a>
+				<div class="user_name">${user.actualName!}</div>
+				<div class="exit" onclick="exitFunc()">
+					<a href="javascript:clearCook()">
+						<span>退出</span>
+						<img src="/static/img/exit.png" width="12" height="14">
+					</a>
+				</div>
+
+			</div>
+			<!--划分线-->
+			<div class="line1">
+				<img src="/static/img/line.png" width="142" height="2">
+			</div>
+
+			<div class="clearfix">
+				<!-- 左侧菜单 Start -->
+				<aside class="sideBar">
+					<ul class="menulist" id="menulist">
+						<!-- <li class="menulist_top menulist_top_down navdown a1"><img src="/static/img/ch0.png" alt="">全景</li> -->
+					</ul>
+						<!-- <div class="line2"><img src="/static/img/line.png" width="142" height="2"></div> -->
+				</aside>
+			
+
+				<!-- 左侧菜单 End -->
+			</div>
+			<!--划分线-->
+			<div class="line1">
+				<img src="/static/img/line.png" width="142" height="2">
+			</div>
+			<!--版本-->
+			<div class="version">
+				<span>版本：${version!}</span>
+			</div>
+
+			<!--天气-->
+			<div class="weather clearfix">
+				<p class="weather_left">
+					<span id="currentDate" class="date">
+							2017-11-09
+						</span>
+					<br />
+					<span id="currentTime" class="w_time">
+							23:19
+						</span>
+				</p>
+				<!-- <p class="weather_center">
+					<img src="/static/img/line1.png" width="1" height="41">
+				</p>
+				<p class="weather_right">
+
+					<span class="date">
+							<img src="/static/img/weather.png" width="36" height="27">
+						</span>
+					<br />
+					<span class="temperature">
+							25-26°C
+						</span>
+				</p>
+				<p style="padding-top:10px;">
+				<iframe width="130" scrolling="no" height="120" frameborder="0" allowtransparency="true" src="http://i.tianqi.com/index.php?c=code&id=4&color=%239D9FA5&bgc=%230b0f1f&icon=1&wind=1&num=1&site=12"></iframe>  
+				</p> -->
+			</div>
+		</div>
+		<!-- 内容区域  E -->
+		<section class="page">
+			<header class="header">
+				<div class="main_content_header">
+					<div class="main_title"></div>
+					<!--头部菜单-->
+
+					<div class="clearfix storeBox" id="tab1">
+						<ul class="fl clearfix storeList" id="secondLevelMenus">
+							<span id="solid" style="left: 27%;"><img src="/static/img/solid.png" width="145" height="1"></span>
+							<!-- <li><span class="List_c ">威胁数据</span><span>|</span></li>
+								<li><span class="List_c ">物理主机</span><span>|</span></li>
+								<li><span class="List_c store_active">用户</span><span>|</span></li>
+								<li><span class="List_c">IP白名单</span><span>|</span></li>
+								<li><span class="List_c">权限</span><span>|</span></li>
+								<li><span class="List_c">公司架构</span><span>|</span></li>
+								<li><span class="List_c">系统日志</span></li> -->
+						</ul>
+					</div>
+				</div>
+			</header>
+			<section class="content">
+				<!--HTML引入部分-->
+
+			</section>
+			<!-- <footer class="footer">
+				<nav class="foot-nav">
+					<div id="page"> </div>
+				</nav>
+			</footer> -->
+			<!--分页end-->
+
+		</section>
+		<input type="hidden" id="dashboardHost"/>
+		<script src="/static/js/common.js"></script>
+
+	</body>
+	<script>
+	// 退出清除cookie信息
+	function clearCook(){
+		clearCookie("urlDatail");
+		clearCookie("indexDatail");
+		window.location.href="/logout"
+	}
+	/*
+	* 窗口改变刷新事件
+	*/
+	var url = window.location.href;
+	function getUrlRandom() {
+		var parm = parseInt(Math.random() * 10);
+		if (url.lastIndexOf('?') > -1) {
+		　　url = url + parm;
+		} else {
+		　　url = url + "?" + parm; 
+		}
+	}
+	
+	var isReload = true;
+	function reloadPage() {
+		if (isReload == true){
+			//firefox
+		    if(navigator.userAgent.indexOf("Firefox")>0){  
+			   getUrlRandom();
+			　　 window.location.href = url;
+		    } else {
+			   window.location.reload()
+		    } 
+		}
+	}
+
+	
+	
+	/* function setBlackBtn(){
+		debugger
+		if (window.history && window.history.pushState) {
+		    $(window).on('popstate', function () {
+		         //window.history.pushState('forward', null, '#');
+		         //window.history.forward(1);
+		         //alert("不可回退");
+
+		        debugger
+		        var menuId = getCookie("indexDatail");
+		        var cookieUrl = getCookie("urlDatail");
+		        if (menuId){
+		     	  	 loadPage(menuId,cookieUrl,0,'')
+		     	  	
+		        } else {
+		     	   window.history.go(0);
+		        }
+		  
+		       });
+		} 
+
+		window.history.pushState(null, null, '#'); //在IE中必须得有这两行
+	}
+	setBlackBtn(); 
+	
+	window.addEventListener("hashchange", function() {
+		
+	});
+	*/
+	</script>
+</html>

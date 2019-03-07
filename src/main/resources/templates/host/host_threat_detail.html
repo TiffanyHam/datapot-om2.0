@@ -1,0 +1,1074 @@
+<!DOCTYPE html>
+<html lang="en">
+
+	<link rel="stylesheet" href="/static/css/host.css">
+    
+	<!--echarts-->
+    <script src="/static/js/echarts.min.js"></script>
+    <script src="/static/js/common_h.js"></script>
+    <style type="text/css">
+    .hostPage .hostDetailTab tr td, .hostPage .hostDetailTab tr th{
+    	width:10%;
+    }
+    .hostPage .hostDetailTab tr td:nth-child(1), .hostPage .hostDetailTab tr th:nth-child(1){
+    	width:9%;
+    }
+    .hostPage .hostDetailTab tr td:nth-child(3), .hostPage .hostDetailTab tr th:nth-child(3){
+    	width:40%;
+    }
+    </style>
+    <!--[if lte IE 9]>
+	     <style type="text/css">
+	     	.hd_echarts{height:225px;}
+	     	.hd_ipInfo, .hd_relationCon, .h_tf_ie{float:left;width:33%;}
+	     	.h_b_ie{float:left;width:45%;}
+	     	.pagination li a{display:inline-block;width:98%;height:auto;}
+			.page_hostBtn{float:right;}
+			.hd_conBtn i{top:0;}
+			.hostJLTab tr td .f_one, h_ie_fl_b{float:left;width:25%;}
+			.h_ie_fl{float:left;}
+			.hd_reChart{width:100%;height:30px;}
+			.hd_mdetection_hs{padding:10px 0;}
+	     </style>
+	<![endif]-->
+
+    <div class="hostPage">
+        <!--头部菜单-->
+        <header class="header">
+            <div class="main_content_header flex_one">
+                <div class="main_title f_one h_b_ie">
+                    <i class="host_icon"></i>
+                    ${hostJoinDetect.hostName}
+                    <i class="property kernel_${hostJoinDetect.isKey!}"></i>
+                    <!-- <a href="javascript:;" class="more">更多>></a> -->
+                </div>
+                <div class="f_one text-r changePageBtn h_b_ie">
+                    <span class="page_hostBtn" onclick="reloadPageHost()"> < </span>
+                    <!-- <a href="javascript:;"> > </a> -->
+                </div>
+            </div>
+            <div class="clearfix"></div>
+        </header>
+
+        <div class="flex_one hd_conBtn">
+            <span class="on" data="0">检测模式</span> <i>|</i> <span data="1">关联模式</span> 
+        </div>	
+				
+        <!--检测模式-->
+        <div class="hd_model_detection" style="display:block">
+
+            <div class="h_backgrCor">
+            <div class="flex_one hd_echarts">
+                <!--IP info-->
+                <div class="f_one hd_ipInfo">
+                    <h3 class="t-h2 textColor2 hostIp_label">${hostJoinDetect.hostName}</h3>
+                    <p>主机IP：<span class="hostIp_host">${hostJoinDetect.hostIp}</span></p>
+                    <p>数据源：${dataSources['${hostJoinDetect.source}']}</p>
+                    <p>状&nbsp;&nbsp;&nbsp;态：${hostJoinDetect.hostStatusStr?default('')}</p>
+                    <input type="hidden" value="${hostJoinDetect.hostTags?default('')}">
+                    <div class="mar_t2">
+                        <span><a href="javascript:;" class="tab_name" onclick="showAddLabel()"><i class="ic_label"></i>标签+</a></span>
+                        <span><a href="javascript:;" class="tab_name" data="${hostJoinDetect.hostThreatId?c}" onclick="showDispose(this)"><i class="ic_dispose"></i>处理</a></span>
+                        <span><i class="ic_pcaps"></i>PCAPs</span>
+                    </div>
+                    <div class="labelName">
+		                   <input type="hidden" value="${tags?default('')}" id="labelStr"/>
+                        <!-- <a href="#">标签签名01</a>
+                        <a href="#">标签签名02</a> -->
+                    </div>
+                </div>
+
+                <!--关系图-->
+                <div class="f_one hd_relationCon">
+                    <div class="hd_relation text-c posRe">
+                    	<input type="hidden" value="${hostJoinDetect.stage!}"/>
+                    	<div>
+                    		<span class="hd_re_round r4">突破</span>
+                        	<span class="hd_re_round r6">控制</span>
+                        	<span class="hd_re_round r7">攻击</span>	
+                        	<span class="hd_re_round r1">侦查</span>
+                        	<i class="id1"></i>
+                        	<i class="id2"></i>
+                        	<i class="id3"></i>
+                        </div>
+                       <!--  <p><span class="hd_re_round r1">遥控</span>
+                        <span class="hd_re_round r2">泄露</span></p>
+                        <p><i class="id1"></i> <i class="id2"></i></p>
+                        <p><span class="hd_re_round r3 c_orange">鸡肉</span>
+                        <span class="hd_re_round r4 c_red">扩散</span></p>
+                        <p><i class="id3"></i> <i class="id4"></i></p>
+                        <p><span class="hd_re_round">嗅探</span></p> -->
+                    </div>
+                    <div class="flex_one hd_colorExplain">
+                        色谱：<ul style="margin:0 0 0 18px;"><li class="c_blue"></li></li><li class="c_yellow"></li><!-- <li class="c_orange"></li> --><li class="c_red"></li><li class="c_violet"></li></ul>
+                    </div>
+                </div>
+
+                <!--威胁度 可信度-->
+                <div class="f_one posRe h_tf_ie">
+                    <div class="labelNum menace">
+                        <p class="padd_t t-hmin">威胁度</p>
+                        <p class="t-max threatMaxNum" data="${hostJoinDetect.threat!}">${hostJoinDetect.threat!}</p>
+                    </div>
+                    <div class="labelNum trust">
+                        <p class="padd_t t-hmin" >可信度</p>
+                        <p class="t-max trustMaxNum" data="${hostJoinDetect.certainty!}">${hostJoinDetect.certainty!}</p>
+                    </div>
+                </div>
+                <script>
+               
+                </script>
+            </div>
+
+            <!--chart-->
+            <div class="hd_reChart">
+                <div class="hd_chart_date" id="checkM_chartDate">
+                    <ul>
+                        <li><a href="#" data="1">1天</a>|</li>
+                        <li><a href="#" data="2" class="on">1周</a>|</li>
+                        <li><a href="#" data="3">2周</a>|</li>
+                        <li><a href="#" data="4">1月</a></li>
+                    </ul>
+                </div>
+            </div>
+            <div class="padd_t padd_b hd_mdetection">
+                <div id="main2" style="width: 100%;height:200px"></div>
+            </div>
+
+
+        </div>
+
+
+            <!--主机状态-->
+            <div class="h_Chart h_backgrCor border_line padd_b">
+                <!--分页、搜索-->
+                <div class="flex_one issueing_infoBox_bgs padding_lr">
+                    <div class="f_one t-h2 textColor2 h_tf_ie">该主机检测结果:</div>
+                     <div class="f_one h_tf_ie">
+                        <!--分页-->
+                        <div id="page2">
+                            <ul id="pageLimit_page2" class="f_left" style="display:inline-block;text-align:right;"></ul>
+                            <span class="">共<span class="countItem">0</span>条记录</span>
+                        </div>
+                    </div>
+                     <div class="f_one h_tf_ie">
+                        <!--搜索-->
+                       <!--  <div class="f_right searchBox mar_l">
+                            <input type="text" class="search_text f_left textColor" value="" placeholder="搜索"/>
+                            <input type="button" class="search_btn f_left">
+                        </div> -->
+                        <div class="select_city">
+                           	<span class="posRe">
+                                <select id="" name="classtypeId" onchange="getDetailThreatType(this)">
+                                    <option value="">威胁类型</option>
+									<#list detectionTypes as detectionType>
+									 <option value="${detectionType.typeZh}">${detectionType.typeZh}</option>
+									</#list>
+                                </select>
+                                <i class="triangle-down selectedBtn"></i>
+                             </span>
+	                     </div>
+                     </div>
+                </div>
+
+                <!--列表头-->
+                <!-- <div class="issueing_infoBox_bgs issLineH">
+                    <form id="" novalidate="novalidate">
+                        <div class="issueing_infoBox clearfix flex_one" style="padding: 10px 16px;">
+                            <div class="f_one issLineH text-r">
+                                <label class="propertybtn"><a href="javascript:;"><i class="ic_property"></i>仅显示核心资产</a></label>
+                                <label class="resetBtn"><a href="javascript:;"><i class="ic_reset"></i>重置过滤条件</a></label>
+                            </div>
+                            <div class="f_one select_city">
+                            	<span class="posRe">
+	                                <select id="" name="classtypeId">
+	                                    <option value="">所有威胁类型</option>
+	                                </select>
+	                                <i class="triangle-down selectedBtn"></i>
+	                             </span>
+	                             <span class="posRe">
+	                                <select id="" name="protocol">
+	                                    <option value="">所有</option>
+	                                </select>
+                                	<i class="triangle-down selectedBtn"></i>
+                                </span>
+                            </div>
+                        </div>
+                    </form>
+                </div> -->
+
+                <!--table数据-->
+                <div class="tab_body padd_t">
+                    <div class="tab_child">
+                        <table border="0" cellspacing="0" cellpadding="0" id="" class="hostDetailTab">
+                            <thead>
+                            <tr class="title">
+                                <th>标签</th>
+                                <th>威胁阶段</th>
+                                <th>威胁类型</th>
+                                <th>威胁度</th>
+                                <th>可信度</th>
+                                <th>初次发现时间</th>
+                                <th><a href="javascript:;" class="receTimeBtn">最近发现时间<i></i></a></th>
+                            </tr>
+                            </thead>
+                            <tbody>
+                            <!-- <tr>
+                                <td><a class="tab_name" href="#"><i class="ic_label"></i>+</a></td>
+                                <td><span class="attackType c_violet">泄露</span></td>
+                                <td><a class="tab_name" href="">WIN7-xx789</a></td>
+                                <td><span class="t_radius">92</span></td>
+                                <td><span class="t_radius">78</span></td>
+                                <td>2017-10-10 18:22</td>
+                                <td>2017-10-10 18:22</td>
+                            </tr>-->
+                            </tbody>
+                        </table>
+                    </div>
+                </div>
+
+            </div>
+
+        </div>
+
+        <!--关联模式-->
+        <div class="hd_model_online" style="display:none">
+            <div class="h_Chart h_backgrCor">
+                <!--放大 缩小-->
+                <div class="flex_one padd_t padd_b"></div>
+                <!--安全等级-->
+                <div class="hd_security_level t-hmin textColor posRe">
+                    <ul>
+                        <li><i class="dj1"></i><p>安全</p></li>
+                        <li><i class="dj2"></i><p>低微</p></li>
+                        <li><i class="dj3"></i><p>中级</p></li>
+                        <li><i class="dj4"></i><p>高级</p></li>
+                        <li><i class="dj5"></i><p>危急</p></li>
+                    </ul>
+                </div>
+                <!--chart-->
+                <div class="flex_one posRe hdg_chart circleCon">
+                    <!--圆心：主机-->
+                    <div class="dot">
+                        <span class="roundBg round_max roundBgc_orange">
+                            <span class="roundBg round_max3 roundBgc_gray"><i class="host_icon"></i></span>
+                        </span>
+                    </div>
+                    <!--多个点：相关联主机-->
+                    <!-- <div class="box"><span class="roundBg round_med roundBgc_red"><i class="ic_host"></i></span></div>-->
+                    
+                   <!-- <div class="circleInfo posAb" style="display: none">
+                        <div class="flex_one">
+                            <div class="f_one">
+                                <p>主机名：</p>
+                                <p>win789D1-IOS231</p>
+                                <p>主机IP：192.168.1.123</p>
+                            </div>
+                            <div class="f_one">
+                                <div class="flex_one">
+                                  <div class="f_one">威胁度 <span class="t_radius">92</span></div>
+                                  <div class="f_one">可信度 <span class="t_radius">92</span></div>
+                                 </div>
+                            </div>
+                        </div>
+                        <p>发送数据：217MB</p>
+                        <p>接受数据：123MB</p>
+                        <p>最新检测结果：</p>
+                        <p>扩散：xxxxxxxx</p>
+                        <p>扩散：xxxxxxxx</p>
+                        <p>扩散：xxxxxxxx</p>
+                        <a href="javascript:;">查看联机模式</a> 
+                    </div> -->
+                    <div class="mask" style="display:none;width:100%;height:100%;background:rgba(12,15,32,0.9);position:absolute;top:0;z-index:999"></div>
+                </div>
+
+            </div>
+
+
+            <!---->
+            <div class="h_Chart h_backgrCor mar_t padd_b">
+                <div id="mainHostCon" style="display: block">
+                        <!--分页、搜索-->
+                        <div class="flex_one issueing_infoBox_bgs padding_lr">
+                            <!-- <div class="f_one"><span class="textColor"> 1-10 | <span class="itemCount_online">0</span>台主机</span></div> -->
+                            <div class="f_two">
+                                <!--分页-->
+                                <div id="page3" class="f_right" style="text-align:right;">
+                                     <ul id="pageLimit" style="display:inline-block;text-align:right;"></ul>
+                                     <span>共<span class="countItem">0</span>条记录</span>
+                                </div>
+                            </div>
+                            <div class="f_one">
+                                <!--搜索-->
+                                <div class="f_right searchBox mar_l">
+                                    <input type="text" class="search_text f_left textColor" value="" placeholder="请输入主机名"/>
+                                    <input type="button" class="search_btn f_left">
+                                </div>
+                             </div>
+                             
+                        </div>
+        
+                        <!--table数据-->
+                        <div class="tab_body">
+                            <div class="tab_child mar_t lj_tabl">
+                                <table border="0" cellspacing="0" cellpadding="0" id="hostDetail_onlineTab" class="hostJLTab">
+                                    <thead>
+                                    <tr class="title">
+                                        <th>连接主机</th>
+                                        <th>数据传输</th>
+                                        <th>当前主机</th>
+                                        <th>协议&端口</th>
+                                    </tr>
+                                    </thead>
+                                    <tbody>
+                                       <!--  <tr>
+                                            <td>
+                                                <span class="roundBg round_min roundBgc_red"><i class="ic_host"></i></span>
+                                                <a class="tab_name h_tname" href="javascript:;">WIN7-xx789</a>
+                                            </td>
+                                            <td>
+                                                <div class="flex_one">
+                                                    <span class="f_one">2GB</span>
+                                                    <div class="f_three flex_one">
+                                                        <div class="f_one text-r"><i class="dataLength dGreen" style="width:100%;"></i></div>
+                                                        <div class="f_one text-l"><i class="dataLength dBlue" style="width:100%;"></i></div>
+                                                    </div>
+                                                    <span  class="f_one">2GB</span>
+                                                </div>
+        
+                                            </td>
+                                            <td>
+                                                <span class="roundBg round_m1 roundBgc_orange">
+                                                    <span class="roundBg round_min roundBgc_gray"><i class="ic_host"></i></span>
+                                                </span>
+                                            </td>
+                                            <td>2017-10-10 10:10</td>
+                                        </tr> -->
+                                        
+                                    </tbody>
+                                </table>
+                            </div>
+                        </div>
+
+                </div>
+
+                <!--主机列表对应下的单个主机信息-->
+                <div id="relevanceHostCon" style="display:none">
+
+                        <div class="flex_one padd_tb padding_lr">
+                            <div class="f_one"><a href="javascript:;" class="black_btn">返回全部关联</a></div>
+                            <div class="f_one select_city">
+                            	<span class="posRe">
+                                <select id="threatType_select" name="PortTypeId" onchange="getPortTblList(this)">
+                                    <option value="">所有威胁类型</option>
+                                </select>
+                                <i class="triangle-down selectedBtn"></i>
+                             	</span>
+                            </div>
+                        </div>
+                        <!--图例-->
+                        <div class="issueing_infoBox clearfix htd_detail" style="height:80px">
+                           <!--  <div class="flex_one padd_tb text-c">
+                                <div class="f_one">IP 192.168.1.123 <span class="roundBg round_med roundBgc_red posRe"><i class="ic_host"></i></span></div>
+                                <div class="f_two posRe">
+                                    <div class="borderTriangle3 posRe">
+                                        <i class="triangle-right"></i>右边箭头
+                                        <i class="triangle-left"></i>左边箭头
+                                    </div>
+                                </div>
+                                <div class="f_one"><span class="roundBg round_med roundBgc_red posRe"><i class="ic_host"></i></span> IP 192.168.1.123</div>
+                            </div> -->
+                        </div>
+                        <!--数据-->
+                        <div class="tab_body">
+                            <div class="tab_child mar_t lj_tabl" id="hostDetail_oTypeTab">
+                                <table border="0" cellspacing="0" cellpadding="0" id="hostDetailotTbl" class="hostJLTab hostDetail_mOnline">
+                                    <thead>
+                                    <tr class="title">
+                                        <th>协议&端口</th>
+                                        <th>数据传输</th>
+                                        <th>连接方向</th>
+                                    </tr>
+                                    </thead>
+                                    <tbody>
+                                    <!-- <tr>
+                                        <td>TIP:12506411</td>
+                                        <td>
+                                            <div class="flex_one">
+                                                <span class="f_one">2GB</span>
+                                                <div class="f_three flex_one">
+                                                    <div class="f_one text-r"><i class="dataLength dGreen" style="width:100%;"></i></div>
+                                                    <div class="f_one text-l"><i class="dataLength dBlue" style="width:100%;"></i></div>
+                                                </div>
+                                                <span  class="f_one">2GB</span>
+                                            </div>
+
+                                        </td>
+                                        <td>
+                                            <div class="borderTriangle5 posRe">
+                                                <i class="triangle-right"></i>右边箭头
+                                                <i class="triangle-left"></i>左边箭头
+                                            </div>
+                                        </td>
+                                    </tr> -->
+                                    </tbody>
+                                </table>
+                            </div>
+                        </div>
+                        
+                </div>
+
+            </div>
+
+        </div>
+        
+        </div>
+       
+</body>
+<script src="/static/js/common_h.js"></script>
+<!-- <script src="/static/js/page.js"></script> -->
+<script src="/static/js/bootstrap.min.js"></script>
+<script src="/static/js/bootstrap-paginator.min.js"></script>
+<script src="/static/js/host/host_threat_detail.js"></script>
+<script>
+   	
+   		var labelName = "";
+   		var labelStr = $("#labelStr").val();
+   		if(labelStr.indexOf(",") > 0 ){
+   			var newLable = labelStr.split(",");
+   			for (var i = 0 ; i < newLable.length; i++) {
+   				labelName += "<a href='#'>"+newLable[i]+"</a>";
+   			}
+   		} else {
+   			labelName = "<a href='#'>"+labelStr+"</a>";
+   		}
+   		$(".labelName").append(labelName);
+   </script>
+<script>
+
+	var hostThreatId = ${hostJoinDetect.hostThreatId?c};
+	var hostIp = '${hostJoinDetect.hostIp}';
+	var host_isKey = '${hostJoinDetect.isKey!}';
+	
+	/* 获取字符串中指定字段  */
+    function getStringParam(str, name) {
+    	var param = str.split(",");
+  		for (var i in param) {
+  			var key = param[i].split(":")[0];
+  			if (key == name) {
+  				var result = param[i].split(":")[1];
+  				return result
+  			}
+  		}
+  	}
+	 
+	 //关联模式 - 点击单个关联表画图
+	 var dataTime = 2;
+	 function onlineHostChart(infoIndex,obj,param){
+		 
+		if ($(obj).attr("data") == "0"){
+			
+			 $(obj).attr("data","1");
+ 		
+			 hostIp = param.hostIp;
+			 externalIp = param.externalIp;
+			 port = param.port;
+			 protocal = param.protocal;
+			 
+			 
+			 $.ajax({
+		      		url:'/om/host_threat_detail/get_infos_port',
+		      		type:'POST',
+		      		async:true,
+		      		cache:true,
+		      		data:{
+		      			 'hostIp': hostIp,
+		      			 'externalIp': externalIp,//关联主机ip
+		      			 'port': port,
+		      			 'protocal': protocal,
+		      			 'time': dataTime
+		      		},
+		      		success:function(data) {
+		      			console.log(data);
+		      			debugger
+		      			if (data.retCode == 1){
+		      				
+		      				timeData2.splice(0, timeData2.length);
+	      					inDataSum.splice(0, inDataSum.length);
+	      					outDataSum.splice(0, outDataSum.length);
+	      					
+	      					
+				      				for (var i in data.result){
+				      					var result = data.result;
+				      					timeData2.push(result[i].detectTime);
+				      					inDataSum.push(result[i].inDataSum);
+				      					outDataSum.push(result[i].outDataSum);
+				      				}
+				      				
+				      				param = JSON.stringify(param);
+				      				var chart = '<div class="relevanceHChartCon" style="margin:0 0 13px 0;display:block" data='+param+'>'+
+							                        '<div class="hd_reChart">'+
+							                            '<div class="hd_chart_date checkl_chartDate">'+
+							                                '<ul>'+
+							                                    '<li><a href="javascript:;" data="1">1天</a>|</li>'+
+							                                    '<li><a href="javascript:;" data="2" class="on">1周</a>|</li>'+
+							                                    '<li><a href="javascript:;" data="3">2周</a>|</li>'+
+							                                    '<li><a href="javascript:;" data="4">1月</a></li>'+
+							                                '</ul>'+
+							                            '</div>'+
+							                        '</div>'+
+							                        '<div class="hd_mdetection flex_one hd_mdetection_hs" style="margin:0;width:100%;height:200px">'+
+							                            '<div id="relevanceHost_'+infoIndex+'" class="relevanceHost_c" style="height:200px"></div>'+
+							                	    '</div>'+
+							                '</div>';
+							                
+				      				var tr = '<tr><td colspan="3">'+chart+'</td></tr>';
+				      				$(obj).after(tr);
+				      				
+				      				
+				      				
+					      			//计算图表宽度
+					      	        var chart = $(".hd_mdetection_hs").width();
+					      	        $("#relevanceHost_"+infoIndex).css('width', chart);
+					      	        //重新渲染图表
+					      	        var relevanceHost = echarts.init(document.getElementById("relevanceHost_"+infoIndex));
+					      	      	relevanceHost.clear();
+					      	        relevanceHost.setOption(option2);
+					      	      	
+					      	        
+					      	     	//图表时间切换
+						      	    $(".checkl_chartDate ul li a").bind("click",function(){
+						      	    	debugger
+					     		 		$(this).parents('.checkl_chartDate').find("ul li a").removeClass("on");
+					     				$(this).addClass("on");
+					     				
+					     				//获取参数  重绘
+					     				/* var getParam = $(this).parents(".relevanceHChartCon").attr("data");
+					     				var getParam = $(this).parents("ul").attr("data");
+					     				dataTime = $(this).attr("data");
+					     				onlineHostChart(getParam); */
+					     				var dtime = $(this).attr("data");
+					     				var chartId = $(this).parents(".relevanceHChartCon").find(".relevanceHost_c").attr("id");
+					     				
+					     				var getParam = $(this).parents(".relevanceHChartCon").attr("data");
+					     					getParam = JSON.parse(getParam);
+					     			
+					     				
+					     				 $.ajax({
+					     		      		url:'/om/host_threat_detail/get_infos_port',
+					     		      		type:'POST',
+					     		      		async:true,
+					     		      		cache:true,
+					     		      		data:{
+					     		      			 'hostIp': getParam.hostIp,
+					     		      			 'externalIp': getParam.externalIp,//关联主机ip
+					     		      			 'port': getParam.port,
+					     		      			 'protocal': getParam.protocal,
+					     		      			 'time': dtime
+					     		      		},
+					     		      		success:function(data) {
+					     		      			timeData2.splice(0, timeData2.length);
+					          					inDataSum.splice(0, inDataSum.length);
+					          					outDataSum.splice(0, outDataSum.length);
+					          					
+					          					for (var i in data.result){
+							      					var result = data.result;
+							      					timeData2.push(result[i].detectTime);
+							      					inDataSum.push(result[i].inDataSum);
+							      					outDataSum.push(result[i].outDataSum);
+							      				}
+					          					
+					     		      			
+							     				var relevanceHost = echarts.init(document.getElementById(chartId));
+								      	        relevanceHost.setOption(option2);
+								      	        
+								      	      
+					     		      		},
+					     		      		error:function(e){
+					     		      			console.log(e);
+					     		      		}
+					     				 })
+					     	 		})
+						      	    
+	      				
+			      	        
+		      			} else {
+		      				console.log("请求失败:"+data.retCode);
+		      			}
+		      			
+		      			
+		      			
+		      		},
+		      		error:function(e){
+		      			console.log(e);
+		      		}
+			 })
+		 
+		 
+		} else {
+				$("#relevanceHost_"+infoIndex).parents(".relevanceHChartCon").remove();
+				$(obj).next('tr').remove();
+				$(obj).attr("data","0");
+		}
+	 }
+	 
+	//选择端口号 select
+    function getPortTblList(obj){
+		debugger
+    	var index = $(obj).get(0).selectedIndex; //获取选中索引
+    	
+    	var param  = $("#threatType_select").find("option").eq(index).attr("data");
+    	var newParam = new Object();
+    	
+		if ($(obj).val() == "") {
+			var _param = param.split(',');
+			newParam.hostThreatId = _param[0];
+			newParam.externalIp = _param[1];
+			newParam.hostIp = null;
+			newParam.port = null;
+			
+		} else {
+			param = JSON.parse(param);
+			newParam.hostThreatId = hostThreatId;
+			newParam.externalIp = param.externalIp;
+			newParam.hostIp = param.hostIp;
+			newParam.port = param.port;
+		}
+	    	$.ajax({
+	      		url:'/om/host_threat_detail/get_infos',
+	      		type:'POST',
+	      		async:true,
+	      		cache:true,
+	      		data:{
+	      			'externalIp': newParam.externalIp,
+	      			'hostIp': newParam.hostIp,
+	      			'port': newParam.port,
+	      			'hostThreatId': newParam.hostThreatId,
+	      			'time': '2'
+	      		},
+	      		success:function(data) {
+	      			debugger
+	      			$("#hostDetailotTbl tbody").empty();
+	      			
+	      			//数据表
+	      			//获取数据传输最大值
+	      			var outDataSizeArr = [],
+	      				inDataSizeArr = [];
+	      			
+	      			var infos = data.result.infos;
+	      			for (var i in infos){
+	      				outDataSizeArr.push(infos[i].outDataSum); //数据连接 - 当前主机
+	      				inDataSizeArr.push(infos[i].inDataSum); //数据连接 - 连接主机
+	      			}
+	      			
+	      			//获取数组中最大值
+	      			var maxOutData = getMaxArr(outDataSizeArr);
+	      			var maxInData = getMaxArr(inDataSizeArr);
+					
+	      			var tr = '';
+	      			for (var i in infos){
+	      				
+	      				var indateLength = infos[i].inDataSum;
+	      				var outdataLength = infos[i].outDataSum;
+	      				
+	      				infos[i].inDataSum == 0 ? indateLength = 3 : indateLength = (infos[i].inDataSum/maxInData)*100;
+	      				infos[i].outDataSum == 0 ? outdataLength = 3 : outdataLength = (infos[i].outDataSum/maxOutData)*100;
+	      				
+	      				var triangle = infos[i].dataDirection;//连接方向
+	      				var triangleStr = '';
+	      				if (triangle == 0){
+	      					triangleStr = '<i class="triangle-left"></i>';
+	      				} else if (triangle == 1){
+	      					triangleStr = '<i class="triangle-right"></i>';
+	      				}
+	      				
+	      				var param = new Object();
+		      				param.hostIp = newParam.hostIp;
+		      				param.externalIp = newParam.externalIp;
+		      				param.port = infos[i].port;
+		      				param.protocal = infos[i].protocal;
+		      				
+		      				param = JSON.stringify(param);
+	      					
+	                    tr += '<tr onclick=onlineHostChart('+i+',this,'+param+') data="0">'+
+	                                '<td>'+infos[i].protocal+' '+infos[i].port+'</td>'+
+	                                '<td>'+
+	                                    '<div class="flex_one">'+
+	                                        '<span class="f_one">'+infos[i].inDataSum+'GB</span>'+
+	                                        '<div class="f_three flex_one">'+
+	                                            '<div class="f_one text-r"><i class="dataLength dGreen" style="width:'+indateLength+'%;"></i></div>'+
+	                                            '<div class="f_one text-l"><i class="dataLength dBlue" style="width:'+outdataLength+'%;"></i></div>'+
+	                                        '</div>'+
+	                                        '<span  class="f_one">'+infos[i].outDataSum+'GB</span>'+
+	                                    '</div>'+
+	                                '</td>'+
+	                               '<td>'+
+	                                    '<div class="borderTriangle5 posRe">'+triangleStr+'</div>'+
+	                                '</td>'+
+	                           ' </tr>';
+	      			}
+	      			$("#hostDetailotTbl tbody").append(tr);
+		      		
+	      		},
+      			error:function(e){
+      			
+      			}
+    	}) 
+    	
+		//} else {
+			
+			/* var param = $("#threatType_select").find("option").eq(index).attr("data");
+			var paramS = param.split(",");
+			onlineHost(paramS[0],paramS[1]); */
+		//}
+    }
+
+    //关联模式 - 主机列表单个点击主机名
+    function onlineHost(externalIp,dataDirection,obj) {
+    	
+    	$(".htd_detail").empty();
+    	$("#hostDetailotTbl tbody").empty();
+    	$('.circleInfo').remove(); //删除外部关联主机弹窗
+    	
+        $("#mainHostCon").hide();
+        $("#relevanceHostCon").show();
+		
+        
+         $.ajax({
+      		url:'/om/host_threat_detail/get_infos',
+      		type:'POST',
+      		async:true,
+      		cache:true,
+      		data:{
+      			'externalIp': externalIp,
+      			'hostThreatId': hostThreatId
+      		},
+      		success:function(data) {
+      			//console.log(data);
+      			
+      			
+      			//主机 - 外部ip
+      			var dataDirectionStr = '';
+      			if (dataDirection == 0){
+      				dataDirectionStr = '<i class="triangle-left"></i>';
+  				} else if (triangle == 1){
+  					dataDirectionStr = '<i class="triangle-right"></i>';
+  				}
+      			
+      			//外部ip icon样式
+      			var e_icon = '<span class="roundBg round_med roundBgc_dgray posRe"><i class="ic_host"></i></span>';
+      			if (obj){
+      				var _span = '<span class="round_med posRe '+$(obj).prev("span.roundBg").attr("class")+'">'+$(obj).prev("span.roundBg").html()+'</span>';
+      				e_icon = _span;
+      			}
+      			
+      			//主机ip icon样式
+      			var threat_c = $(".menace .t-max").text(); //威胁值
+        		var trust_c = $(".trust .t-max").text();  //可信值
+        		var h_icon_bg = threatGradeFun(threat_c, trust_c);
+      			var h_icon = '<span class="roundBg round_med '+h_icon_bg+' posRe"><i class="ic_host"></i></span>';
+      			if (host_isKey == 1){
+      				h_icon = '<span class="roundBg round_med '+h_icon_bg+' posRe"><i class="star_i" style="display:inline-block;left:0;"></i></span>';
+      			} else {
+      				h_icon = '<span class="roundBg round_med '+h_icon_bg+' posRe"><i class="ic_host"></i></span>';
+      			}
+      			
+      			var hostToh = '<div class="flex_one padd_tb text-c">'+
+			                '<div class="f_one h_ie_fl" style="width:25%">'+e_icon+'&nbsp;&nbsp;IP '+externalIp+'&nbsp;&nbsp;</div>'+
+			                '<div class="f_two posRe h_ie_fl" style="width:50%;">'+
+			                    '<div class="borderTriangle3 posRe">'+dataDirectionStr+'</div>'+
+			                '</div>'+
+			                '<div class="f_one h_ie_fl" style="width:25%;">'+h_icon+'&nbsp;&nbsp;IP '+hostIp+'</div>'+
+			             '</div>';
+			             
+			    $(".htd_detail").append(hostToh);
+             
+
+      			
+      			//数据表
+      			//获取数据传输最大值
+      			var outDataSizeArr = [],
+      				inDataSizeArr = [];
+      			debugger
+      			var infos = data.result.infos;
+      			for (var i in infos){
+      				outDataSizeArr.push(infos[i].outDataSum); //数据连接 - 当前主机
+      				inDataSizeArr.push(infos[i].inDataSum); //数据连接 - 连接主机
+      			}
+      			
+      			//获取数组中最大值
+      			var maxOutData = getMaxArr(outDataSizeArr);
+      			var maxInData = getMaxArr(inDataSizeArr);
+				
+      			
+      			var tr = '';
+      			for (var i in infos){
+      				
+      				var indateLength = infos[i].inDataSum;
+      				var outdataLength = infos[i].outDataSum;
+      				
+      				infos[i].inDataSum == 0 ? indateLength = 3 : indateLength = (infos[i].inDataSum/maxInData)*100;
+      				infos[i].outDataSum == 0 ? outdataLength = 3 : outdataLength = (infos[i].outDataSum/maxOutData)*100;
+      				
+      				var triangle = infos[i].dataDirection;//连接方向
+      				var triangleStr = '';
+      				if (triangle == 0){
+      					triangleStr = '<i class="triangle-left"></i>';
+      				} else if (triangle == 1){
+      					triangleStr = '<i class="triangle-right"></i>';
+      				}
+      				
+      				var param = new Object();
+	      				param.hostIp = hostIp;
+	      				param.externalIp = externalIp;
+	      				param.port = infos[i].port;
+	      				param.protocal = infos[i].protocal;
+	      				
+	      				param = JSON.stringify(param);
+      					
+                    tr += '<tr onclick=onlineHostChart('+i+',this,'+param+') data="0">'+
+                                '<td>'+infos[i].protocal+' '+infos[i].port+'</td>'+
+                                '<td>'+
+                                    '<div class="flex_one">'+
+                                        '<span class="f_one">'+infos[i].inDataSum+'GB</span>'+
+                                        '<div class="f_three flex_one">'+
+                                            '<div class="f_one text-r"><i class="dataLength dGreen" style="width:'+indateLength+'%;"></i></div>'+
+                                            '<div class="f_one text-l"><i class="dataLength dBlue" style="width:'+outdataLength+'%;"></i></div>'+
+                                        '</div>'+
+                                        '<span  class="f_one">'+infos[i].outDataSum+'GB</span>'+
+                                    '</div>'+
+                                '</td>'+
+                               '<td>'+
+                                    '<div class="borderTriangle5 posRe">'+triangleStr+'</div>'+
+                                '</td>'+
+                           ' </tr>';
+      			}
+      			$("#hostDetailotTbl tbody").append(tr);
+      			
+      			//主机图交互效果
+      			hostOnlineAnimation(externalIp,dataDirection,obj);
+      			
+      			
+      			//请选择端口号
+      			$("#threatType_select").empty();
+      			
+      			/* var optionData = new Object();
+      				optionData.hostThreatId = hostThreatId;
+	      			optionData.hostIp = null;
+	      			optionData.externalIp = externalIp;
+	      			optionData.port = null;
+	      			optionData = JSON.stringify(optionData); */
+      			var option = '<option name="port" value="" data="'+hostThreatId+','+externalIp+'">--请选择端口号--</option>';
+      			
+      			var portMap = data.result.portMap;
+      			for (var i in portMap){
+      				var portParam = new Object();
+      					portParam.hostThreatId = hostThreatId;
+      					portParam.hostIp = hostIp;
+      					portParam.externalIp = externalIp;
+      					portParam.port = portMap[i];
+      					portParam = JSON.stringify(portParam);
+      					
+      				option += '<option name="port" value="'+portMap[i]+'" data='+portParam+'>'+portMap[i]+'</option>';
+      			}  
+      			$("#threatType_select").append(option);
+      			
+      		},
+      		error:function(e){
+      			console.log(e);
+      		}
+        }) 
+        
+        
+    }
+    
+    //显示一个外部主机
+    function hostOnlineAnimation(externalIp,dataDirection,obj){
+    	
+    	
+		
+		
+    	//找到ip相对应的外部主机
+    	$(".circleCon .box").each(function(index){
+    		var ip = $(this).attr("data");
+    		if (ip == externalIp){
+    			
+    			//绘制点
+    			var x2 = $(this).attr("x");
+    			var y2 = $(this).attr("y");
+    			//var box_pos = $(this).attr("style"); //top left
+    			//var box_child = $(this).html();
+    			//var box_str = '<div class="box" style="'+box_pos+'">'+box_child+'</div>'
+    			//$(".mask").append(box_str);
+    			var box_str = $(this).prop("outerHTML");
+    			$(".mask").append(box_str);
+    			
+    			//绘制圆心
+    			var x1 = $(".dot").attr("x");
+    			var y1 = $(".dot").attr("y");
+    			//var dot_pos = $(".dot").attr("style"); //圆心
+    			//var dot_child = $(".dot").html();
+    			//var dot_str = '<div class="dot" style="'+dot_pos+'">'+dot_child+'</div>'
+    			//$(".mask").append(dot_str);
+    			var dot_str = $(".dot").prop("outerHTML");
+    			$(".mask").append(dot_str);
+    			
+    			/* //箭头
+    			var marker = '<defs>'+
+				'<marker id="arrow"'+   
+				        'markerUnits="strokeWidth"'+
+				        'markerWidth="12"'+
+				        'markerHeight="12"'+   
+				        'viewBox="0 0 12 12"'+ 
+				        'refX="'+x2+'"'+
+				        'refY="'+y2+'"'+
+				        'orient="auto">'+
+				        '<path d="M2,2 L10,6 L2,10 L6,6 L2,2" style="fill:red;" />'+
+				'</marker>'+
+				'</defs>';
+    			
+    			//绘制线
+    			var line = '<line stroke-linecap="null" stroke-linejoin="null"' +
+               'id="svg_mask" y2="'+y2+'" x2="'+x2+'" y1="'+y1+'" x1="'+x1+'"' +
+               'fill-opacity="null" stroke-opacity="null" stroke-width="1.5" stroke="#383e52" fill="none" marker-end="url(#arrow)"/>';
+                */
+               
+    			//定义 svg
+   				/* var svg = '<svg width="100%" height="100%" version="1.1"'+
+   				'xmlns="http://www.w3.org/2000/svg">'+marker+line+'</svg>'; */
+   				
+   				var svg = '<svg id="hostMarker" width="100%" height="100%" xmlns="http://www.w3.org/2000/svg" version="1.1">'+
+							'<defs>'+
+							    '<marker id="markerArrow" markerWidth="13" markerHeight="13" refx="20" refy="6" orient="auto">'+
+							        '<path d="M2,2 L2,11 L10,6 L2,2" style="fill: #383e52;" />'+
+							    '</marker>'+
+							'</defs>'+
+							'<line y2="'+y2+'" x2="'+x2+'" y1="'+y1+'" x1="'+x1+'" fill-opacity="null" stroke-opacity="null" stroke-width="1.5" stroke="#383e52" fill="none" marker-end="url(#markerArrow)" />'+
+						  '</svg>';
+   				
+   				$(".mask").append(svg);
+    			
+   				
+    		}
+    	});
+    	
+    	$(".mask").show();
+    }
+
+    //关联模式-返回关联列表
+    $(".black_btn").bind("click",function () {
+        $("#mainHostCon").show();
+        $("#relevanceHostCon").hide();
+        
+        //删除mask
+        $(".mask").empty();
+        $(".mask").hide();
+        
+        //删除外部关联主机弹窗
+        $('.circleInfo').remove();
+    });
+
+    //关联模式-图表弹窗
+    function circleInfoRemove(obj) {
+    	$(obj).parents('.circleInfo').remove();
+    }
+    
+    //关联模式 - 图表 - 单个点点击事件
+    function showHostBoxInfo(obj,param,stageParam) {
+    	/* $.ajax({
+      		url:'/om/host_threat_detail/get_external_ip_infos',
+      		type:'POST',
+      		async:true,
+      		cache:true,
+      		data:{
+      			hostIp: param.externalIp,
+      			batchNum: batchNumber
+      		},
+      		success:function(data) {
+      			debugger
+      			 var result = data.result; */
+      			 $(".circleInfo").remove();
+      			 debugger
+      			//是否核心资产
+      			 var isKey = param.isKey;
+      			 var isKeyStr = '';
+      			 if (isKey == 0 || isKey == 2){
+      				isKeyStr = '<i class="ic_property"></i>';
+      			 } else if (isKey == 1){
+      				isKeyStr = '<i class="ic_property on"></i>';
+      			 }
+      			
+      			//stage
+      			var stage = param.stage;
+      			var stageHtml = '';//存储stage and typeZh
+      			for (var i in stage){
+      				//取stage
+      				/* var stageNum = getOptionName(stageName, stage[i]); */
+      				
+      				var stageNum = stageParam[i];
+      					stageNum = '<span class="attackType" style="background:'+gradeColorArr[i]+'">'+stageNum+'</span>';
+      				
+      				//取stage对应的 typeZh 值  可能有多个，用 , 隔开
+      				var stageValue = stage[i];
+      				var stageVStr = '';
+      				if (stageValue.indexOf(",")>-1){
+      					var tempStr = stageValue.split(",");
+      					for (var j in tempStr){
+      						stageVStr += stageNum + ' '+ tempStr[j];
+      					}
+      				} else {
+      					stageVStr = stageNum + ' '+ stageValue;
+      				}
+      				
+      				stageHtml += '<p style="margin:10px 0;">'+stageVStr+'</p>';
+      			}
+      			 
+      	    	 var _offset = $(obj).offset();
+      	    	 var str = ' <div class="circleInfo posAb" style="left:'+(_offset.left-180)+'px;top:'+(_offset.top-180)+'px;">'+
+      	    	 				'<a href="javascript:;" class="close" onclick="circleInfoRemove(this)">x</a>'+
+      	                        ' <div class="flex_one" style="padding-bottom:10px;">'+
+      	                            ' <div class="f_one">'+
+      	                                ' <p>主机名：</p>'+
+      	                                ' <p class="t-h3">'+param.externalIpName+'</p>'+
+      	                                ' <p>主机IP：'+param.externalIp+' '+isKeyStr+'</p>'+
+      	                            ' </div>'+
+      	                            ' <div class="f_one">'+
+      	                                ' <div class="flex_one">'+
+      	                                  ' <div class="f_one text-c">威胁度 <p style="padding-top:10px;"><span class="t_radius">'+param.threat+'</span><p></div>'+
+      	                                  ' <div class="f_one text-c">可信度<p style="padding-top:10px;"><span class="t_radius">'+param.certainty+'</span></p></div>'+
+      	                                 ' </div>'+
+      	                            ' </div>'+
+      	                        ' </div>'+
+      	                        ' <p>发送数据：'+param.outDataSum+'MB</p>'+
+      	                        ' <p>接受数据：'+param.inDataSum+'MB</p>'+
+      	                        ' <p style="margin:5px 0;">最新检测结果：</p>'+stageHtml+
+      	                        /* ' <p style="margin: 20px 0 0 0;"><a href="javascript:;" class="black_btn">查看联机模式</a></p>'+ */
+      	                   ' </div>';
+      	         $(".circleCon").append(str);
+      		/* },
+      		error:function(e){
+      			
+      		}
+    	}); */
+    	
+    }
+ 	
+   
+   /*  var maxNum_t = $(".threatMaxNum").attr("data");
+    var maxNum_tr = $(".trustMaxNum").attr("data");
+    NumberZAdd(maxNum_t, "threatMaxNum");
+    NumberZAdd(maxNum_tr, "trustMaxNum"); */
+    function reloadPageHost() {
+    	$(".content").empty();
+    	var htmlobj = $.ajax({
+    		url: '/om/host_threat/index',
+    		type: "POST",
+    		async: false,
+    		success: function(data) {
+    			$(".content").html(data);
+    			document.body.scrollTop = 0; // 回到顶部
+    		}
+    	});
+    }
+</script>
+</html>

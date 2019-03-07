@@ -1,0 +1,197 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="UTF-8">
+<title>设置参数</title>
+<style style="text/css">
+	.tab_body{
+		padding:10px 0;
+	}
+	.tab_child{
+		padding:0 40px;
+	}
+	.setParamTbl{
+		border:1px solid #1c1e2f;
+	}
+	.setParamTbl tr{
+		height:40px;
+	}
+	.setParamTbl tr td{
+		padding:0 2%;
+	}
+	.setParamTbl .Nameth{
+		background: #080b18;
+		color:#a8a9b2;
+		border-right:1px solid #1c1e2f;
+	}
+	.editBtn, .completeBtn{
+		display:inline-block;
+		border:1px solid #333;
+		border-radius:3px;
+		padding:2px 10px;
+		line-height:17px;
+		margin:5px 0 0 0;
+	}
+	.setParam_edit, .setParam_complete{
+		width:20px;
+		height:17px;
+		display:inline-block;
+		background:url(/static/img/edit_icon.png) no-repeat;
+		margin:0 0 -3px 0;
+	}
+	.setParam_complete{
+		width:20px;
+		height:17px;
+		background:url(/static/img/complete_icon.png) no-repeat;
+	}
+	.setParamTbl tr td input{
+	    background: #121213;
+	    height: 24px;
+	    line-height: 24px;
+	    border: 1px solid #575b67;
+	    text-align: left;
+	    color: #9D9FA5;
+	    text-indent: 1em;
+	    width: 280px;
+	    display: inline-block;
+	}
+</style>
+</head>
+<body>
+	<section class="content">
+		<div class="tab_body">
+			<div class="tab_child">
+				<table border="0" cellspacing="0" cellpadding="0" id="setParamTbl" class="setParamTbl">
+					
+					<!-- <tr>
+						<td class="Nameth">设置参数</td>
+						<td><div class="f_left">
+								<span class="editParamTValue">设置参数</span>
+								<input type="text" value="设置参数" class="editParamIput" style="display:none"/>
+							</div>
+							<a class="f_right editBtn" onclick="editParamFun(this)"><i class="setParam_edit"></i>编辑</a>
+							<a class="f_right completeBtn" style="display:none;"><i class="setParam_complete"></i>完成</a>
+						</td>
+					</tr>   -->
+				</table>
+			</div>
+		</div>
+	</section>
+</body>
+<script type="text/javascript">
+
+	function setParamFun(obj){
+			var value = $(obj).parents("tr").find("input.editParamIput").val();
+			console.log(value);
+			$.ajax({
+		  		url:'/om/params/save_or_update_param?nameEn='+$(obj).attr("data")+'&&value='+value,
+		  		type:'POST',
+		  		async:true,
+		  		cache:true,
+		  		data:{},
+		  		success:function(data) {
+		  			
+		  			if (data.retCode == '1'){
+		  				showSetParamWin('修改成功');
+		  				completeParamFun(obj,'sucess');
+		  			} else {
+		  				showSetParamWin('修改失败');
+		  				completeParamFun(obj,'error');
+		  			}
+		  			
+		  			
+		  		},
+		  		error:function(e){
+		  			console.log(e);
+		  		}
+			})
+	}
+	
+
+	function editParamFun(obj) {
+		$_elem = $(obj).parents("tr");
+		$_elem.find(".editParamTValue").hide();
+		$_elem.find(".editParamIput").show();
+		//$_elem.find(".editParamIput").focus();
+		$_elem.find(".editBtn").hide();
+		$_elem.find(".completeBtn").show();
+	}
+	
+	function completeParamFun(obj,msg){
+		$_elem = $(obj).parents("tr");
+		if (msg == 'sucess'){
+			$_elem.find(".editParamTValue").text($_elem.find(".editParamIput").val());
+		} else {
+			$_elem.find(".editParamIput").val($_elem.find(".editParamTValue").text());
+		}
+		$_elem.find(".editParamTValue").show();
+		$_elem.find(".editParamIput").hide();
+		$_elem.find(".editBtn").show();
+		$_elem.find(".completeBtn").hide();
+	}
+	
+	function removeParamMsg() {
+		$("#paramdialogMsg").remove();
+	}
+	
+	function showSetParamWin(msg) {
+		var str = '<div class="Success_Bomb" id="paramdialogMsg" style="display: block;">'+
+			'<div class="upgradeBomb_content">'+
+				'<p class="close"><img src="/static/img/close.png" width="18" height="17" onclick="removeParamMsg()"></p>'+
+				'<h3 class="succ_title" title=""><span>设置参数：</span></h3>'+
+				'<div class="">'+
+					'<p class="succ_Desc" id="message">'+msg+'</p>'+
+					'<div class="btns">'+
+						'<span class="saveBtn" onclick="removeParamMsg()">确认</span>'+
+					'</div>'+
+				'</div>'+
+			'</div>'+
+		'</div>';
+		$(".tab_body").append(str);
+	}
+	
+	function getParamTbl() {
+		
+		$.ajax({
+	  		url:'/om/params/get_params',
+	  		type:'GET',
+	  		async:true,
+	  		cache:true,
+	  		data:{},
+	  		success:function(data) {
+	  			if (data.retCode == '1'){
+	  				var result = data.result;
+	  				var tr = '';
+	  				for(var i in result){
+	  					var nameEn = result[i].nameEn.toString();
+	  					tr += '<tr>'+
+									'<td width="11%" class="Nameth">'+result[i].nameZh+'</td>'+
+									'<td width="71%">'+
+										'<div class="f_left">'+
+											'<input type="text" value="'+result[i].value+'" class="editParamIput" style="display:none"/>'+
+											'<span class="editParamTValue">'+result[i].value+'</span>'+
+										'</div>'+
+										'<a class="f_right editBtn" onclick="editParamFun(this)"><i class="setParam_edit"></i>编辑</a>'+
+										'<a class="f_right completeBtn" style="display:none" data="'+nameEn+'" onclick="setParamFun(this)"><i class="setParam_complete"></i>完成</a>'+
+										'</td>'+
+								'</tr>';
+	  				}
+	  				$("#setParamTbl").append(tr);
+	  			}
+	  			
+	  		},
+	  		error:function(e){
+	  			console.log(e)
+	  		}
+		})
+	}
+	
+	$(function() {
+		getParamTbl();
+		$("input").attr("onkeyup","this.value=this.value.replace(/^ +| +$/g,'')");
+
+	})
+
+
+</script>
+</html>

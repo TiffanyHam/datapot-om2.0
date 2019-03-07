@@ -1,0 +1,45 @@
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml" xmlns:th="http://www.thymeleaf.org"
+      xmlns:sec="http://www.thymeleaf.org/thymeleaf-extras-springsecurity3">
+<head>
+<#assign base=request.contextPath />
+<meta charset="UTF-8">
+<title>Insert title here</title>
+<link rel="stylesheet" href="${base}/css/table.css">
+<script type="text/javascript" src="${base}/js/jquery-3.1.1.min.js"></script>
+<script type="text/javascript" src="${base}/js/jquery-3.1.1.min.js"></script>
+</head>
+<body>
+<input type="button" onclick="test()" value="测      试">
+		<script>
+		  $(function(){ 	
+		/* 	  var path=severIp; */
+			 /*  $("#site_nav").show(); */
+			/*  alert(path); */
+				    
+				  	});
+		  function test(){
+			  
+			  $.ajax({
+	                type: "POST",
+	                url:"${base}/om/company_ip/delete",
+	                data:{
+	                	"companyIpId":100
+	                },
+	                async: false,
+	                error: function(data) {
+	                	alert(data);
+	                	 /*  $("#site_nav").show(); */
+	                	  return;
+	                },
+	                success: function(data) {
+	                	console.log(data);
+	                alert(data.msg);
+	                }
+	            });
+		  }
+		  
+		
+		</script>
+</body>
+</html>

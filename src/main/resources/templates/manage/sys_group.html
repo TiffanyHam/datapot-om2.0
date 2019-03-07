@@ -1,0 +1,213 @@
+<!DOCTYPE html>
+<html lang="en">
+	<head>
+		<meta charset="UTF-8">
+		<title>管理</title>
+		<meta name="renderer" content="webkit">
+		<meta name="google" value="notranslate">
+		<meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1" />
+		<meta http-equiv="Cache-Control" content="no-siteapp" />
+		<link rel="stylesheet" href="/static/css/bootstrapStyle/bootstrapStyle.css" type="text/css">
+		<!-- <script src="/static/js/jquery.js"></script> -->
+		<script src="/static/js/jquery.ztree.core.js"></script>
+		<script src="/static/js/jquery.ztree.excheck.js"></script>
+		<script src="/static/js/jquery.ztree.exedit.js"></script>
+		<script>
+			var setting = {
+				view: {
+					addHoverDom: false,
+					removeHoverDom: removeHoverDom,
+					selectedMulti: true
+				},
+				check: {
+					enable: true
+				},
+				data: {
+					simpleData: {
+						enable: true
+					}
+				},
+				callback: {
+					onCheck: onCheck
+
+				},
+				edit: {
+					enable: false
+				}
+			};
+
+			$(document).ready(function() {
+
+				$.ajax({
+					type: "POST",
+					url: '/sys/menu/get_menus_userid',
+					contentType: "application/x-www-form-urlencoded;charset=utf-8",
+					data: null,
+					success: function(data) {
+						if(data.result != null)
+							var menu = data.result;
+						var menus = JSON.parse(menu);
+						$.fn.zTree.init($("#treeDemo"), setting, menus);
+						$.fn.zTree.getZTreeObj("treeDemo").expandAll(true); //默认展开所有
+					},
+					error: function(error) {
+						$('#message').html(res.msg);
+						show("dialogMsg");
+					}
+				});
+			});
+
+			var newCount = 1;
+
+			function addHoverDom(treeId, treeNode) {
+				var sObj = $("#" + treeNode.tId + "_span");
+				if(treeNode.editNameFlag || $("#addBtn_" + treeNode.tId).length > 0) return;
+				var addStr = "<span class='button add' id='addBtn_" + treeNode.tId +
+					"' title='add node' onfocus='this.blur();'></span>";
+				sObj.after(addStr);
+				var btn = $("#addBtn_" + treeNode.tId);
+				if(btn) btn.bind("click", function() {
+					var zTree = $.fn.zTree.getZTreeObj("treeDemo");
+					zTree.addNodes(treeNode, {
+						id: (100 + newCount),
+						pId: treeNode.id,
+						name: "new node" + (newCount++)
+					});
+					return false;
+				});
+			};
+
+			function removeHoverDom(treeId, treeNode) {
+				$("#addBtn_" + treeNode.tId).unbind().remove();
+			};
+
+			function onCheck(e, treeId, treeNode) {
+				var treeObj = $.fn.zTree.getZTreeObj("treeDemo");
+				var nodes = treeObj.getCheckedNodes(true);
+				console.log(nodes);
+				v = "";
+				for(var i = 0; i < nodes.length; i++) {
+					v += nodes[i].name + ",";
+				}
+			}
+		</script>
+	</head>
+
+	<body>
+		<div class="flex_one content">
+			<div class="zuob">
+				<!--按钮、控件start-->
+				<div class="issueing_infoBox_bgs bt_one">
+					<div class="issueing_infoBox clearfix">
+						<form id="searchForm" method="post">
+							<div class="f_left">
+								<div class="fl itmemar">权限名称：<input name="groupNameQ" id="groupNameQ" class="dateTxt" type="text" maxlength="20" required/><span id='btnSearch' class="search btn"><img src="/static/img/search.png" width="13" height="12">搜索</span></div>
+							</div>
+							<div class="f_right btns_right">
+								<div class="fl itmemar"><span class="insert btn" onclick="reset('content1');show('content1');editTitle('新增角色信息')"><img src="/static/img/insert.png" width="12" height="12">新增</span></div>
+								<!--  <div class="fl"><span class="delete btn" onclick="show('content1')"> <img src="/static/img/delete.png" width="12" height="12">删除</span></div> -->
+							</div>
+							
+						</form> 
+					</div>
+				</div>
+				<!--按钮、控件end-->
+
+				<section class="content">
+					<!--table表格1begin-->
+					<div class="tab_body">
+						<div class="tab_child">
+			         	<table border="0" cellspacing="0" cellpadding="0" class="tab_thead">
+								<thead>
+									<tr class="title">
+										<th style="width:20%;">角色</th>
+										<th style="width:80%;">备注</th>
+									</tr>
+								</thead>
+								</table>
+				            	<div class="table_body">
+				             	<table border="0" cellspacing="0" cellpadding="0" class="host_tagsTable">
+								<tbody>
+									<#if (infos.results)??&&(infos.results?size>0)>
+										<#list infos.results as group>
+											<tr onclick="getInfosMenu('${group.groupId?c}')" id="${group.groupId?c}">
+												<td>
+													<a class="tab_name" href="javascript:edit(${group.groupId?c})">${group.groupName?default("")}</a>
+												</td>
+												<td>${group.remarks?default("")}</td>
+											</tr>
+										</#list>
+									</#if>
+								</tbody>
+							</table>
+							</div>
+							<!--分页-->
+							<div id="page"></div>
+							<input type="hidden" id="numPerPage" name="numPerPage" value="${infos.numPerPage?c}">
+							<input type="hidden" id="pageNum" name="pageNum" value="${infos.pageNum?c}">
+							<input type="hidden" id="pageSum" name="pageSum" value="${infos.pageSum?c}">
+							<input type="hidden" id="totalCount" value="${infos.totalCount?c}">
+						</div>
+						
+					</div>
+					<!--table表格1end-->
+				</section>
+				<!--分页start--> 
+			</div>
+			<!--分页end-->
+			<!--树形菜单-->
+			<!-- <div class="x_side"></div> -->
+			<div class="ztreeDem">
+
+				<ul id="treeDemo" class="ztree"></ul>
+				<input type="hidden" value="" id="group_id" />
+				<span class="save" id="save">保存</span>
+			</div>
+		</div>
+
+		<!--弹窗-->
+		<div class="BombBox announBox" id="content1">
+			<div class="announBox_cont">
+				<form id="editForm">
+					<div class="text_edit clearfix">
+						<h3 class="succ_title"><span id="group_role_name">新增角色信息：</span></h3>
+						<p class="close"><img src="/static/img/close.png" width="18" height="17" onclick="hide('content1')"></p>
+						<div class="clearfix bomb">
+						 <div id="error_box"></div>
+							<div class="info_edit f_left">
+								<input type="hidden" value="" name="groupId" id="groupId">
+								<p class="txt_enter clearfix"><label>名称：</label><input type="text" id="groupName" name="groupName" class="txt_name" value="" required/></p>
+							</div>
+							<p class="area_enter"><label>备注：</label><textarea name="remarks" id="remarks" maxlength="100" rows="" cols=""></textarea></p>
+						</div>
+						<div class="info_btns">
+							<p><span class="btn1 submit" id="btnEdit" onclick="fnValidate()">提交</span></p>
+							<p><span class="btn1 cancel" onclick="hide('content1')">取消</span></p>
+						</div>
+					</div>
+				</form>
+			</div>
+		</div>
+
+		<!-- 新增成功-->
+		<div class="Success_Bomb" id="dialogMsg">
+			<div class="upgradeBomb_content">
+				<p class="close"><img src="/static/img/close.png" width="18" height="17" onclick="hide('dialogMsg')"></p>
+				<h3 class="succ_title" title=""><span>信息编辑：</span></h3>
+				<div class="">
+					<p class="succ_Desc" id="message"></p>
+					<div class="btns">
+						<span class="saveBtn" onclick="hide('dialogMsg')">确认</span>
+					</div>
+				</div>
+			</div>
+		</div>
+		<script type="text/javascript" src="/static/js/page.js"></script>
+		<script type="text/javascript" src="/static/js/manage/sys_group.js"></script>
+		<script>
+	    //$("input").attr("onkeyup","this.value=this.value.replace(/^ +| +$/g,'')");
+	    </script>
+	</body>
+	
+
+</html>

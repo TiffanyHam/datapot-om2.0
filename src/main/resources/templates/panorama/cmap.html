@@ -1,0 +1,232 @@
+
+	<link rel="stylesheet" href="/static/css/host.css">
+    <!--echarts-->
+    <script src="/static/js/echarts.min.js"></script>
+    <script src="/static/js/echarts-all.js"></script>
+    <style type="text/css">
+	.flex_one{display:flex;}
+	.f_one{flex: 1;}
+	.text-c{text-align:center;}
+	.content, .hostPage{height:100%;}
+	h1{font-size:50px;color:#fff;position:relative;top:25%;}
+	</style>
+	
+	<div class="hostPage">
+        <!--头部菜单-->
+        <header class="header">
+            <div class="main_content_header">
+                <div class="main_title"><i class="ic_pano"></i>全景</div>
+                <div class="clearfix"></div>
+            </div>
+        </header>
+        <div id="chartsCon" style="width:100%;height:100%;background-color:#0C0F20;">
+  			<div id="main2" style="width:100%;height:100%;"></div>
+  		</div>
+  	</div>
+	
+    
+<script>
+		var pageHeight = $(".hostPage").height();
+		$("#chartsCon").css("height", ""+(pageHeight-80)+"px");
+		var cityData = {};
+		var countData = [];
+		var maxCountData = [];
+		        	        
+		//通过城市名获取经纬度		
+		var getCityJWByCityName = function(name) {
+			debugger
+			var JW = "";
+			for (var i in cityData){
+				if (name == i){
+					var jwd = cityData[i];
+					var jd = jwd[0];
+					var wd = jwd[1];
+					JW = jd + ', ' + wd;
+				}
+			}
+			return JW;
+		}
+		
+		
+		var option = {
+		    tooltip : {
+		        trigger: 'item',
+		        formatter: function (params) {
+		        	console.log(params);
+		        	debugger
+					 if (params['0'] == '城市' || params['0'] == '访问量'){
+						var value = params['5'].value;
+						var name = params['name'];
+						//var JW = getCityJWByCityName(name);
+						return name+"<br/>访问量："+value;
+					} else {
+						return params[1]
+					} 
+		        }
+		    },
+		    grid:{
+		    	x: 0,
+		    	y:0,
+		    	x1:0,
+		    	y2:0
+		    },
+		    dataRange: {
+		        min : 0,
+		        max : 500,
+		        calculable : true,
+		        itemWidth:20,
+		        padding:10,
+		        text:['多','少'],
+		        color: ['#ee1029','#fa7420','#ffc100'],
+		        textStyle: {
+		        	fontSize:12,
+					color: '#fff'	// 值域控件的文本颜色
+				}
+		    },
+		    toolbox: {
+		        show : true,
+		        orient : 'vertical',
+		        x: 'right',
+		        y: 'center',
+		        feature : {
+		            mark : {show: true},
+		            dataView : {show: true, readOnly: false},
+		            restore : {show: true},
+		            saveAsImage : {show: true}
+		        }
+		    },
+		    backgroundColor: '#0C0F20', // 图表背景色
+		    series : [
+		        {
+		            name: '城市',
+		            type: 'map',
+		            mapType: 'china',
+		            hoverable: false,
+		            roam:false,
+		            itemStyle: {
+		                normal: {
+		                    color: '#4889d9', //地图背景色
+		                    borderColor: '#333', //省市边界线
+		                   	label: {
+		                        show: false
+		                    }
+		                },
+		                emphasis: {
+		                    color: '#619ae0', //悬浮背景
+		                    borderColor: '#000', //省市边界线
+		                    label: {
+		                        show: false
+		                    }
+		                }
+		            },
+		            data : [],
+		            geoCoord: cityData,
+		            markPoint : {
+		                symbolSize: 5,       // 标注大小，半宽（半径）参数，当图形为方向或菱形则总宽度为symbolSize * 2
+		                itemStyle: {
+		                    normal: {
+		                        borderColor: '#333',
+		                        areaColor: '#4889d9',
+		                        borderWidth: 1,            // 标注边线线宽，单位px，默认为1
+		                        label: {
+		                            show: false
+		                        }
+		                    },
+		                    emphasis: {
+		                    	areaColor: '#619ae0',
+		                        borderColor: '#000',
+		                        borderWidth: 5,
+		                        label: {
+		                            show: false
+		                        }
+		                    }
+		                },
+		                data : countData
+		            }
+		        },
+		        {
+		            name: '访问量',
+		            type: 'map',
+		            mapType: 'china',
+		            data:[],
+		            markPoint : {
+		                symbol:'emptyCircle',
+		                symbolSize : function (v){
+		                    return 15;
+		                },
+		                effect : {
+		                    show: true,
+		                    shadowBlur : 0
+		                },
+		                itemStyle:{
+		                    normal:{
+		                        label:{show:false}
+		                    }
+		                },
+		                data : maxCountData
+		            }
+		        }
+		        
+		    ]
+		}
+		
+		var myChart = echarts.init(document.getElementById('main2'));
+		 
+		
+		$.ajax({
+			url:'/om/over_view/china_infos',
+			type:'POST',
+			async:true,
+			cache:true,
+			data:{},
+			success:function(data) {
+				debugger
+				if (data.result != null) {
+					
+				
+					//清空
+					for(var key in cityData){
+						delete cityData[key];
+					}
+					countData.splice(0,countData.length);
+					maxCountData.splice(0,maxCountData.length);
+					
+					var result = data.result;
+					if (result.length > 0){
+						 for(var i in result){
+							 //城市
+							 var x = result[i].longitude;
+							 var y = result[i].latitude;
+							 var key = ""+result[i].city;
+							 cityData[""+key] = [x,y];
+							 
+							 //点击数量
+							 countData.push({
+								 name: result[i].city,
+								 value: result[i].count
+								 
+							 });
+							
+						 }
+						 
+						 //获取最大值
+						 var max = countData[0].value;
+						 for (var j in countData){
+							 if (countData[j].value > max) { 
+								 max = countData[j].value 
+							 }
+						 }
+						 //max = max / 2;
+						 for (var n in countData){
+							 if (countData[n].value >= max) {
+								 maxCountData.push(countData[n]);
+							 }
+						 }
+					}
+					 //var myChart = echarts.init(document.getElementById('main2'));
+					 
+				}
+				myChart.setOption(option);
+			}
+		})
+</script>

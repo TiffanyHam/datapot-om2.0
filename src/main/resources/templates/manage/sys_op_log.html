@@ -1,0 +1,93 @@
+<!DOCTYPE html>
+<html lang="en">
+
+	<body>
+			<!--按钮、控件start-->
+			<div class="issueing_infoBox_bgs bt_one">
+				<div class="issueing_infoBox clearfix">
+					<form id="searchForm" method="post">
+						<div class="f_left">
+							<div class="fl itmemar">操作时间：
+								<span class="calendar_date date1 " id="from">
+									<input type="text" class="date-check" name="beginLogDate" value="${sysOpLogReq.beginLogDate!}"></span> &nbsp;&nbsp;至&nbsp;&nbsp;
+								<span class="calendar_date" id="to">
+                  <input type="text" class="date-check" name="endLogDate" value="${sysOpLogReq.endLogDate!}"></span>
+							</div>
+							<div class="fl itmemar">用户名：<input type="type" id="userName" name="userName" class="dateTxt" maxlength="20" required/></div>
+							<div class="fl itmemar select_city">
+								<#import "../common/select_map_two.html" as maps/> 日志类型：
+								<@maps.select id="logType" name="logType" datas={ "1": "操作日志", "2": "登录日志"}/>
+							</div>
+							<div hidden>
+								<@maps.select id="logTypes" name="logTypes" datas=logTypes/>
+								<@maps.select id="boolStatus" name="boolStatus" datas=boolStatus/>
+							</div>
+							
+							<div class="fl itmemar"><span class="search btn" id="btnSearch"><img src="/static/img/search.png" width="13" height="12">搜索</span></div>
+						</div>
+					</form>
+				</div>
+			</div>
+			<!--table表格1begin-->
+			<div class="tab_body">
+				<div class="tab_child">
+					<table border="0" cellspacing="0" cellpadding="0" id="tab1" class="tab_thead">
+						<thead>
+							<tr class="title">
+								<th name="userName">用户名</th>
+								<th name="logDate">操作时间</th>
+								<th name="logIp">操作IP</th>
+								<th name="procedureCode">操作方法</th>
+								<th name="proExecuteTime">程序执行时间</th>
+								<th name="dbExecuteTime">DB执行时间</th>
+								<th name="resultCode">处理结果</th>
+								<th name="parameter">操作参数</th>
+							</tr>
+						</thead>
+						</table>
+					    <div class="table_body">
+					    <table border="0" cellspacing="0" cellpadding="0" class="host_tagsTable">
+						<tbody>
+							<#if infos.results?exists>
+								<#list infos.results as sysOpLog>
+									<tr>
+										<td>${sysOpLog.userName!}</td>
+										<td>${sysOpLog.logDate?string('yyyy-MM-dd hh:mm:ss')}</td>
+										<td>${sysOpLog.logIp!}</td>
+										<td>${sysOpLog.procedureCode!}</td>
+										<td>${sysOpLog.proExecuteTime?c}</td>
+										<td>${sysOpLog.dbExecuteTime?c}</td>
+										<td>${sysOpLog.resultCode!}</td>
+										<td>${sysOpLog.parameter!}</td>
+									</tr>
+								</#list>
+							</#if>
+
+						</tbody>
+					</table>
+					</div>
+					<!--分页start-->
+					<div id="page"> </div>
+					<input type="hidden" id="numPerPage" value="${infos.numPerPage!}">
+					<input type="hidden" id="pageNum" value="${infos.pageNum!}">
+					<input type="hidden" id="pageSum" value="${infos.pageSum!}">
+					<input type="hidden" id="totalCount" value="${infos.totalCount!}">
+		
+					<!--分页end-->
+				</div>
+
+			</div>
+
+			<!--table表格1end-->
+
+			
+
+		</section>
+	</body>
+	<script type="text/javascript" src="/static/js/page.js"></script>
+	<script type="text/javascript" src="/static/js/double-date.js"></script>
+	<script type="text/javascript" src="/static/js/manage/op_log.js"></script>
+    <script>
+	$("input").attr("onkeyup","this.value=this.value.replace(/^ +| +$/g,'')");
+	</script>
+</html>

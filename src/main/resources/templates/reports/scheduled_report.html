@@ -1,0 +1,897 @@
+<!DOCTYPE html>
+<html>
+
+	<head>
+		<link rel="stylesheet" type="text/css" href="/static/css/bootstrapStyle/bootstrap-slider.css" />
+		<link rel="stylesheet" type="text/css" href="/static/css/bootstrapStyle/bootstrap.min.css" />
+		<link rel="stylesheet" type="text/css" href="/static/css/bootstrapStyle/bootstrap-multiselect.css" />
+		<script src="/static/js/jquery.js" type="text/javascript" charset="utf-8"></script>
+		
+		
+		<style>
+			/* 多选下拉 */
+			
+			.multiselect-container>li>a>label {
+				text-align: left;
+			}
+			
+			.dropdown-menu {
+				position: absolute;
+				top: 100%;
+				left: 0;
+				z-index: 1000;
+				display: none;
+				float: left;
+				padding: 0;
+				margin: 0;
+				font-size: 14px;
+				text-align: left;
+				list-style: none;
+				background-color: #2e3344;
+				-webkit-background-clip: padding-box;
+				background-clip: padding-box;
+				border: 1px solid #ccc;
+				border: 1px solid rgba(0, 0, 0, .15);
+				border-radius: 0;
+				-webkit-box-shadow: 0 6px 12px rgba(0, 0, 0, .175);
+				box-shadow: 0 6px 12px rgba(0, 0, 0, .175);
+				overflow-y: auto;
+				overflow-x: hidden;
+			}
+			
+			.caret {
+				display: inline-block;
+				width: 0;
+				height: 0;
+				margin-left: 2px;
+				vertical-align: middle;
+				border-top: 4px dashed;
+				border-top: 4px solid\9;
+				border-right: 4px solid transparent;
+				border-left: 4px solid transparent;
+				margin-right: 10px;
+			}
+			
+			.dropdown-menu>li>a {
+				display: block;
+				clear: both;
+				font-weight: 400;
+				line-height: 1.42857143;
+				color: #d9dbde;
+				white-space: nowrap;
+			}
+			
+			.slider.slider-horizontal {
+				width: 300px;
+				height: 20px;
+			}
+			ul.multiselect-container.dropdown-menu {
+            font-size: 12px;
+            }
+            
+            .scrollup {
+			        bottom: 10px;
+				    display: none;
+				    height: 50px;
+				    position: fixed;
+				    right: 39px;
+				    width: 50px;
+				    padding: 12px;
+				    border-radius: 100%;
+				    background: rgba(173, 157, 128, 0.25)
+             }
+           .arrow{
+			        background: url("/static/img/top1.png") no-repeat;
+				    background-size: cover;
+				    width: 32px;
+				    height: 32px;
+				    position: absolute;
+				    left: 10px;
+             }
+           	.checkbox input[type=checkbox]{
+           		    position: relative;
+    				margin-left:0;
+           	}
+           	.dropdown-menu>li>a{
+           			white-space:inherit;
+           	}
+           	.multiselect-container>li>a>label{
+           			display:block;
+           			width:100%;
+           			padding:3px 6%;
+           			word-break: break-all;
+    				word-wrap: break-word;
+           	}
+           	#example_three{width:130px;}
+           	
+           	/* div 仿  select*/
+           	.hostPage .select_city {text-align: right;}
+			.select_city_label {margin-top: 26px;float: left;width:160px;margin-right:5px;}
+			.posRe {position: relative;}
+			.posAb {position: absolute;}
+			.h_labelSelect {font-family: "\5FAE\8F6F\96C5\9ED1"; background: #2e3344;height: 25px;line-height: 25px;border: 1px solid #575C6A;text-align: left;border-radius: 3px;color: #d9dbde;width:160px; padding-left: 5px;padding-right: 5px;font-size: 12px;float: left;overflow: hidden;}
+			.h_labelSelectOption {top: 24px;background: #2e3344;width: 160px;height: 140px;border: 1px solid #575C6A;}
+			.h_labelSelectOption ul{width: 100%;height: 100%;overflow-y: auto;overflow-x: hidden;display: block;margin: 0;padding: 0;}
+			.h_labelSelectOption ul li, .h_labelSelectOption ul li a {display: block;}
+			.h_labelSelectOption ul li:hover{background:#4a90e2;}
+			.h_labelSelectOption ul li a {width: 100%;line-height: 20px;text-align: left;padding: 0 2%;color: #fff;font-size: 12px;}
+			.h_labelSelectOption ul li a label{display:block;width:100%;word-break:break-all;}
+			.h_labelSelectOption ul li a label input {width: 16px;height: 16px;margin: 0 5px -5px 0;position: relative;top: 5px;}
+			.slider_selects_two .topFMar{position:relative;top:-22px;}
+			.labelTit .topFMar{position:relative;top:-50px;}
+			.labelTit .topFMar_t{position:relative;top:-26px;}
+		</style>
+		  
+		<!--ie9样式重置-->
+		<!--[if IE 9]>
+		<style>
+		.reports_left {
+		    width: 48%;
+			float:left;
+		}
+		.reports_right {
+			float:right;
+			 width: 48%;
+		}
+		.dashboard_item {
+		    width: 48%;
+		}
+		.left_content,.d_item_2,.d_item_0 {
+		    float: left;
+		}
+		.right_content,.d_item_1,.d_item_3 {
+		    float: right;
+		}
+		
+		</style>
+		<![endif]-->
+		
+	</head>
+
+	<body>
+
+		<header class="header">
+			<div class="main_content_header">
+				<div class="main_title clearfix">
+					<p class="main_content_txt f_left"><img src="/static/img/reports.png" width="36" height="25">报告</p>
+					<p class="main_content_btn f_right"><span class="rep_btn" id="rep_btn" onclick="setReport()"><img src="/static/img/add.png" width="13" height="12">生成报告</span></p>
+				</div>
+			</div>
+		</header>
+		<section class="content">
+			<form id="reports_detail_form">
+				<div class="repords_content">
+					<p class="creat_reports">创建报告</p>
+					<div class="fl select_city" style="position:relative">
+						<#import "../common/select_map_two.html" as maps/>
+						<p class="fl_p">数据源：</p>
+						<b class="caret drop_down1"></b>
+						<!-- <input name="source" value="" class="dateTxt"> -->
+						<@maps.select id="source" name="source" datas=sources/>
+					</div>
+					<div class="fl begin">
+						<p class="fl_p">起始时间：</p>
+						<div class="calendar_date date1 special_date" id="from"><input type="text" class="date-check dateone" name="beginDateTime" value="${beginDateTime!}"></div>
+					</div>
+					<div class="fl end">
+						<p class="fl_p">结束日期：</p>
+						<div class="calendar_date special_date" id="to"><input type="text" class="date-check dateone" name="endDateTime" value="${endDateTime!}"></div>
+					</div>
+					
+					<!-- <div class="fl select_city labelTit" style="position:relative">
+						<p class="fl_p topFMar_t">标签：</p>
+						<div class="labelTitSelect" style="float:left;"></div>
+						<input type="hidden" name="hostTags" value="" id="example_three_value"/>
+						<div style="display:none"><@maps.select id="example_three" datas=hostTags/></div>
+						
+					</div>
+				 -->
+				</div>
+
+				<div class="content_areas">
+
+					<!--左边区域BEGIN-->
+					<div class="left_content">
+						<p style="height: 35px;font-size: 16px;">主机过滤</p>
+						<div class="content_slider">
+							<span class="slider_names_one">威胁度：</span>
+							<div class="well">
+								<p class="min_slider">0</p>
+								<input id="ex1" type="text" data-slider-min="0" data-slider-max="100" data-slider-step="1" data-slider-value="0" name="hostThreat" class="back_hide" />
+								<p class="max_slider">100</p>
+							</div>
+							<div id="ex1CurrentSliderValLabel"><span id="ex1SliderVal">0</span></div>
+						</div>
+						<div class="content_slider">
+							<span class="slider_names_one">可信度：</span>
+							<div class="well">
+								<p class="min_slider">0</p>
+								<input id="ex2" type="text" data-slider-min="0" data-slider-max="100" data-slider-step="1" data-slider-value="0" name="hostCertainty" class="back_hide" />
+								<p class="max_slider">100</p>
+							</div>
+							<div id="ex2CurrentSliderValLabel"><span id="ex2SliderVal">0</span></div>
+						</div>
+						<div class="slider_selects_one" style="position:relative;width:634px;">
+							<span class="slider_names_one">
+							资产类型：
+						    </span>
+							<b class="caret drop_down"></b>
+							<@maps.select id="hostClassification" name="hostClassification" datas=hostClassifications/>
+
+						</div>
+						<!-- <div class="slider_input">
+							<span class="slider_names_one">标签：</span>
+							<input type="text" name="hostTags" />
+						</div> -->
+
+					</div>
+					<!--左边区域END-->
+
+					<!--右边区域BEGIN-->
+					<div class="right_content">
+						<p style="height: 35px;font-size: 16px;">检测过滤</p>
+						<div class="content_slider">
+							<span class="slider_names_two">
+							威胁度：
+						</span>
+							<div class="well">
+								<p class="min_slider">0</p>
+								<input id="ex3" type="text" data-slider-min="0" data-slider-max="100" data-slider-step="1" data-slider-value="0" name="detectionThreat" class="back_hide"/>
+								<p class="max_slider">100</p>
+							</div>
+							<div id="ex3CurrentSliderValLabe"><span id="ex3SliderVal">0</span></div>
+						</div>
+						<div class="content_slider ">
+							<span class="slider_names_two">
+							可信度：
+						</span>
+							<div class="well">
+								<p class="min_slider">0</p>
+								<input id="ex4" type="text" data-slider-min="0" data-slider-max="100" data-slider-step="1" data-slider-value="0" name="detectionCertainty" class="back_hide" />
+								<p class="max_slider">100</p>
+							</div>
+							<div id="ex4CurrentSliderValLabel"><span id="ex4SliderVal">0</span></div>
+						</div>
+
+						<div class="slider_selects_two">
+							<span class="slider_names_two topFMar" style="top:-30px;">
+							威胁阶段＆类型：
+						    </span>
+							<div class="myOwnDdl" style="display:none">
+								<@maps.select id="example_one" datas=stages/>
+								<input type="hidden" name="detectionStage" value="" id="example_one_value">
+							</div>
+							<div class="myOwnDdl2" style="display:none">
+								<@maps.select id="example_two" datas=detectionTypes/>
+								<input type="hidden"  name="detectionType" value="" id="example_two_value">
+							</div>
+							
+						</div>
+						<!-- <div class="slider_input">
+							<span class="slider_names_two">
+						             标签：
+						    </span>
+							<input type="text" name="detectionTags" />
+						</div> -->
+					</div>
+					<!--右边区域END-->
+
+				</div>
+			</form>
+		</section>
+		<!--loading加载-->
+		<div id="load" align="center" style="display:block">
+			<!-- <img src="/static/img/loading.gif" width="28" height="28" align="absmiddle" />加载中... -->
+			<div class="loader_round"></div>
+		</div>
+		<!--报告详情弹窗-->
+		<div class= "reports_detail" id="form1">
+		
+			<div class="reports_cont" tyle="-webkit-print-color-adjust: exact;background-color: unset;box-shadow: inset 0 0 0 1000px #111938">
+				<div class="succ_title clearfix no-print" style="background: #000;"><span>报告详情：</span><span class="attention">建议使用横向打印</span>
+					<p class="main_content_btn f_right print"><span class="rep_btn" onclick="printpage()" id="printReports"><img src="/static/img/download.png" width="12" height="12">打印报告</span></p>
+					<p class="main_content_btn f_right download"><span class="rep_btn" onclick="downloadpage()" id="downloadReports"><img src="/static/img/download.png" width="12" height="12">下载报告</span></p>
+					<p class="close f_right" onclick="closeWindow()"><img src="/static/img/close.png" width="18" height="17"></p>
+				</div>
+				<header class="header">
+			       <p class="show_time"  style="margin-top:0px;"><span><img src="/static/img/time.png"></span><label id="beginDateTime1">2018-2-4 12:00:00</label><span>
+			            至</span><label id="endDateTime1">2018-2-4 14:00:00</label></p>
+		        </header>
+				<!--左侧第一模块start-->
+				<div class="reports_contains clearfix">
+					<div class="reports_left">
+
+						<p class="dashboard_name">主机危险性总览</p>
+						<!--四块区域start-->
+						<div class="reports_box clearfix">
+							<div class="reports_column_two"></div>
+							<div class="reports_column_one"></div>
+						</div>
+
+						<!--四块区域end-->
+
+						<div style="height:20px"></div>
+
+						<!--左侧第一模块end-->
+						<!--左侧第2模块start-->
+						<div class="reports_tab">
+							<p class="reports_title01">危险资产</p>
+							<table border="0" cellspacing="" cellpadding="" id="table01">
+								<thead>
+									<tr class="title">
+									<th width="40%">主机名</th>
+									<th width="40%">主机IP</th>
+									<th colspan="2" width="20%">峰值</th>
+								</tr>
+								<tr class="title_special">
+									<th></th>
+									<th></th>
+									<th>威胁度</th>
+									<th>可信度</th>
+								</tr>
+								</thead>
+								<tbody>
+
+								</tbody>
+
+							</table>
+						</div>
+						<!--左侧第2模块end-->
+						<!--左侧第3模块start-->
+						<div class="reports_tab biggest_tab">
+							<p class="reports_title01">变化最大危险资产</p>
+							<table border="0" cellspacing="" cellpadding="" id="table02">
+								<thead>
+									<tr class="title">
+										<th width="60%">主机名</th>
+										<th colspan="2" width="20%">起始值</th>
+										<th colspan="2" width="20%">当前值</th>
+									</tr>
+									<tr class="title_special">
+										<th></th>
+										<th>威胁度</th>
+										<th>可信度</th>
+										<th>威胁度</th>
+										<th>可信度</th>
+									</tr>
+								</thead>
+								<tbody>
+
+								</tbody>
+
+							</table>
+						</div>
+					</div>
+					<!--左侧第3模块end-->
+
+					<div class="reports_right"  style="background:#111938;">
+						<p style="height: 26px;line-height: 26px;"></p>
+
+						<!--右侧第1模块start-->
+						<div class="reports_tab">
+							<p class="reports_title01"><img src="/static/img/star_yellow.png" class="stars" />核心资产</p>
+							<table border="0" cellspacing="" cellpadding="" id="table03">
+								<thead>
+									<tr class="title">
+										<th width="45%">主机名</th>
+
+									</tr>
+								</thead>
+								<tbody>
+
+								</tbody>
+
+							</table>
+						</div>
+						<!--右侧第1模块end-->
+						<!--右侧第2模块start-->
+						<div class="echarts_bg_dashboard">
+							<p class="reports_title01">检测处理分类</p>
+							<div id="charts_one" style="width: 780px;height:220px;"></div>
+							<div id="charts_one_div"></div>
+						</div>
+						<!--右侧第2模块end-->
+						<!--右侧第3模块start-->
+						<div class="echarts_bg_dashboard">
+							<p class="reports_title01">攻击行为阶段</p>
+							<div id="charts_two" style="width: 780px;height:160px;"></div>
+							<div id="charts_two_div"></div>
+						</div>
+						<!--右侧第3模块end-->
+						<!--右侧第3模块start-->
+						<div class="echarts_bg_dashboard">
+							<p class="reports_title01">攻击行为类型</p>
+							<div id="charts_three" style="width: 780px;height:220px;"></div>
+							<div id="charts_three_div"></div>
+						</div>
+						<!--右侧第3模块end-->
+						<p style="height: 26px;line-height: 26px;"></p>
+
+					</div>
+
+				</div>
+				<p style="height: 26px;line-height: 26px;"></p>
+				<!--底部表格start-->
+				<div class="reports_footer_bg">
+					<div class="reports_footer results_footer">
+						<p class="reports_title01 host_result">
+
+						</p>
+						<table border="0" cellspacing="" cellpadding="" id="table04">
+							<thead>
+								<tr class="title no_border">
+									<th width="30%">主机名</th>
+									<th width="10%">ip</th>
+									<th colspan="2" width="10%">当前值</th>
+									<th colspan="2" width="10%">峰值</th>
+									<th colspan="4" width="30%">攻击行为阶段</th>
+									<th width="10%">最近活动时间</th>
+								</tr>
+
+								<tr class="title trName">
+									<td></td>
+									<td></td>
+									<td>威胁度</td>
+									<td>可信度</td>
+									<td>威胁度</td>
+									<td>可信度</td>
+
+								</tr>
+							</thead>
+							<tbody>
+
+							</tbody>
+
+						</table>
+						
+						
+					</div>
+				</div>
+				<!--底部表格end-->
+				<!--底部表格start-->
+				<div class="reports_footer_bg">
+					<div class="reports_footer">
+						<p class="reports_title02 attackBehavior">
+
+						</p>
+						<div class="reports_contains01 clearfix">
+							<!--左侧-->
+							<div class="left_content">
+								<div class="reports_tab01 kinds_tabs1">
+
+								</div>
+
+							</div>
+							<!--右侧-->
+							<div class="right_content">
+								<div class="reports_tab01  kinds_tabs2">
+
+								</div>
+
+							</div>
+							<!--右侧-->
+
+						</div>
+					</div>
+					<!--底部表格end-->
+
+				</div>
+			</div>
+			<a href="#" class="scrollup"><i class="arrow"></i></a>
+            </div>
+             
+            <div id="reports_contHeight" style="width:100%;height:auto;"></div>
+            
+			<script src="/static/js/double-date.js"></script>
+			<script src="/static/js/bootstrap-slider.min.js"></script>
+			<script src="/static/js/bootstrap.min.js" type="text/javascript" charset="utf-8"></script>
+			<script src="/static/js/bootstrap-multiselect.js" type="text/javascript" charset="utf-8"></script>
+			
+			<script src="/static/js/echarts.min.js" type="text/javascript" charset="utf-8"></script>
+			<script src="/static/js/reports/scheduled_report.js"></script>
+			<script src="/static/js/page.js"></script>
+			
+			<script src="/static/js/reports/jQuery.print.js"></script>
+			<script src="/static/js/reports/html2canvas.js"></script>
+			<script src="/static/js/reports/jsPdf.js"></script>
+	</body>
+	<script>
+		/*
+		* 下载报告
+		*/
+		var report_isClick = true;
+		function downloadpage() {
+			
+			// 解决连续点击事件 
+			if (report_isClick == true){
+				$('#load').fadeIn();
+				 report_isClick = false;
+				 
+				if (!!window.ActiveXObject || "ActiveXObject" in window){
+					alert("不支持IE浏览器下载，请更换浏览器！");
+					$('#load').fadeOut();
+					return false;
+				}
+				
+				 var headerHeight = $(".header").height();
+				 var reportHeight = $("#reports_detail_form").height();
+				 var reports_cont = $("#form1 .reports_cont").height();
+				 
+				 var addBodyHeight = reports_cont - reportHeight - headerHeight;
+				 //var addBodyHeight = reports_cont - 540;
+				 
+				 $(".content #reports_contHeight").css("height", addBodyHeight+"px");
+				 
+				 html2canvas(document.body, {
+		              onrendered:function(canvas) {
+		            	  var contentWidth = canvas.width;
+		                  var contentHeight = canvas.height;
+		                  //document.body.style.height = contentHeight+'px';
+	
+		                  //一页pdf显示html页面生成的canvas高度;
+		                  var pageHeight = contentWidth / 592.28 * 841.89;
+		                  //未生成pdf的html页面高度
+		                  var leftHeight = contentHeight;
+		                  //页面偏移
+		                  var position = 0;
+		                  //a4纸的尺寸[595.28,841.89]，html页面生成的canvas在pdf中图片的宽高
+		                  var imgWidth = 595.28;
+		                  var imgHeight = 592.28/contentWidth * contentHeight;
+	
+		                  var pageData = canvas.toDataURL('image/jpeg', 1.0);
+	
+		                  var pdf = new jsPDF('', 'pt', 'a4');
+						
+		                  //有两个高度需要区分，一个是html页面的实际高度，和生成pdf的页面高度(841.89)
+		                  //当内容未超过pdf一页显示的范围，无需分页
+		                  if (leftHeight < pageHeight) {
+		                 	 pdf.addImage(pageData, 'JPEG', 0, 0, imgWidth, imgHeight);
+		                  } else {
+		                      while(leftHeight > 0) {
+		                          pdf.addImage(pageData, 'JPEG', 0, position, imgWidth, imgHeight)
+		                          leftHeight -= pageHeight;
+		                          position -= 841.89;
+		                          //避免添加空白页
+		                          if(leftHeight > 0) {
+		                            pdf.addPage();
+		                          }
+		                      }
+		                  }
+	
+		                  pdf.save('content.pdf');
+		                  report_isClick = true;
+		                  $('#load').fadeOut();
+		         }
+		        })
+		       
+			}
+		}
+	
+		/*
+		* 打印报告
+		*/
+		function getFullCanvasDataURL(divId){
+			//将第一个画布作为基准。
+		    var baseCanvas = $("#"+divId).find("canvas").first()[0];
+		    if(!baseCanvas){
+		        return false;
+		    };
+		    var width = baseCanvas.width;
+		    var height = baseCanvas.height;
+		    var ctx = baseCanvas.getContext("2d");
+		    //遍历，将后续的画布添加到在第一个上
+		    $("#"+divId).find("canvas").each(function(i,canvasObj){
+		        if(i>0){
+		            var canvasTmp = $(canvasObj)[0];
+		            ctx.drawImage(canvasTmp,0,0,width,height);
+		        }
+		    });
+		    //获取base64位的url
+		    return baseCanvas.toDataURL('image/png', 0.5);
+		}
+		
+		function setImgFun(chartId) {
+			
+			var url = getFullCanvasDataURL(chartId);
+			var img = new Image();
+				img.src = url;
+					
+			return img;
+				
+		}
+		
+
+		function getRightInnerHTML(elm){
+		        var content = elm.innerHTML;
+		        if(!document.all) return content;
+		        var regOne = /(\s+\w+)\s*=\s*([^<>"\s]+)(?=[^<>]*\/>)/ig;
+		        var regTwo = /"'([^'"]*)'"/ig; 
+		        content = content.replace(regOne,'$1="$2"').replace(regTwo,'\"$1\"'); 
+		        var okText = content.replace(/<(\/?)(\w+)([^>]*)>/g,function(match,$1,$2,$3){
+		            if($1){
+		                return "</"+ $2.toLowerCase() +">";       
+		            }       
+		            return ("<"+ $2.toLowerCase() +$3+">").replace(/=(("[^"]*?")|('[^']*?')|([\w\-\.]+))([\s>])/g,function(match2,$1,$2,$3,$4,$5,position,all){
+		                if($4){return '="'+ $4 +'"'+ $5;}
+		                return match2;
+		           });
+		        });
+		        return okText.replace(/<\/?([^>]+)>/g,function(lele){return lele;});
+		    }
+		
+		// 解决连续点击事件 
+		var printFlag=true;
+	    function printpage(){
+	    	
+	    	
+	    	// 解绑事件
+	    	if(printFlag){
+	    		printFlag=false;
+	    	
+	    	clearEchartImg();
+	    	
+		  	var reports_cont = $("#charts_one_div");
+		  	var reports_cont1 = $("#charts_two_div");
+		  	var reports_cont2 = $("#charts_three_div");
+		  	
+			var co = setImgFun("charts_one");
+			co.onload = function() {
+				$("#charts_one").css("display","none");
+				co.style.width ="100%";
+				reports_cont.append(co);
+			
+				
+				var co1 = setImgFun("charts_two");
+				co1.onload = function() {
+					$("#charts_two").css("display","none");
+					co1.style.width ="100%";
+					reports_cont1.append(co1);
+					
+					var co2 = setImgFun("charts_three");
+					co2.onload = function() {
+						$("#charts_three").css("display","none");
+						co2.style.width ="100%";
+						reports_cont2.append(co2);
+						
+						
+						 var _url = 'http://'+location.host+"/static/css/common.css";
+				    	 $(".reports_cont").print({
+					        	globalStyles: true,
+					        	mediaPrint: true,
+					        	stylesheet: _url,
+					        	noPrintSelector: ".no-print",
+					        	iframe: true,
+					        	//append: true,
+					        	//prepend: true,
+					        	manuallyCopyFormValues: true,
+					        	deferred: $.Deferred(),
+					        	timeout: 750,
+					        	title: null,
+					        	doctype: '<!doctype html>'
+						   });
+						   isReload = false;//不刷新页面 
+						   
+						//common
+					    /*
+						if (!!window.ActiveXObject || "ActiveXObject" in window){
+							var form1 = document.getElementById("form1");
+						    var newstr = getRightInnerHTML(form1);
+							var newWin= window.open();
+							 var str = '<!DOCTYPE html>'  
+						            str +='<html>'  
+						            str +='<head>'  
+						            str +='<meta charset="utf-8">'  
+						            str +='<meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">' 
+						            str +='<link rel="stylesheet" href="/static/css/common.css">' 
+						            str +='</head>'  
+						            str +='<body>'  
+						            str +=""+newstr+"";  
+						            str +='</body>'  
+						            str +='</html>';
+						    
+							
+						    newWin.document.write(str);
+						    newWin.document.close();
+						    newWin.focus();
+						    newWin.print();
+						    newWin.close();
+							
+						} else {
+							
+							//var oldstr = document.body.innerHTML;
+							//var newstr = document.getElementById("form1").innerHTML;
+							//window.document.body.innerHTML = newstr;
+					    	//window.print(); 
+					    	//isReload = false;//不刷新页面 
+					    	//document.body.innerHTML = oldstr; 
+					    	
+					    	
+					    	
+							var url = 'http://'+location.host;
+						    var newstr = document.getElementById("form1").innerHTML;
+						   
+							var str = '<!DOCTYPE html>'  
+						            str +='<html>'  
+						            str +='<head>'  
+						            str +='<meta charset="utf-8">'  
+						            str +='<meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">' 
+						            str +='<link rel="stylesheet" type="text/css" href="'+url+'/static/css/common.css">' 
+						            str +='<style>.color_one{padding:2px} .stateImg{width:100%}  .succ_title {display: none} </style>'
+						            str +='</head>'  
+						            str +='<body style="height:auto;">'
+						            str += '<div class="reports_detail PageNext" id="form1" style="display: block;height:auto;position:relative;">'+newstr+'</div>'
+						            str +='</body>'
+						            str += '</html>';
+						    		
+						    var newWin = window.open();
+							newWin.focus();
+						    newWin.document.body.innerHTML = str;
+						    var _img = newWin.document.getElementsByTagName('img');
+						    for (var i = 0; i < _img.length; i++){
+						    	var tempSrc = _img[i].getAttribute("src");
+						    	if (tempSrc.indexOf("data:image") < 0){
+						    		var newUrl = url+tempSrc;
+						    		_img[i].setAttribute("src",newUrl);
+						    	}
+						    }
+						   
+						    newWin.setTimeout(function(){
+						    	
+						    	newWin.print();
+						    	newWin.close();
+						    	isReload = false;//不刷新页面 
+						    	 window.location.reload();
+							},1000);  
+						  
+							
+						}*/
+						
+						
+					}
+				}
+
+			}
+			 printFlag=true;
+	    	}
+	    	
+		 }
+	    
+	  	
+
+		// 显示下拉框
+		function selecteOption(obj,str){
+			var event = window.event || arguments.callee.caller.arguments[0];
+			event.cancelBubble=true;
+			/* $(obj).find(".h_labelSelectOption").css({"display":"block"}); */
+			$("#"+str+"_stageandtype_select").toggle();
+		}
+
+		//点击空白关闭下拉
+		 $(document).click(function(){
+	         $(".h_labelSelectOption").css({"display":"none"});
+	     });
+		
+		//value 赋值
+		var isClickInput = 0;
+		function setOptionValue(id) {
+			
+			//获取所有选中元素
+			$("#"+id+"_value").val("");
+			var _checkbox = "";
+			var inputElem = $("#"+id+"_select").find(".h_labelSelectOption ul li input");
+			
+			if (isClickInput == 0){
+				inputElem.each(function(index) {
+					_checkbox += $(this).val()+",";
+				})
+			} else {
+				inputElem.each(function(index) {
+					if ($(this).is(':checked') == true){
+						_checkbox += $(this).val()+",";
+					}
+				})
+			}
+			
+			$("#"+id+"_value").val(_checkbox);
+		}
+		
+		//option input 选中
+		var checkSeleCount = {
+			"example_one" : 0,
+			"example_two" : 0,
+			"example_three" : 0
+		};
+		function seletedCheckbox(obj, id) {
+			
+			var state = 0; //选中或取消选中
+			
+			var temp = checkSeleCount[id];
+			if ($(obj).is(':checked') == true) {
+				temp ++;
+				checkSeleCount[id] = temp;
+			} else {
+				state = 1;
+				temp --;
+				checkSeleCount[id] = temp;
+			}
+			
+			
+			if (checkSeleCount[id] >= 2) {
+				//选中个数大于2
+				$(obj).parents(".select_con").find(".h_labelSelect").text(checkSeleCount[id]+" selected");
+				isClickInput = 1;
+			} else if (checkSeleCount[id] == 1) {
+				//只选中一个
+				var tempTxt = "";
+				if (state == 1) {
+					//取消当前checkbox选中
+					$("#"+id+"_select .h_labelSelectOption ul li input").each(function(){
+						if ($(this).is(':checked') == true) {
+							tempTxt = $(this).parent("label").text();
+						}
+					})
+				} else {
+					tempTxt = $(obj).parent("label").text();
+				}
+				$("#"+id+"_select .h_labelSelect").text(tempTxt+"");
+				isClickInput = 1;
+			} else {
+				//未选中
+				$("#"+id+"_select .h_labelSelect").text("所有");
+				isClickInput = 0;
+			}
+			setOptionValue(id);
+		}
+		
+		function setSelectModel(id, li, parentName) {
+			var str = '<div class="fl select_con topFMar" id="'+id+'_select">'+
+						'<div class="select_city_label select_city posRe" onclick="selecteOption(this,\''+id+'\')">'+
+							'<div class="h_labelSelect" >所有 </div>'+
+							'<b class="caret drop_down1" style="margin-top:-5px"></b>'+
+							'<div class="posAb h_labelSelectOption" style="display:none" id="'+id+'_stageandtype_select">'+
+								'<ul style="width:100%;">'+li+
+								'</ul>'+
+							'</div>'+
+						'</div>'+
+					'</div>';
+			$("."+parentName+"").append(str);
+		}
+		
+		function getSelectTxt(id, parentName) {
+			
+			var elem = $("#"+id);
+			var li = '';
+			for (var i = 0; i < elem.find("option").size(); i++){
+				var txt = elem.find("option").eq(i).text();
+				var value = elem.find("option").eq(i).attr("value");
+					li += '<li class="multiselect-item multiselect-all">'+
+						'<a tabindex="'+value+'" class="multiselect-all">'+
+							'<label class="checkbox"><input type="checkbox" id="checkboxTags_'+i+'" value="'+value+'" onclick="seletedCheckbox(this, \''+id+'\')"/>'+txt+'</label>'+
+						'</a>'+
+						'</li>'	
+			}
+			setSelectModel(id, li, parentName);
+		}
+		
+		 //生成div select
+		getSelectTxt("example_one", "slider_selects_two");
+		getSelectTxt("example_two", "slider_selects_two");
+		//getSelectTxt("example_three", "labelTitSelect");
+		
+		//选中所有数据
+		setOptionValue("example_one");
+		setOptionValue("example_two");
+		//setOptionValue("example_three");
+		
+		
+	</script>
+	<script type="text/javascript">
+		(function ($) {
+			var content_hei = $(document).height() - 100 + 'px'
+			$(".page .content").css('height', content_hei);
+			$("#load").fadeOut();
+			//$("input").attr("onkeyup","this.value=this.value.replace(/^ +| +$/g,'')");
+		})(jQuery);
+
+	</script>
+</html>

@@ -1,0 +1,193 @@
+/**
+ * @工程名称：datapot-om
+ * @程序包名：com.datapot.web.sys.useraccount
+ * @程序类名：HomeController.java
+ * @创建日期：2017年11月1日
+ */
+package com.datapot.web.sys.home;
+
+import java.util.ArrayList;
+import java.util.Collections;
+import java.util.Comparator;
+import java.util.LinkedHashMap;
+import java.util.List;
+import java.util.Map;
+
+import javax.servlet.http.HttpServletRequest;
+import javax.servlet.http.HttpSession;
+
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Controller;
+import org.springframework.ui.Model;
+import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestMethod;
+
+import com.datapot.core.config.SystemVersion;
+import com.datapot.core.sys.sysmenu.service.ISysMenuService;
+import com.datapot.persist.sys.sysmenu.domain.SysMenuV;
+import com.datapot.persist.sys.useraccount.domain.UserAccount;
+
+/**
+ * @功能说明：
+ * @创建人员：zhenghb
+ * @变更记录：<BR> 1、2017年11月1日 zhenghb 新建类
+ */
+@Controller
+public class LoginController {
+	@Autowired
+	private ISysMenuService iSysMenuService;
+
+	@Autowired
+	private SystemVersion SystemVersion;
+
+	@RequestMapping(value = "/login", method = RequestMethod.GET)
+	public String login() {
+		return "login";
+	}
+
+	@RequestMapping(value = "/main")
+	public String main(HttpServletRequest request, Model model) {
+		Subject subject = SecurityUtils.getSubject();
+		UserAccount user = (UserAccount) subject.getPrincipal();
+		model.addAttribute("user", user);
+		model.addAttribute("version", SystemVersion.getVersion());
+		return "main";
+	}
+
+	@RequestMapping("/403")
+	public String forbidden() {
+		return "refuse";
+	}
+
+	/**
+	 * 
+	 * @函数名称：login
+	 * @创建日期：2017年11月21日
+	 * @功能说明：登录
+	 * @参数说明：
+	 * @返回说明：String
+	 */
+	@RequestMapping(value = "/login", method = RequestMethod.POST)
+	public String login(HttpServletRequest request, Model model) {
+		// 登录失败从request中获取shiro处理的异常信息
+		// shiroLoginFailure:就是shiro异常类的全类名
+		String exception = (String) request.getAttribute("shiroLoginFailure");
+		String userName = request.getParameter("userName");
+		String loginPwd = request.getParameter("loginPwd");
+		String msg = "";
+		if (exception != null) {
+			if (UnknownAccountException.class.getName().equals(exception)) {
+				msg = "帐号不存在";
+			} else if (LockedAccountException.class.getName().equals(exception)) {
+				msg = "帐号锁定";
+			} else if (IncorrectCredentialsException.class.getName().equals(exception)) {
+				msg = "用户名或密码不正确";
+			} else if (userName == null || userName.trim().length() == 0) {
+				msg = "用户名不能为空";
+			} else if (loginPwd == null || loginPwd.trim().length() == 0) {
+				msg = "密码不能为空";
+			} else if ("validateFailed".equals(exception)) {
+				msg = "验证码错误";
+			} else {
+				msg = "else >> " + exception;
+			}
+		}
+		System.out.println("msg:" + msg);
+		model.addAttribute("msg", msg);
+		// 此方法不处理登录成功,由shiro进行处理.
+		HttpSession session = request.getSession();
+		System.out.println("token:" + session.getId());
+		return "login";
+	}
+
+	/**
+	 * 
+	 * @函数名称：login
+	 * @创建日期：2017年11月21日
+	 * @功能说明：登录
+	 * @参数说明：
+	 * @返回说明：String
+	 */
+	/*
+	 * @RequestMapping(value="/login",method=RequestMethod.POST) public String
+	 * login(HttpServletRequest request, UserAccount user, Model model){ if
+	 * (StringUtils.isEmpty(user.getUserName()) || StringUtils.isEmpty(user.getLoginPwd())) {
+	 * request.setAttribute("msg", "用户名或密码不能为空！"); return "login"; } Subject subject =
+	 * SecurityUtils.getSubject(); UsernamePasswordToken token=new
+	 * UsernamePasswordToken(user.getUserName(),user.getLoginPwd()); try { subject.login(token);
+	 * return "redirect:main"; }catch (LockedAccountException lae) { token.clear();
+	 * request.setAttribute("msg","用户已经被锁定不能登录，请与管理员联系！"); return "login"; } catch
+	 * (AuthenticationException e) { token.clear(); request.setAttribute("msg","用户或密码不正确！"); return
+	 * "login"; } }
+	 */
+
+	/**
+	 * @函数名称：getMenus
+	 * @创建日期：2017年11月6日
+	 * @功能说明：获取菜单信息
+	 * @参数说明：
+	 * @返回说明：Map<String,Object>
+	 */
+	public Map<String, Object> getMenus(Subject subject) {
+		Map<String, Object> map = new LinkedHashMap<String, Object>();
+
+		Object obj = subject.getSession().getAttribute("menus");
+		List<SysMenuV> menus = null;
+		if (null == obj) {
+			menus = iSysMenuService.queryAll();
+		} else {
+			// 从session中获取用户菜单信息
+			menus = (List<SysMenuV>) obj;
+		}
+
+		List<SysMenuV> list = new ArrayList<SysMenuV>();
+		for (SysMenuV sysMenuV : menus) {
+			if (sysMenuV.getParentMenuId() == 0) {
+				list.add(sysMenuV);
+			}
+		}
+		sortList(list); // 一级菜单访入map
+		Map<Integer, List<SysMenuV>> mapMenu = new LinkedHashMap<Integer, List<SysMenuV>>();
+		for (SysMenuV sysMenuV : list) {
+			mapMenu.put(sysMenuV.getMenuId(), new ArrayList<>());
+			for (SysMenuV sysMenu : menus) { // 判断是否当前菜单的子菜单
+				if (sysMenuV.getMenuId() == sysMenu.getParentMenuId()) {
+					mapMenu.get(sysMenuV.getMenuId()).add(sysMenu);
+				}
+			} // 对加入的菜单进行排序
+			sortList(mapMenu.get(sysMenuV.getMenuId()));
+		}
+		map.put("mainMenus", list);
+		map.put("secondMenus", mapMenu);
+		return map;
+	}
+
+	/**
+	 * @函数名称：sortList
+	 * @创建日期：2017年11月2日
+	 * @功能说明：对菜单进行排序
+	 * @参数说明：
+	 * @返回说明：void
+	 */
+	public void sortList(List<SysMenuV> chinaList) {
+		// 对list进行排序
+		Collections.sort(chinaList, new Comparator<SysMenuV>() {
+			/*
+			 * int compare(SysMenuV o1, SysMenuV o2) 返回一个基本类型的整型， 返回负数表示：o1 小于o2， 返回0 表示：o1和o2相等，
+			 * 返回正数表示：o1大于o2。
+			 */
+			@Override
+			public int compare(SysMenuV o1, SysMenuV o2) {
+				// 按照学生的年龄进行升序排列
+				if (o1.getMenuId() < o2.getMenuId()) {
+					return 1;
+				}
+				if (o1.getMenuId() == o2.getMenuId()) {
+					return 0;
+				}
+				return -1;
+			}
+		});
+	}
+
+}
